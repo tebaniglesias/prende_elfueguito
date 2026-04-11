@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Cuenta - Prende el Fueguito</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Logo</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#carrito">Carrito</a></li>
+                <li><a href="panel_usuario.html">Mi Cuenta</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="bienvenida">
+            <h1>Bienvenido, Usuario</h1>
+        </section>
+
+        <section id="historial-pedidos">
+            <h2>Historial de Pedidos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Número</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Detalle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>15/03/2026</td>
+                        <td>#00123</td>
+                        <td>$25.000</td>
+                        <td>Entregado</td>
+                        <td><a href="#">Ver</a></td>
+                    </tr>
+                    <tr>
+                        <td>02/02/2026</td>
+                        <td>#00098</td>
+                        <td>$18.500</td>
+                        <td>Entregado</td>
+                        <td><a href="#">Ver</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="direcciones">
+            <h2>Direcciones Guardadas</h2>
+            <ul>
+                <li>
+                    <h3>Casa</h3>
+                    <p>Av. Siempre Viva 123, CABA</p>
+                    <button>Editar</button>
+                    <button>Eliminar</button>
+                </li>
+                <li>
+                    <h3>Trabajo</h3>
+                    <p>Av. Libertador 456, CABA</p>
+                    <button>Editar</button>
+                    <button>Eliminar</button>
+                </li>
+            </ul>
+            <button>+ Agregar nueva dirección</button>
+        </section>
+
+        <section id="notificaciones">
+            <h2>Configuración de Notificaciones</h2>
+            <form>
+                <div>
+                    <input type="checkbox" id="email-promociones" checked>
+                    <label for="email-promociones">Recibir promociones por email</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="whatsapp-pedidos" checked>
+                    <label for="whatsapp-pedidos">Notificaciones de pedidos por WhatsApp</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="email-novedades" checked>
+                    <label for="email-novedades">Novedades y nuevos productos</label>
+                </div>
+                <button type="submit">Guardar preferencias</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Asado Argentino. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

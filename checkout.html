@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Prende el Fueguito</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Logo</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="carrito.html">Carrito</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Finalizar Compra</h1>
+
+        <section id="datos-envio">
+            <h2>Datos de Envío</h2>
+            <form>
+                <div>
+                    <label for="nombre">Nombre completo:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div>
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono" required>
+                </div>
+                <div>
+                    <label for="direccion">Dirección:</label>
+                    <input type="text" id="direccion" name="direccion" required>
+                </div>
+                <div>
+                    <label for="ciudad">Ciudad:</label>
+                    <input type="text" id="ciudad" name="ciudad" required>
+                </div>
+                <div>
+                    <label for="cp">Código Postal:</label>
+                    <input type="text" id="cp" name="cp" required>
+                </div>
+                <div>
+                    <label for="observaciones">Observaciones:</label>
+                    <textarea id="observaciones" name="observaciones" rows="3"></textarea>
+                </div>
+            </form>
+        </section>
+
+        <section id="metodo-pago">
+            <h2>Método de Pago</h2>
+            <form>
+                <div>
+                    <input type="radio" id="efectivo" name="pago" value="efectivo" checked>
+                    <label for="efectivo">Efectivo contra entrega</label>
+                </div>
+                <div>
+                    <input type="radio" id="transferencia" name="pago" value="transferencia">
+                    <label for="transferencia">Transferencia bancaria</label>
+                </div>
+                <div>
+                    <input type="radio" id="mercadopago" name="pago" value="mercadopago">
+                    <label for="mercadopago">MercadoPago</label>
+                </div>
+            </form>
+        </section>
+
+        <section id="resumen-pedido">
+            <h2>Resumen del Pedido</h2>
+            <ul>
+                <li>Bife de Chorizo x 2 kg - $25.980</li>
+                <li>Carbón Quebracho x 3 - $9.600</li>
+            </ul>
+            <p>Subtotal: $35.580</p>
+            <p>Envío: $1.500</p>
+            <p><strong>Total: $37.080</strong></p>
+            <button>Confirmar Pedido</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Asado Argentino. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
