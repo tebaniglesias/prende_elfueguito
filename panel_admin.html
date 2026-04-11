@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Prende el Fueguito</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Logo</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#usuarios">Usuarios</a></li>
+                <li><a href="#pedidos">Pedidos</a></li>
+                <li><a href="panel_admin.html">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Panel de Administración</h1>
+
+        <section id="abm-productos">
+            <h2>Gestión de Productos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>001</td>
+                        <td>Bife de Chorizo</td>
+                        <td>Carnes</td>
+                        <td>$12.990/kg</td>
+                        <td>50</td>
+                        <td>
+                            <button>Editar</button>
+                            <button>Eliminar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>002</td>
+                        <td>Set Parrilla</td>
+                        <td>Accesorios</td>
+                        <td>$8.500</td>
+                        <td>20</td>
+                        <td>
+                            <button>Editar</button>
+                            <button>Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button>+ Agregar Producto</button>
+        </section>
+
+        <section id="abm-categorias">
+            <h2>Gestión de Categorías</h2>
+            <ul>
+                <li>
+                    Carnes <button>Editar</button> <button>Eliminar</button>
+                </li>
+                <li>
+                    Accesorios <button>Editar</button> <button>Eliminar</button>
+                </li>
+                <li>
+                    Carbón <button>Editar</button> <button>Eliminar</button>
+                </li>
+            </ul>
+            <button>+ Agregar Categoría</button>
+        </section>
+
+        <section id="pedidos-admin">
+            <h2>Gestión de Pedidos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Cliente</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#00123</td>
+                        <td>Juan Pérez</td>
+                        <td>15/03/2026</td>
+                        <td>$25.000</td>
+                        <td>
+                            <select>
+                                <option> Pendente</option>
+                                <option>En preparación</option>
+                                <option>Enviado</option>
+                                <option>Entregado</option>
+                            </select>
+                        </td>
+                        <td><button>Ver detalle</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="usuarios-admin">
+            <h2>Gestión de Usuarios</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Juan Pérez</td>
+                        <td>juan@email.com</td>
+                        <td>Cliente</td>
+                        <td><button>Editar</button></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Admin</td>
+                        <td>admin@asado.com</td>
+                        <td>Administrador</td>
+                        <td><button>Editar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button>+ Agregar Usuario</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Asado Argentino. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
