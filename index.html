@@ -4,91 +4,273 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prende el Fueguito</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    
     <meta name="description" content="Tienda online de productos para asado argentino. Carnes, accesorios, carbón y más.">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li>
-                    <a href="#inicio">
-                        <img src="img/prende_elfueguito_logo.jpg" alt="Logo de Prende el Fueguito"">
-                    </a>
-                </li>
-                <li><a href="#productos">Login</a></li>
-                <li><a href="#carrito">Carrito</a></li>
-            </ul>
-        </nav>
-    </header>
-   
+
+ <header class="header">
+  <div class="header-container">
+
+    <!-- IZQUIERDA -->
+    <a href="index.html" class="logo">
+      <img src="img/logo_lineas_fondoblanco.png" alt="Logo">
+      <div class="logo-text">
+        <span class="title">Prendé el Fueguito</span>
+        <span class="subtitle">Boutique de carnes y fuegos.</span>
+      </div>
+    </a>
+
+    <!-- CENTRO -->
+    <nav class="nav">
+      
+    </nav>
+
+    <!-- DERECHA -->
+
+    <div class="header-actions">
+        <a href="index.html" class="btn-productos">Productos</a>
+
+        <a href="login.html" class="btn-login">
+            <i class="fa-regular fa-user"></i>
+            Ingresar
+        </a>
+
+        <a href="carrito.html" class="btn-carrito">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="carrito-text">Carrito</span>
+            <span class="carrito-count">0</span>
+        </a>
+    </div>
+
+  </div>
+</header>
     <main>
         <section id="banner-inicio">
-            <h1>¡Todo para tu Asado Perfecto!</h1>
-            <p>Las mejores carnes, picadas para la previa, carbón premium y todos los utensilios que necesitás</p>
+            <div class="carousel">
+                <div class="carousel-slide active">
+                    <img src="img/carrousel1.jpeg" alt="carrousel 1">
+                </div>
+                <div class="carousel-slide">
+                    <img src="img/carrousel2.jpeg" alt="carrousel 2">
+                </div>
+                <div class="carousel-slide">
+                    <img src="img/carrousel3.jpeg" alt="carrousel 3">
+                </div>
+            </div>
         </section>
-        <nav id="filters">
-            <ul>
-                <li><a href="#todos">Todos</a></li>
-                <li><a href="#carnes">Carnes</a></li>
-                <li><a href="#carbon">Carbón</a></li>
-                <li><a href="#picadas">Picadas</a></li>
-                <li><a href="#accesorios">Accesorios</a></li>
-                <li><a href="#condimentos">Condimentos</a></li>
-                <li><a href="#bebidas">Bebidas</a></li>
-            </ul>
-        </nav>
+        
+        <section id="filters">
+            <div class="filters-desktop">
+                <div class="buscador">
+                    <input type="text" placeholder="Buscar productos...">
+                    <button type="button">🔍</button>
+                </div>
+                <nav class="filters-nav">
+                    <ul>
+                        <li><a href="#todos" class="active">Todos</a></li>
+                        <li><a href="#carnes">Carnes</a></li>
+                        <li><a href="#carbon">Carbón</a></li>
+                        <li><a href="#picadas">Picadas</a></li>
+                        <li><a href="#accesorios">Accesorios</a></li>
+                        <li><a href="#condimentos">Condimentos</a></li>
+                        <li><a href="#bebidas">Bebidas</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="filters-mobile">
+                <div class="buscador">
+                    <input type="text" placeholder="Buscar...">
+                </div>
+                <button class="btn-filtros" type="button">☰</button>
+            </div>
+        </section>
 
         <section id="productos">
             <h2>Nuestros Productos</h2>
-            
-            <article>
-                <img src="https://via.placeholder.com/300x200" alt="Carnes Frescas">
-                <h3>Bife de Chorizo</h3>
-                <p>Carnes</p>
-                <p>Corte premium de carne vacuna seleccionada. Ideal para tu asado perfecto.</p>
-                <p><strong>$12.990/kg</strong></p>
-                <button>Agregar al carrito</button>
-            </article>
+            <div class="productos-grid">
+                <a href="articulo.html">
+                <article class="producto-card">
+                    <div class="producto-imagen">
+                        <img src="img/carne.jpg" alt="Bife de Chorizo">
+                        <span class="categoria">Carnes</span>
+                    </div>
+                    <div class="producto-info">
+                        <h3>Bife de Chorizo</h3>
+                        <p class="descripcion">Corte premium de carne vacuna seleccionada. Ideal para tu asado perfecto.</p>
+                        <div class="producto-footer">
+                            <div class="precio-wrapper">
+                                <span class="precio">$12.990</span>
+                                <span class="unidad-medida">x kg</span>
+                            </div>
+                            <button class="btn-agregar">Agregar</button>
+                        </div>
+                    </div>
+                </article>
+                </a>
 
-            <article>
-                <img src="https://via.placeholder.com/300x200" alt="Accesorios">
-                <h3>Set de Parrilla profesional</h3>
-                <p>Accesorios</p>
-                <p>Completo set de accesorios parrilleros de alta calidad.</p>
-                <p><strong>$8.500</strong></p>
-                <button>Agregar al carrito</button>
-            </article>
+                <article class="producto-card">
+                    <div class="producto-imagen">
+                        <img src="img/set_parrilla.jpg" alt="Set de Parrilla">
+                        <span class="categoria">Accesorios</span>
+                    </div>
+                    <div class="producto-info">
+                        <h3>Set de Parrilla profesional</h3>
+                        <p class="descripcion">Completo set de accesorios parrilleros de alta calidad.</p>
+                        <div class="producto-footer">
+                            <div class="precio-wrapper">
+                                <span class="precio">$8.500</span>
+                                <span class="unidad-medida">x unidad</span>
+                            </div>
+                            <button class="btn-agregar">Agregar</button>
+                        </div>
+                    </div>
+                </article>
 
-            <article>
-                <img src="https://via.placeholder.com/300x200" alt="Carbón de Quebracho">
-                <p>Carbón</p>
-                <h3>Quebracho Premium</h3>
-                <p>Carbón de quebracho premium para una Parrillada perfecta.</p>
-                <p><strong>$3.200</strong></p>
-                <button>Agregar al carrito</button>
-            </article>
+                <article class="producto-card">
+                    <div class="producto-imagen">
+                        <img src="img/carbon.jpg" alt="Carbón de Quebracho">
+                        <span class="categoria">Carbón</span>
+                    </div>
+                    <div class="producto-info">
+                        <h3>Quebracho Premium</h3>
+                        <p class="descripcion">Carbón de quebracho premium para una Parrillada perfecta.</p>
+                        <div class="producto-footer">
+                            <div class="precio-wrapper">
+                                <span class="precio">$3.200</span>
+                                <span class="unidad-medida">x 5kg</span>
+                            </div>
+                            <button class="btn-agregar">Agregar</button>
+                        </div>
+                    </div>
+                </article>
 
-            <article>
-                <img src="https://via.placeholder.com/300x200" alt="Condimentos">
-                <p>Condimentos</p>
-                <h3>Chimichurri casero</h3>
-                <p>Salsa chimichurri casera y sal parrillera artesanal.</p>
-                <p><strong>$1.500</strong></p>
-                <button>Agregar al carrito</button>
-            </article>
+                <article class="producto-card">
+                    <div class="producto-imagen">
+                        <img src="img/chimi.jpg" alt="Chimichurri">
+                        <span class="categoria">Condimentos</span>
+                    </div>
+                    <div class="producto-info">
+                        <h3>Chimichurri casero</h3>
+                        <p class="descripcion">Salsa chimichurri casera y sal parrillera artesanal.</p>
+                        <div class="producto-footer">
+                            <div class="precio-wrapper">
+                                <span class="precio">$1.500</span>
+                                <span class="unidad-medida">x unidad</span>
+                            </div>
+                            <button class="btn-agregar">Agregar</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="producto-card">
+                    <div class="producto-imagen">
+                        <img src="img/vino.jpg" alt="Vino">
+                        <span class="categoria">Bebidas</span>
+                    </div>
+                    <div class="producto-info">
+                        <h3>Vino Tinto Premium</h3>
+                        <p class="descripcion">Excelente vino tinto para acompañar tu asado.</p>
+                        <div class="producto-footer">
+                            <div class="precio-wrapper">
+                                <span class="precio">$2.800</span>
+                                <span class="unidad-medida">x unidad</span>
+                            </div>
+                            <button class="btn-agregar">Agregar</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="producto-card">
+                    <div class="producto-imagen">
+                        <img src="img/salame_tandilero.jpg" alt="Salame Tandilero">
+                        <span class="categoria">Accesorios</span>
+                    </div>
+                    <div class="producto-info">
+                        <h3>Salame Tandilero</h3>
+                        <p class="descripcion">Salame artesanal estilo tandilero, curado naturalmente.</p>
+                        <div class="producto-footer">
+                            <div class="precio-wrapper">
+                                <span class="precio">$15.000</span>
+                                <span class="unidad-medida">x 100gr</span>
+                            </div>
+                            <button class="btn-agregar">Agregar</button>
+                        </div>
+                    </div>
+                </article>
+            </div>
         </section>
-        <section id="contacto">
-            <h2>Contacto</h2>
-            <address>
-                <p>Email: contacto@asadoargentino.com</p>
-                <p>Teléfono: (011) 1234-5678</p>
-                <p>WhatsApp: +54 9 11 1234-5678</p>
-            </address>
-        </section>
+        <section class="footer-main">
+        <div class="footer-container">
+
+            <!-- LOGO + INFO -->
+            <div>
+            <div class="footer-logo">
+                <img src="img/logo_lineas_fondoblanco.png" alt="Prendé el Fueguito">
+                <span>Prendé el Fueguito</span>
+            </div>
+
+            <div class="footer-text">
+                Tu asado perfecto.<br><br>
+                Los mejores productos para tu asado. Calidad garantizada y envío gratis en compras superiores a $10,000.
+            </div>
+
+            <div class="social-icons">
+                <i class="fa-brands fa-facebook"></i>
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-twitter"></i>
+            </div>
+            </div>
+
+            <!-- ENLACES -->
+            <div>
+            <h4>Enlaces Rápidos</h4>
+            <ul>
+                <li>Productos</li>
+                <li>Carrito</li>
+                <li>Promociones</li>
+                <li>Sobre Nosotros</li>
+            </ul>
+            </div>
+
+            <!-- CATEGORÍAS -->
+            <div>
+            <h4>Categorías</h4>
+            <ul>
+                <li>Carnes Premium</li>
+                <li>Carbón y Leña</li>
+                <li>Utensilios</li>
+                <li>Condimentos</li>
+                <li>Bebidas</li>
+            </ul>
+            </div>
+
+            <!-- CONTACTO -->
+            <div>
+            <h4>Contacto</h4>
+            <div class="contact-item"><span>📍</span> Av. Corrientes 1234, Buenos Aires</div>
+            <div class="contact-item"><span>📞</span> +54 11 1234-5678</div>
+            <div class="contact-item"><span>✉️</span> info@fueguito.com</div>
+            </div>
+
+        </div>
+    </section>
     </main>
-    <footer>
-        <p>&copy; 2026 Asado Argentino. Todos los derechos reservados.</p>
+    <footer class="footer-bottom">
+        <div class="footer-bottom-container">
+
+            <div class="left">
+            © 2026 Prendé el Fueguito. Todos los derechos reservados.
+            </div>
+            <div class="right">
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Privacidad</a>
+                <a href="panel_admin.html">Admin</a>
+            </div>
+        </div>
     </footer>
 </body>
 </html>
