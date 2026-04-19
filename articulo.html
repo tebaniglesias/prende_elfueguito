@@ -1,21 +1,52 @@
-<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bife de Chorizo - Prende el Fueguito</title>
+    <title>Prende el Fueguito</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    
+    <meta name="description" content="Tienda online de productos para asado argentino. Carnes, accesorios, carbón y más.">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Logo</a></li>
-                <li><a href="#productos">Productos</a></li>
-                <li><a href="#carrito">Carrito</a></li>
-            </ul>
-        </nav>
-    </header>
 
+ <header class="header">
+  <div class="header-container">
+
+    <!-- IZQUIERDA -->
+    <a href="index.html" class="logo">
+      <img src="img/logo_lineas_fondoblanco.png" alt="Logo">
+      <div class="logo-text">
+        <span class="title">Prendé el Fueguito</span>
+        <span class="subtitle">Boutique de carnes y fuegos.</span>
+      </div>
+    </a>
+
+    <!-- CENTRO -->
+    <nav class="nav">
+      
+    </nav>
+
+    <!-- DERECHA -->
+
+    <div class="header-actions">
+        <a href="index.html" class="btn-productos">Productos</a>
+
+        <a href="login.html" class="btn-login">
+            <i class="fa-regular fa-user"></i>
+            Ingresar
+        </a>
+
+        <a href="carrito.html" class="btn-carrito">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="carrito-text">Carrito</span>
+            <span class="carrito-count">0</span>
+        </a>
+    </div>
+
+  </div>
+</header>
     <main>
         <section id="detalle-producto">
             <div class="imagen-principal">
@@ -71,10 +102,73 @@
                 </article>
             </div>
         </section>
-    </main>
+        <section class="footer-main">
+        <div class="footer-container">
 
-    <footer>
-        <p>&copy; 2026 Asado Argentino. Todos los derechos reservados.</p>
+            <!-- LOGO + INFO -->
+            <div>
+            <div class="footer-logo">
+                <img src="img/logo_lineas_fondoblanco.png" alt="Prendé el Fueguito">
+                <span>Prendé el Fueguito</span>
+            </div>
+
+            <div class="footer-text">
+                Tu asado perfecto.<br><br>
+                Los mejores productos para tu asado. Calidad garantizada y envío gratis en compras superiores a $10,000.
+            </div>
+
+            <div class="social-icons">
+                <i class="fa-brands fa-facebook"></i>
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-twitter"></i>
+            </div>
+            </div>
+
+            <!-- ENLACES -->
+            <div>
+            <h4>Enlaces Rápidos</h4>
+            <ul>
+                <li>Productos</li>
+                <li>Carrito</li>
+                <li>Promociones</li>
+                <li>Sobre Nosotros</li>
+            </ul>
+            </div>
+
+            <!-- CATEGORÍAS -->
+            <div>
+            <h4>Categorías</h4>
+            <ul>
+                <li>Carnes Premium</li>
+                <li>Carbón y Leña</li>
+                <li>Utensilios</li>
+                <li>Condimentos</li>
+                <li>Bebidas</li>
+            </ul>
+            </div>
+
+            <!-- CONTACTO -->
+            <div>
+            <h4>Contacto</h4>
+            <div class="contact-item"><span>📍</span> Av. Corrientes 1234, Buenos Aires</div>
+            <div class="contact-item"><span>📞</span> +54 11 1234-5678</div>
+            <div class="contact-item"><span>✉️</span> info@fueguito.com</div>
+            </div>
+
+        </div>
+    </section>
+    <footer class="footer-bottom">
+        <div class="footer-bottom-container">
+
+            <div class="left">
+            © 2026 Prendé el Fueguito. Todos los derechos reservados.
+            </div>
+            <div class="right">
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Privacidad</a>
+                <a href="panel_admin.html">Admin</a>
+            </div>
+        </div>
     </footer>
 </body>
 </html>
