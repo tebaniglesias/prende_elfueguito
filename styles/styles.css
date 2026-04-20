@@ -717,3 +717,156 @@ ul li {
     }
 }
 
+/* LOGIN */
+#login {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    padding: 3rem 1rem;
+}
+
+.logo_login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    margin-bottom: 2rem;
+}
+
+.logo_login img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+}
+
+.logo_login .logo-text {
+    text-align: center;
+}
+
+.logo_login h2 {
+    font-size: 1.75rem;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+}
+
+.logo_login h3 {
+    font-size: 1.1rem;
+    color: var(--gray);
+    font-weight: 400;
+}
+
+#login form {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+#login form > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#login form label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--dark-text);
+}
+
+#login form input {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+#login form input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+#login form button {
+    padding: 0.85rem 1rem;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+#login form button:hover {
+    background-color: #c1121f;
+}
+
+#login form p {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--gray);
+}
+
+#login form p a {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+#login form p a:hover {
+    text-decoration: underline;
+}
+
+/* LOGIN DESKTOP - 4 COLUMNAS (2 COLUMNAS CENTRALES) */
+@media (min-width: 1025px) {
+    #login {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 2rem;
+        padding: 4rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .logo_login {
+        grid-column: 2 / 4;
+    }
+
+    #login form {
+        grid-column: 2 / 4;
+    }
+}
+
+/* LOGIN TABLET - 1 COLUMNA */
+@media (min-width: 769px) and (max-width: 1024px) {
+    #login {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 3rem 1rem;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
+/* LOGIN MOBILE - 1 COLUMNA */
+@media (max-width: 768px) {
+    #login {
+        grid-template-columns: 1fr;
+        padding: 2rem 1rem;
+    }
+
+    .logo_login h2 {
+        font-size: 1.5rem;
+    }
+
+    .logo_login h3 {
+        font-size: 1rem;
+    }
+
+    #login form {
+        padding: 0 0.5rem;
+    }
+}
+
+
