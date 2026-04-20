@@ -50,55 +50,108 @@
     <main>
         <section id="detalle-producto">
             <div class="imagen-principal">
-                <img src="https://via.placeholder.com/500x400" alt="Bife de Chorizo">
+                <img src="img/carne.jpg" alt="Bife de Chorizo">
+                <span class="categoria">Carnes</span>
             </div>
             
             <div class="info-producto">
                 <h1>Bife de Chorizo</h1>
-                <p class="categoria">Categoría: Carnes</p>
-                <p class="precio">$12.990/kg</p>
+                
+                <div class="precio-container">
+                    <span class="precio">$12.990</span>
+                    <span class="unidad-medida">x kg</span>
+                </div>
                 
                 <h2>Descripción</h2>
-                <p>Corte premium de carne vacuna seleccionada de la mejor calidad. Ideal para tu asado perfecto. Carne jugosa y tierna, perfecta para compartir en familia.</p>
+                <p class="descripcion">Corte premium de carne vacuna seleccionada de la mejor calidad. Ideal para tu asado perfecto. Carne jugosa y tierna, perfecta para compartir en familia.</p>
                 
-                <h2>Características</h2>
-                <ul>
-                    <li>Corte premium</li>
-                    <li>100%牛肉 vaccuno</li>
-                    <li>Fresco del día</li>
-                    <li>Embalaje al vacío</li>
-                </ul>
+                <div class="caracteristicas-producto">
+                    <ul>
+                        <li><i class="fa-solid fa-star"></i> Corte premium</li>
+                        <li><i class="fa-solid fa-leaf"></i> Fresco del día</li>
+                        <li><i class="fa-solid fa-bag-shopping"></i> Embalaje al vacío</li>
+                    </ul>
+                </div>
 
-                <div class="cantidad">
+                <div class="cantidad-container">
                     <label for="cantidad">Cantidad (kg):</label>
                     <input type="number" id="cantidad" name="cantidad" min="1" value="1">
                 </div>
 
-                <button>Agregar al carrito</button>
-                <button>Comprar ahora</button>
+                <a href="carrito.html" class="btn-agregar-carrito">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    Agregar al Carrito
+                </a>
             </div>
         </section>
 
         <section id="productos-relacionados">
             <h2>Productos Relacionados</h2>
-            <div class="grid-productos">
-                <article>
-                    <img src="https://via.placeholder.com/200x150" alt="Asado de Costilla">
-                    <h3>Asado de Costilla</h3>
-                    <p>$14.500/kg</p>
-                    <button>Ver detalle</button>
+            <div class="productos-grid">
+                <a href="articulo.html">
+                <article class="producto-card">
+                    <div class="producto-imagen">
+                        <img src="img/carne.jpg" alt="Bife de Chorizo">
+                        <span class="categoria">Carnes</span>
+                    </div>
+                    <div class="producto-info">
+                        <h3>Bife de Chorizo</h3>
+                        <div class="producto-footer">
+                            <div class="precio-wrapper">
+                                <span class="precio">$12.990</span>
+                                <span class="unidad-medida">x kg</span>
+                            </div>
+                        </div>
+                    </div>
                 </article>
-                <article>
-                    <img src="https://via.placeholder.com/200x150" alt="Matambre">
-                    <h3>Matambre</h3>
-                    <p>$11.000/kg</p>
-                    <button>Ver detalle</button>
+                </a>
+
+                <article class="producto-card">
+                    <div class="producto-imagen">
+                        <img src="img/set_parrilla.jpg" alt="Set de Parrilla">
+                        <span class="categoria">Accesorios</span>
+                    </div>
+                    <div class="producto-info">
+                        <h3>Set de Parrilla profesional</h3>
+                        <div class="producto-footer">
+                            <div class="precio-wrapper">
+                                <span class="precio">$8.500</span>
+                                <span class="unidad-medida">x unidad</span>
+                            </div>
+                        </div>
+                    </div>
                 </article>
-                <article>
-                    <img src="https://via.placeholder.com/200x150" alt="Entraña">
-                    <h3>Entraña</h3>
-                    <p>$15.000/kg</p>
-                    <button>Ver detalle</button>
+
+                <article class="producto-card">
+                    <div class="producto-imagen">
+                        <img src="img/carbon.jpg" alt="Carbón de Quebracho">
+                        <span class="categoria">Carbón</span>
+                    </div>
+                    <div class="producto-info">
+                        <h3>Quebracho Premium</h3>
+                        <div class="producto-footer">
+                            <div class="precio-wrapper">
+                                <span class="precio">$3.200</span>
+                                <span class="unidad-medida">x 5kg</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="producto-card">
+                    <div class="producto-imagen">
+                        <img src="img/chimi.jpg" alt="Chimichurri">
+                        <span class="categoria">Condimentos</span>
+                    </div>
+                    <div class="producto-info">
+                        <h3>Chimichurri casero</h3>
+                        <div class="producto-footer">
+                            <div class="precio-wrapper">
+                                <span class="precio">$1.500</span>
+                                <span class="unidad-medida">x unidad</span>
+                            </div>
+                        </div>
+                    </div>
                 </article>
             </div>
         </section>
