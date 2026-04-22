@@ -3,162 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prende el Fueguito</title>
+    <title>Carrito - Prendé el Fueguito</title>
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    
     <meta name="description" content="Tienda online de productos para asado argentino. Carnes, accesorios, carbón y más.">
-    </head>
-    <body>
+</head>
+<body>
 
     <header class="header">
-    <div class="header-container">
-
-        <!-- IZQUIERDA -->
-        <a href="index.html" class="logo">
-        <img src="img/logo_lineas_fondoblanco.png" alt="Logo">
-        <div class="logo-text">
-            <span class="title">Prendé el Fueguito</span>
-            <span class="subtitle">Boutique de carnes y fuegos.</span>
-        </div>
-        </a>
-
-        <!-- CENTRO -->
-        <nav class="nav">
-        
-        </nav>
-
-        <!-- DERECHA -->
-
-        <div class="header-actions">
-            <a href="index.html" class="btn-productos">Productos</a>
-
-            <a href="login.html" class="btn-login">
-                <i class="fa-regular fa-user"></i>
-                Ingresar
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="img/logo_lineas_fondoblanco.png" alt="Logo">
+                <div class="logo-text">
+                    <span class="title">Prendé el Fueguito</span>
+                    <span class="subtitle">Boutique de carnes y fuegos.</span>
+                </div>
             </a>
-
-            <a href="carrito.html" class="btn-carrito">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span class="carrito-text">Carrito</span>
-                <span class="carrito-count">0</span>
-            </a>
+            <nav class="nav"></nav>
+            <div class="header-actions">
+                <a href="index.html" class="btn-productos">Productos</a>
+                <a href="login.html" class="btn-login">
+                    <i class="fa-regular fa-user"></i>
+                    Ingresar
+                </a>
+                <a href="carrito.html" class="btn-carrito">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="carrito-text">Carrito</span>
+                    <span class="carrito-count">2</span>
+                </a>
+            </div>
         </div>
-
-    </div>
     </header>
-    <main>
-        <h1>Carrito de Compras</h1>
 
-        <section id="resumen-carrito">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio</th>
-                        <th>Subtotal</th>
-                        <th>Eliminar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <img src="https://via.placeholder.com/80x60" alt="Bife de Chorizo">
-                            <span>Bife de Chorizo</span>
-                        </td>
-                        <td>2 kg</td>
-                        <td>$12.990/kg</td>
-                        <td>$25.980</td>
-                        <td><button>X</button></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img src="https://via.placeholder.com/80x60" alt="Carbón">
-                            <span>Carbón Quebracho</span>
-                        </td>
-                        <td>3 unidades</td>
-                        <td>$3.200</td>
-                        <td>$9.600</td>
-                        <td><button>X</button></td>
-                    </tr>
-                </tbody>
-            </table>
+    <main class="carrito-main">
 
-            <div class="totales">
-                <p>Subtotal: $35.580</p>
-                <p>Envío: $1.500</p>
-                <p><strong>Total: $37.080</strong></p>
+        <!-- Volver -->
+        <div class="carrito-volver">
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Seguir comprando</a>
+        </div>
+
+        <div class="carrito-wrapper">
+
+            <!-- COLUMNA IZQUIERDA: lista de productos -->
+            <div class="carrito-izquierda">
+
+                <div class="carrito-titulo">
+                    <h1>Tu Carrito</h1>
+                    <span class="carrito-cantidad">2 productos</span>
+                </div>
+
+                <!-- Lista de items -->
+                <div class="carrito-items">
+
+                    <div class="carrito-item">
+                        <img src="img/carne.jpg" alt="Vacío">
+                        <div class="item-info">
+                            <p class="item-nombre">Vacío</p>
+                            <p class="item-unidad">kg</p>
+                            <p class="item-precio">$7.200</p>
+                        </div>
+                        <div class="item-controles">
+                            <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
+                            <div class="cantidad-control">
+                                <button class="btn-menos">−</button>
+                                <span>1</span>
+                                <button class="btn-mas">+</button>
+                            </div>
+                            <p class="item-subtotal">$7.200</p>
+                        </div>
+                    </div>
+
+                    <div class="carrito-item">
+                        <img src="img/chori.jpg" alt="Costillas de Cerdo">
+                        <div class="item-info">
+                            <p class="item-nombre">Costillas de Cerdo</p>
+                            <p class="item-unidad">kg</p>
+                            <p class="item-precio">$5.800</p>
+                        </div>
+                        <div class="item-controles">
+                            <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
+                            <div class="cantidad-control">
+                                <button class="btn-menos">−</button>
+                                <span>1</span>
+                                <button class="btn-mas">+</button>
+                            </div>
+                            <p class="item-subtotal">$5.800</p>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
-            <div class="acciones">
-                <button>Seguir Comprando</button>
-                <a href="checkout.html"><button>Finalizar Compra</button></a>
-            </div>
-        </section>
-            <section class="footer-main">
+            <!-- COLUMNA DERECHA: resumen -->
+            <aside class="carrito-resumen">
+                <h2>Resumen del Pedido</h2>
+
+                <div class="cupon-container">
+                    <p>¿Tenés un cupón de descuento?</p>
+                    <div class="cupon-input">
+                        <input type="text" placeholder="CÓDIGO">
+                        <button class="btn-aplicar">Aplicar</button>
+                    </div>
+                </div>
+
+                <div class="resumen-lineas">
+                    <div class="resumen-linea">
+                        <span>Subtotal</span>
+                        <span>$13.000</span>
+                    </div>
+                    <div class="resumen-linea">
+                        <span>Envío</span>
+                        <span class="envio-gratis">Gratis</span>
+                    </div>
+                </div>
+
+                <div class="resumen-total">
+                    <span>Total</span>
+                    <span class="total-monto">$13.000</span>
+                </div>
+
+                <a href="checkout.html">
+                    <button class="btn-finalizar">Finalizar Compra</button>
+                </a>
+
+                <p class="resumen-nota">Envío gratis en compras superiores a $10,000</p>
+            </aside>
+
+        </div>
+    </main>
+
+    <section class="footer-main">
         <div class="footer-container">
-
-            <!-- LOGO + INFO -->
             <div>
-            <div class="footer-logo">
-                <img src="img/logo_lineas_fondoblanco.png" alt="Prendé el Fueguito">
-                <span>Prendé el Fueguito</span>
+                <div class="footer-logo">
+                    <img src="img/logo_lineas_fondoblanco.png" alt="Prendé el Fueguito">
+                    <span>Prendé el Fueguito</span>
+                </div>
+                <div class="footer-text">
+                    Tu asado perfecto.<br><br>
+                    Los mejores productos para tu asado. Calidad garantizada y envío gratis en compras superiores a $10,000.
+                </div>
+                <div class="social-icons">
+                    <i class="fa-brands fa-facebook"></i>
+                    <i class="fa-brands fa-instagram"></i>
+                    <i class="fa-brands fa-twitter"></i>
+                </div>
             </div>
-
-            <div class="footer-text">
-                Tu asado perfecto.<br><br>
-                Los mejores productos para tu asado. Calidad garantizada y envío gratis en compras superiores a $10,000.
-            </div>
-
-            <div class="social-icons">
-                <i class="fa-brands fa-facebook"></i>
-                <i class="fa-brands fa-instagram"></i>
-                <i class="fa-brands fa-twitter"></i>
-            </div>
-            </div>
-
-            <!-- ENLACES -->
             <div>
-            <h4>Enlaces Rápidos</h4>
-            <ul>
-                <li>Productos</li>
-                <li>Carrito</li>
-                <li>Promociones</li>
-                <li>Sobre Nosotros</li>
-            </ul>
+                <h4>Enlaces Rápidos</h4>
+                <ul>
+                    <li>Productos</li>
+                    <li>Carrito</li>
+                    <li>Promociones</li>
+                    <li>Sobre Nosotros</li>
+                </ul>
             </div>
-
-            <!-- CATEGORÍAS -->
             <div>
-            <h4>Categorías</h4>
-            <ul>
-                <li>Carnes Premium</li>
-                <li>Carbón y Leña</li>
-                <li>Utensilios</li>
-                <li>Condimentos</li>
-                <li>Bebidas</li>
-            </ul>
+                <h4>Categorías</h4>
+                <ul>
+                    <li>Carnes Premium</li>
+                    <li>Carbón y Leña</li>
+                    <li>Utensilios</li>
+                    <li>Condimentos</li>
+                    <li>Bebidas</li>
+                </ul>
             </div>
-
-            <!-- CONTACTO -->
             <div>
-            <h4>Contacto</h4>
-            <div class="contact-item"><span>📍</span> Av. Corrientes 1234, Buenos Aires</div>
-            <div class="contact-item"><span>📞</span> +54 11 1234-5678</div>
-            <div class="contact-item"><span>✉️</span> info@fueguito.com</div>
+                <h4>Contacto</h4>
+                <div class="contact-item"><span>📍</span> Av. Corrientes 1234, Buenos Aires</div>
+                <div class="contact-item"><span>📞</span> +54 11 1234-5678</div>
+                <div class="contact-item"><span>✉️</span> info@fueguito.com</div>
             </div>
-
         </div>
     </section>
-    </main>
+
     <footer class="footer-bottom">
         <div class="footer-bottom-container">
-
-            <div class="left">
-            © 2026 Prendé el Fueguito. Todos los derechos reservados.
-            </div>
+            <div class="left">© 2026 Prendé el Fueguito. Todos los derechos reservados.</div>
             <div class="right">
                 <a href="#">Términos y Condiciones</a>
                 <a href="#">Privacidad</a>
@@ -166,5 +187,6 @@
             </div>
         </div>
     </footer>
+
 </body>
 </html>

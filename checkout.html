@@ -49,67 +49,90 @@
     </div>
     </header>
     <main>
-        <h1>Finalizar Compra</h1>
+        <section class="checkout-main">
 
-        <section id="datos-envio">
-            <h2>Datos de Envío</h2>
-            <form>
-                <div>
-                    <label for="nombre">Nombre completo:</label>
-                    <input type="text" id="nombre" name="nombre" required>
-                </div>
-                <div>
-                    <label for="telefono">Teléfono:</label>
-                    <input type="tel" id="telefono" name="telefono" required>
-                </div>
-                <div>
-                    <label for="direccion">Dirección:</label>
-                    <input type="text" id="direccion" name="direccion" required>
-                </div>
-                <div>
-                    <label for="ciudad">Ciudad:</label>
-                    <input type="text" id="ciudad" name="ciudad" required>
-                </div>
-                <div>
-                    <label for="cp">Código Postal:</label>
-                    <input type="text" id="cp" name="cp" required>
-                </div>
-                <div>
-                    <label for="observaciones">Observaciones:</label>
-                    <textarea id="observaciones" name="observaciones" rows="3"></textarea>
-                </div>
-            </form>
-        </section>
+    <!-- Volver -->
+    <div class="checkout-volver">
+        <a href="carrito.html">
+            <i class="fa-solid fa-arrow-left"></i> Volver al carrito
+        </a>
+    </div>
 
-        <section id="metodo-pago">
-            <h2>Método de Pago</h2>
-            <form>
-                <div>
-                    <input type="radio" id="efectivo" name="pago" value="efectivo" checked>
-                    <label for="efectivo">Efectivo contra entrega</label>
-                </div>
-                <div>
-                    <input type="radio" id="transferencia" name="pago" value="transferencia">
-                    <label for="transferencia">Transferencia bancaria</label>
-                </div>
-                <div>
-                    <input type="radio" id="mercadopago" name="pago" value="mercadopago">
-                    <label for="mercadopago">MercadoPago</label>
-                </div>
-            </form>
-        </section>
+    <h1>Finalizar Compra</h1>
 
-        <section id="resumen-pedido">
-            <h2>Resumen del Pedido</h2>
-            <ul>
-                <li>Bife de Chorizo x 2 kg - $25.980</li>
-                <li>Carbón Quebracho x 3 - $9.600</li>
-            </ul>
-            <p>Subtotal: $35.580</p>
-            <p>Envío: $1.500</p>
-            <p><strong>Total: $37.080</strong></p>
-            <button>Confirmar Pedido</button>
-        </section>
+    <!-- BLOQUE LOGIN -->
+    <div class="checkout-login">
+        <p><strong>¿Tenés cuenta? ¡Iniciá sesión o registrate!</strong></p>
+        <small>Al registrarte, obtenés 10% de descuento en tu primer pedido y podés guardar tus direcciones y seguir tus envíos.</small>
+
+        <div class="acciones">
+            <a href="login.html" class="btn-login-red">Iniciar Sesión</a>
+            <a href="registro.html" class="btn-outline">Registrarse</a>
+        </div>
+    </div>
+
+    <div class="checkout-wrapper">
+
+        <!-- IZQUIERDA: FORMULARIO -->
+        <div class="checkout-form">
+            <div class="form-card">
+                <h2>Datos de Envío</h2>
+
+                <div class="form-group">
+                    <label>Nombre Completo *</label>
+                    <input type="text" placeholder="Tu nombre">
+                </div>
+
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" placeholder="tu@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Teléfono *</label>
+                    <input type="text" placeholder="Ej: 11 1234 5678">
+                </div>
+
+                <div class="form-group">
+                    <label>Dirección *</label>
+                    <input type="text" placeholder="Calle y número">
+                </div>
+
+                <div class="form-group">
+                    <label>Ciudad *</label>
+                    <input type="text" placeholder="Tu ciudad">
+                </div>
+            </div>
+        </div>
+
+        <!-- DERECHA: RESUMEN -->
+        <aside class="checkout-resumen">
+            <h2>Tu Pedido</h2>
+
+            <div class="resumen-item">
+                <span>Costillas de Cerdo x 1</span>
+                <span>$5.800</span>
+            </div>
+
+            <div class="resumen-item">
+                <span>Subtotal</span>
+                <span>$5.800</span>
+            </div>
+
+            <div class="resumen-item">
+                <span>Envío</span>
+                <span style="color: green; font-weight: 600;">Gratis</span>
+            </div>
+
+            <div class="resumen-total">
+                <span>Total</span>
+                <span class="total-precio">$5.800</span>
+            </div>
+        </aside>
+
+    </div>
+
+    </section>
         <section class="footer-main">
         <div class="footer-container">
 
