@@ -102,6 +102,19 @@
                     <label>Ciudad *</label>
                     <input type="text" placeholder="Tu ciudad">
                 </div>
+
+                <div class="form-group">
+                    <label><i class="fa-regular fa-calendar"></i> Fecha de Entrega (opcional)</label>
+                    <input type="date">
+                    <small class="form-hint">Si no seleccionás, enviamos lo antes posible</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Notas (opcional)</label>
+                    <textarea placeholder="Indicaciones especiales para el envío..." rows="3"></textarea>
+                </div>
+
+                <button class="btn-finalizar" onclick="mostrarModalConfirmacion()">Confirmar Pedido</button>
             </div>
         </div>
 
@@ -113,20 +126,31 @@
                 <span>Costillas de Cerdo x 1</span>
                 <span>$5.800</span>
             </div>
-
             <div class="resumen-item">
-                <span>Subtotal</span>
-                <span>$5.800</span>
+                <span>Asado x 2</span>
+                <span>$10.800</span>
             </div>
-
+            <div class="resumen-item">
+                <span>Vacío x 1</span>
+                <span>$15.840</span>
+            </div>
+            <div class="resumen-item">
+                <span>Vino Tinto x 1</span>
+                <span>$7.200</span>
+            </div>
+            
+            <div class="resumen-divisor"></div> <div class="resumen-item">
+                <span>Subtotal</span>
+                <span>$39.640</span>
+            </div>
             <div class="resumen-item">
                 <span>Envío</span>
-                <span style="color: green; font-weight: 600;">Gratis</span>
+                <span style="color: #28a745; font-weight: 600;">Gratis</span>
             </div>
 
             <div class="resumen-total">
                 <span>Total</span>
-                <span class="total-precio">$5.800</span>
+                <span class="total-precio">$39.640</span>
             </div>
         </aside>
 
@@ -201,5 +225,25 @@
             </div>
         </div>
     </footer>
+
+    <!-- Modal Confirmación -->
+    <div id="modal-confirmacion" class="modal-overlay">
+        <div class="modal-content">
+            <img src="img/logo_lineas_fondoblanco.png" alt="Logo" class="modal-logo">
+            <i class="fa-solid fa-circle-check modal-check"></i>
+            <h2 class="modal-titulo">¡Pedido Confirmado!</h2>
+            <p class="modal-texto">Tu pedido ha sido recibido y será procesado pronto</p>
+            <p class="modal-redirect">Te dirigiremos a la tienda en unos segundos...</p>
+        </div>
+    </div>
+
+    <script>
+    function mostrarModalConfirmacion() {
+        document.getElementById('modal-confirmacion').style.display = 'flex';
+        setTimeout(function() {
+            window.location.href = 'index.html';
+        }, 5000);
+    }
+    </script>
 </body>
 </html>
