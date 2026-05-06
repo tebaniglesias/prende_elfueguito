@@ -1,244 +1,994 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prende el Fueguito</title>
-    <link rel="stylesheet" href="styles/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Productos — Prendé el Fueguito</title>
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
 
-    
-    <meta name="description" content="Tienda online de productos para asado argentino. Carnes, accesorios, carbón y más.">
-    </head>
-    <body>
+/* =============================================
+   PANEL ADMIN PRODUCTOS — mismo sistema que panel_usuario
+   ============================================= */
 
-    <header class="header">
-    <div class="header-container">
+.panel-usuario-main {
+  background: #F5EFE6;
+  min-height: 80vh;
+  padding: 2.5rem 1.5rem;
+}
 
-        <!-- IZQUIERDA -->
-        <a href="index.html" class="logo">
-        <img src="img/logo_lineas_fondoblanco.png" alt="Logo">
-        <div class="logo-text">
-            <span class="title">Prendé el Fueguito</span>
-            <span class="subtitle">Boutique de carnes y fuegos.</span>
-        </div>
-        </a>
+.panel-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 1.75rem;
+  align-items: start;
+}
 
-        <!-- CENTRO -->
-        <nav class="nav">
-        
-        </nav>
+/* ── SIDEBAR ────────────────────────────────── */
+.panel-sidebar {
+  background: var(--white);
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  overflow: hidden;
+  position: sticky;
+  top: 90px;
+}
 
-        <!-- DERECHA -->
+.panel-avatar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 18px;
+  background: linear-gradient(135deg, #1A1008 0%, #3D2010 100%);
+  border-bottom: 2px solid var(--primary-color);
+}
 
-        <div class="header-actions">
-            <a href="index.html" class="btn-productos">Productos</a>
+.avatar-circle {
+  width: 46px;
+  height: 46px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #fff;
+  flex-shrink: 0;
+}
 
-            <a href="login.html" class="btn-login">
-                <i class="fa-regular fa-user"></i>
-                Ingresar
-            </a>
+.avatar-nombre {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #FDFAF5;
+  margin: 0 0 2px;
+}
 
-            <a href="carrito.html" class="btn-carrito">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span class="carrito-text">Carrito</span>
-                <span class="carrito-count">0</span>
-            </a>
-        </div>
+.avatar-email {
+  font-size: 0.75rem;
+  color: #C8B89A;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
 
+.panel-menu { padding: 16px 12px; }
+
+.panel-menu h3 {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gray);
+  margin: 0 0 10px 8px;
+}
+
+.panel-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.menu-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--dark-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.18s, color 0.18s;
+  position: relative;
+}
+
+.menu-link i {
+  width: 18px;
+  text-align: center;
+  color: var(--gray);
+  font-size: 0.9rem;
+  transition: color 0.18s;
+}
+
+.menu-link:hover { background: #FDF5E8; color: var(--primary-color); }
+.menu-link:hover i { color: var(--primary-color); }
+
+.menu-link.active {
+  background: #FDF5E8;
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.menu-link.active i { color: var(--primary-color); }
+
+.menu-link.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20%;
+  height: 60%;
+  width: 3px;
+  background: var(--primary-color);
+  border-radius: 0 3px 3px 0;
+}
+
+.menu-badge {
+  margin-left: auto;
+  background: var(--accent-color);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 10px;
+}
+
+.panel-logout {
+  padding: 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.btn-logout {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 8px;
+  color: var(--gray);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.18s, color 0.18s;
+}
+
+.btn-logout:hover { background: #FFF0F0; color: #c0392b; }
+
+/* ── CONTENT ────────────────────────────────── */
+.panel-content { display: flex; flex-direction: column; }
+
+.panel-section {
+  background: var(--white);
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  padding: 2rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.75rem;
+  gap: 1rem;
+}
+
+.section-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: var(--dark-text);
+  margin: 0 0 4px;
+}
+
+.section-desc {
+  font-size: 0.85rem;
+  color: var(--gray);
+  margin: 0;
+}
+
+/* ── BOTONES ─────────────────────────────────── */
+.btn-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s;
+  flex-shrink: 0;
+  font-family: inherit;
+}
+
+.btn-edit:hover { background: var(--primary-dark); }
+
+.btn-small {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.18s;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-small.btn-primary { background: var(--primary-color); color: #fff; }
+.btn-small.btn-primary:hover { background: var(--primary-dark); }
+
+.btn-small.btn-ghost {
+  background: transparent;
+  color: var(--gray);
+  border: 1px solid var(--border-color);
+}
+
+.btn-small.btn-ghost:hover { background: #FFF0F0; color: #c0392b; border-color: #c0392b; }
+
+/* ── TOOLBAR ────────────────────────────────── */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.toolbar-search {
+  position: relative;
+  flex: 1;
+  max-width: 280px;
+}
+
+.toolbar-search input {
+  width: 100%;
+  padding: 9px 12px 9px 34px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  background: #F9F4EE;
+  color: var(--dark-text);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  font-family: inherit;
+}
+
+.toolbar-search input:focus { border-color: var(--primary-color); background: var(--white); }
+.toolbar-search i { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--gray); font-size: 0.75rem; }
+
+.toolbar-select {
+  padding: 9px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  background: #F9F4EE;
+  color: var(--dark-text);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+
+.toolbar-select:focus { border-color: var(--primary-color); }
+
+.product-count {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: var(--gray);
+  white-space: nowrap;
+}
+
+/* ── TABLA ──────────────────────────────────── */
+.table-responsive { overflow-x: auto; }
+
+.table-productos {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table-productos th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gray);
+  border-bottom: 2px solid var(--border-color);
+  background: #FDFAF5;
+}
+
+.table-productos td {
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--dark-text);
+  vertical-align: middle;
+}
+
+.table-productos tbody tr:hover { background: #FDF5E8; }
+.table-productos tbody tr:last-child td { border-bottom: none; }
+
+.td-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: #FDF5E8;
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.product-name-cell { display: flex; align-items: center; gap: 11px; }
+
+/* ── BADGES ─────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.badge-activo    { background: #E8F5E3; color: #2D7A1F; }
+.badge-inactivo  { background: #F0EBE3; color: #7A6A5A; }
+.badge-sin-stock { background: #FEE2E2; color: #B91C1C; }
+.badge-categoria { background: rgba(198,124,58,0.15); color: var(--primary-dark); }
+
+/* ── STOCK ──────────────────────────────────── */
+.stock-ok   { color: #2D7A1F; font-weight: 700; }
+.stock-low  { color: #C67C3A; font-weight: 700; }
+.stock-zero { color: #B91C1C; font-weight: 700; }
+
+/* ── EMPTY STATE ────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--gray);
+}
+
+.empty-state i {
+  font-size: 2.2rem;
+  color: var(--border-color);
+  display: block;
+  margin-bottom: 12px;
+}
+
+.empty-state p { font-size: 0.9rem; }
+
+/* ── MODAL ──────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26,16,8,0.55);
+  z-index: 500;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 20px;
+  overflow-y: auto;
+}
+
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: var(--white);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 580px;
+  box-shadow: 0 12px 40px rgba(26,16,8,0.18);
+  animation: slideUp 0.22s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(18px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  color: var(--dark-text);
+  margin: 0;
+}
+
+.modal-close {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: #F5EFE6;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray);
+  font-size: 0.85rem;
+  transition: all 0.18s;
+}
+
+.modal-close:hover { background: #FEE2E2; color: #B91C1C; }
+
+.modal-body { padding: 24px; }
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* ── FORM MODAL ─────────────────────────────── */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1rem 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-group.full { grid-column: 1 / -1; }
+
+.form-group label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--dark-text);
+  background: #F9F4EE;
+  transition: background 0.2s, border-color 0.2s;
+  font-family: inherit;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  background: var(--white);
+  border-color: var(--primary-color);
+}
+
+.form-group textarea { resize: vertical; min-height: 78px; }
+
+.form-hint {
+  font-size: 0.78rem;
+  color: var(--gray);
+}
+
+/* ── TOAST ──────────────────────────────────── */
+#toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+  padding: 13px 20px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.16);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  pointer-events: none;
+}
+
+#toast.toast-visible { opacity: 1; transform: translateY(0); }
+#toast.toast-success { background: #4A7C3F; }
+#toast.toast-error   { background: #B91C1C; }
+
+/* ── RESPONSIVE ─────────────────────────────── */
+@media (max-width: 860px) {
+  .panel-container { grid-template-columns: 1fr; }
+  .panel-sidebar { position: static; }
+  .form-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .panel-usuario-main { padding: 1rem; }
+  .panel-section { padding: 1.25rem; }
+  .section-header { flex-direction: column; align-items: flex-start; }
+  .table-productos th,
+  .table-productos td { padding: 10px 8px; font-size: 0.82rem; }
+}
+
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  3 Cuotas sin Interés &nbsp;·&nbsp; Envíos gratis a CABA en compras superiores a $10.000 &nbsp;·&nbsp; Envío a todo el país
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-top">
+    <a href="index.html" class="logo">
+      <img src="img/fuego.png" alt="Logo Prendé el Fueguito">
+      <div class="logo-text">
+        <span class="title">Prendé el Fueguito</span>
+        <span class="subtitle">Carnes &amp; Fuegos</span>
+      </div>
+    </a>
+
+    <div class="buscador-header">
+      <input type="text" placeholder="¿Qué estás buscando?">
+      <button type="button">🔍</button>
     </div>
-    </header>
-    <main>
-        <h1>Panel de Administración</h1>
 
-        <section id="abm-productos">
+    <div class="header-actions">
+      <a href="#">
+        <i class="fa-regular fa-circle-question"></i>
+        <span>Ayuda</span>
+      </a>
+      <a href="panel_usuario.html">
+        <i class="fa-regular fa-user"></i>
+        <span>Mi cuenta</span>
+      </a>
+      <a href="carrito.html" class="carrito-wrapper">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span>Mi carrito</span>
+        <span class="carrito-count">0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="panel-usuario-main">
+  <div class="panel-container">
+
+    <!-- SIDEBAR -->
+    <aside class="panel-sidebar">
+      <div class="panel-avatar">
+        <div class="avatar-circle"><i class="fa-solid fa-fire-flame-curved" style="font-size:1.1rem"></i></div>
+        <div class="avatar-info">
+          <p class="avatar-nombre">Panel Admin</p>
+          <p class="avatar-email">admin@fueguito.com</p>
+        </div>
+      </div>
+
+      <nav class="panel-menu">
+        <h3>Administración</h3>
+        <ul>
+          
+          <li>
+            <a href="alta_producto.html" class="menu-link active">
+              <i class="fa-solid fa-box"></i> Productos
+              <span class="menu-badge" id="badge-total"></span>
+            </a>
+          </li>
+
+        </ul>
+      </nav>
+
+      <div class="panel-logout">
+        <a href="index.html" class="btn-logout">
+          <i class="fa-solid fa-arrow-left"></i> Volver al sitio
+        </a>
+      </div>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <div class="panel-content">
+      <section class="panel-section">
+
+        <div class="section-header">
+          <div>
             <h2>Gestión de Productos</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Categoría</th>
-                        <th>Precio</th>
-                        <th>Stock</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>001</td>
-                        <td>Bife de Chorizo</td>
-                        <td>Carnes</td>
-                        <td>$12.990/kg</td>
-                        <td>50</td>
-                        <td>
-                            <button>Editar</button>
-                            <button>Eliminar</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>002</td>
-                        <td>Set Parrilla</td>
-                        <td>Accesorios</td>
-                        <td>$8.500</td>
-                        <td>20</td>
-                        <td>
-                            <button>Editar</button>
-                            <button>Eliminar</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <button>+ Agregar Producto</button>
-        </section>
-
-        <section id="abm-categorias">
-            <h2>Gestión de Categorías</h2>
-            <ul>
-                <li>
-                    Carnes <button>Editar</button> <button>Eliminar</button>
-                </li>
-                <li>
-                    Accesorios <button>Editar</button> <button>Eliminar</button>
-                </li>
-                <li>
-                    Carbón <button>Editar</button> <button>Eliminar</button>
-                </li>
-            </ul>
-            <button>+ Agregar Categoría</button>
-        </section>
-
-        <section id="pedidos-admin">
-            <h2>Gestión de Pedidos</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Número</th>
-                        <th>Cliente</th>
-                        <th>Fecha</th>
-                        <th>Total</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>#00123</td>
-                        <td>Juan Pérez</td>
-                        <td>15/03/2026</td>
-                        <td>$25.000</td>
-                        <td>
-                            <select>
-                                <option> Pendente</option>
-                                <option>En preparación</option>
-                                <option>Enviado</option>
-                                <option>Entregado</option>
-                            </select>
-                        </td>
-                        <td><button>Ver detalle</button></td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section id="usuarios-admin">
-            <h2>Gestión de Usuarios</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Rol</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Juan Pérez</td>
-                        <td>juan@email.com</td>
-                        <td>Cliente</td>
-                        <td><button>Editar</button></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Admin</td>
-                        <td>admin@asado.com</td>
-                        <td>Administrador</td>
-                        <td><button>Editar</button></td>
-                    </tr>
-                </tbody>
-            </table>
-            <button>+ Agregar Usuario</button>
-        </section>
-        <section class="footer-main">
-        <div class="footer-container">
-
-            <!-- LOGO + INFO -->
-            <div>
-            <div class="footer-logo">
-                <img src="img/logo_lineas_fondoblanco.png" alt="Prendé el Fueguito">
-                <span>Prendé el Fueguito</span>
-            </div>
-
-            <div class="footer-text">
-                Tu asado perfecto.<br><br>
-                Los mejores productos para tu asado. Calidad garantizada y envío gratis en compras superiores a $10,000.
-            </div>
-
-            <div class="social-icons">
-                <i class="fa-brands fa-facebook"></i>
-                <i class="fa-brands fa-instagram"></i>
-                <i class="fa-brands fa-twitter"></i>
-            </div>
-            </div>
-
-            <!-- ENLACES -->
-            <div>
-            <h4>Enlaces Rápidos</h4>
-            <ul>
-                <li>Productos</li>
-                <li>Carrito</li>
-                <li>Promociones</li>
-                <li>Sobre Nosotros</li>
-            </ul>
-            </div>
-
-            <!-- CATEGORÍAS -->
-            <div>
-            <h4>Categorías</h4>
-            <ul>
-                <li>Carnes Premium</li>
-                <li>Carbón y Leña</li>
-                <li>Utensilios</li>
-                <li>Condimentos</li>
-                <li>Bebidas</li>
-            </ul>
-            </div>
-
-            <!-- CONTACTO -->
-            <div>
-            <h4>Contacto</h4>
-            <div class="contact-item"><span>📍</span> Av. Corrientes 1234, Buenos Aires</div>
-            <div class="contact-item"><span>📞</span> +54 11 1234-5678</div>
-            <div class="contact-item"><span>✉️</span> info@fueguito.com</div>
-            </div>
-
+            <p class="section-desc">Administrá el catálogo de la tienda</p>
+          </div>
+          <button class="btn-edit" onclick="abrirModalAlta()">
+            <i class="fa-solid fa-plus"></i> Nuevo producto
+          </button>
         </div>
-    </section>
-    <footer class="footer-bottom">
-        <div class="footer-bottom-container">
 
-            <div class="left">
-            © 2026 Prendé el Fueguito. Todos los derechos reservados.
-            </div>
-            <div class="right">
-                <a href="#">Términos y Condiciones</a>
-                <a href="#">Privacidad</a>
-                <a href="panel_admin.html">Admin</a>
-            </div>
+        <!-- TOOLBAR -->
+        <div class="toolbar">
+          <div class="toolbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="buscador" placeholder="Buscar producto..." oninput="filtrarProductos()">
+          </div>
+          <select class="toolbar-select" id="filtro-categoria" onchange="filtrarProductos()">
+            <option value="">Todas las categorías</option>
+            <option value="Asados">Asados</option>
+            <option value="Especias">Especias</option>
+            <option value="Salsas">Salsas</option>
+            <option value="Ahumados">Ahumados</option>
+          </select>
+          <select class="toolbar-select" id="filtro-estado" onchange="filtrarProductos()">
+            <option value="">Todos los estados</option>
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+            <option value="sin-stock">Sin stock</option>
+          </select>
+          <span class="product-count" id="product-count"></span>
         </div>
-    </footer>
+
+        <!-- TABLA -->
+        <div class="table-responsive">
+          <table class="table-productos">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-productos"></tbody>
+          </table>
+          <div id="empty-state" class="empty-state" style="display:none">
+            <i class="fa-solid fa-box-open"></i>
+            <p>No se encontraron productos con ese criterio.</p>
+          </div>
+        </div>
+
+      </section>
+    </div>
+
+  </div>
+</main>
+
+<!-- MODAL ALTA / EDICIÓN -->
+<div class="modal-overlay" id="modal-producto">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modal-titulo">Nuevo Producto</h2>
+      <button class="modal-close" onclick="cerrarModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Nombre *</label>
+          <input type="text" id="p-nombre" placeholder="Ej: Chimichurri Clásico 250g">
+        </div>
+        <div class="form-group">
+          <label>Categoría *</label>
+          <select id="p-categoria">
+            <option value="">Seleccioná una categoría</option>
+            <option value="Asados">Asados</option>
+            <option value="Especias">Especias</option>
+            <option value="Salsas">Salsas</option>
+            <option value="Ahumados">Ahumados</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Precio (ARS) *</label>
+          <input type="number" id="p-precio" placeholder="0" min="0" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>Stock *</label>
+          <input type="number" id="p-stock" placeholder="0" min="0" step="1">
+        </div>
+        <div class="form-group">
+          <label>Estado</label>
+          <select id="p-estado">
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+            <option value="sin-stock">Sin stock</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Descripción</label>
+          <textarea id="p-descripcion" placeholder="Breve descripción del producto..."></textarea>
+          <span class="form-hint">Opcional. Se mostrará en la página del producto.</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-small btn-ghost" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn-small btn-primary" onclick="guardarProducto()">
+        <i class="fa-solid fa-floppy-disk"></i> Guardar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" aria-live="polite"></div>
+
+<!-- FOOTER -->
+<section class="footer-main">
+  <div class="footer-container">
+    <div>
+      <div class="footer-logo">
+        <img src="img/fuego.png" alt="Prendé el Fueguito">
+        <span>Prendé el Fueguito</span>
+      </div>
+      <div class="footer-text">
+        Tu asado perfecto.<br><br>
+        Los mejores productos para tu asado. Calidad garantizada y envío gratis en compras superiores a $10.000.
+      </div>
+      <div class="social-icons">
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-twitter"></i>
+      </div>
+    </div>
+    <div>
+      <h4>Enlaces Rápidos</h4>
+      <ul>
+        <li>Productos</li>
+        <li>Carrito</li>
+        <li>Promociones</li>
+        <li>Sobre Nosotros</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Categorías</h4>
+      <ul>
+        <li>Carnes Premium</li>
+        <li>Carbón y Leña</li>
+        <li>Utensilios</li>
+        <li>Condimentos</li>
+        <li>Bebidas</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contacto</h4>
+      <div class="contact-item"><span>📍</span> Av. Corrientes 1234, Buenos Aires</div>
+      <div class="contact-item"><span>📞</span> +54 11 1234-5678</div>
+      <div class="contact-item"><span>✉️</span> info@fueguito.com</div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer-bottom">
+  <div class="footer-bottom-container">
+    <div class="left">© 2026 Prendé el Fueguito. Todos los derechos reservados.</div>
+    <div class="right">
+      <a href="#">Términos y Condiciones</a>
+      <a href="#">Privacidad</a>
+      <a href="panel_admin.html">Admin</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ─── DATA ─── */
+  let productos = [
+    { id: 1, nombre: 'Chimichurri Clásico 250g',    categoria: 'Salsas',   precio: 2800, stock: 48, estado: 'activo'    },
+    { id: 2, nombre: 'Rub de Asado Patagónico',      categoria: 'Especias', precio: 1950, stock: 30, estado: 'activo'    },
+    { id: 3, nombre: 'Sal Parrillera Gruesa 1kg',    categoria: 'Asados',   precio: 1200, stock: 0,  estado: 'sin-stock' },
+    { id: 4, nombre: 'Pimentón Ahumado 100g',        categoria: 'Ahumados', precio: 1650, stock: 15, estado: 'activo'    },
+    { id: 5, nombre: 'Salsa Criolla Picante 350g',   categoria: 'Salsas',   precio: 3100, stock: 22, estado: 'activo'    },
+    { id: 6, nombre: 'Mix 7 Especias BBQ',           categoria: 'Especias', precio: 2200, stock: 9,  estado: 'activo'    },
+    { id: 7, nombre: 'Leña de Quebracho 5kg',        categoria: 'Asados',   precio: 4500, stock: 5,  estado: 'activo'    },
+    { id: 8, nombre: 'Ajo Deshidratado Ahumado 80g', categoria: 'Ahumados', precio: 1400, stock: 0,  estado: 'inactivo'  },
+  ];
+
+  let editandoId = null;
+
+  /* ─── HELPERS ─── */
+  function formatPrecio(v) {
+    return '$' + Number(v).toLocaleString('es-AR');
+  }
+
+  function stockClass(s) {
+    if (s === 0) return 'stock-zero';
+    if (s <= 10) return 'stock-low';
+    return 'stock-ok';
+  }
+
+  function badgeEstado(e) {
+    const map = {
+      'activo':    '<span class="badge badge-activo">Activo</span>',
+      'inactivo':  '<span class="badge badge-inactivo">Inactivo</span>',
+      'sin-stock': '<span class="badge badge-sin-stock">Sin stock</span>',
+    };
+    return map[e] || e;
+  }
+
+  /* ─── RENDER ─── */
+  function renderTabla(lista) {
+    const tbody = document.getElementById('tabla-productos');
+    const empty = document.getElementById('empty-state');
+    const count = document.getElementById('product-count');
+
+    if (!lista.length) {
+      tbody.innerHTML = '';
+      empty.style.display = 'block';
+      count.textContent = '';
+      return;
+    }
+
+    empty.style.display = 'none';
+    count.textContent = `${lista.length} producto${lista.length !== 1 ? 's' : ''}`;
+
+    tbody.innerHTML = lista.map(p => `
+      <tr>
+        <td>
+          <div class="product-name-cell">
+            <div class="td-icon"><i class="fa-solid fa-fire-flame-curved"></i></div>
+            <strong>${p.nombre}</strong>
+          </div>
+        </td>
+        <td><span class="badge badge-categoria">${p.categoria}</span></td>
+        <td style="font-weight:700">${formatPrecio(p.precio)}</td>
+        <td><span class="${stockClass(p.stock)}">${p.stock}</span> <span style="font-size:0.8rem;color:var(--gray)">uds.</span></td>
+        <td>${badgeEstado(p.estado)}</td>
+        <td>
+          <div style="display:flex;gap:6px">
+            <button class="btn-small btn-primary" onclick="editarProducto(${p.id})">
+              <i class="fa-solid fa-pen"></i> Editar
+            </button>
+            <button class="btn-small btn-ghost" onclick="eliminarProducto(${p.id})">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function actualizarBadge() {
+    document.getElementById('badge-total').textContent = productos.length;
+  }
+
+  function filtrarProductos() {
+    const q   = document.getElementById('buscador').value.toLowerCase();
+    const cat = document.getElementById('filtro-categoria').value;
+    const est = document.getElementById('filtro-estado').value;
+
+    const filtrados = productos.filter(p => {
+      const matchQ   = p.nombre.toLowerCase().includes(q) || p.categoria.toLowerCase().includes(q);
+      const matchCat = !cat || p.categoria === cat;
+      const matchEst = !est || p.estado === est;
+      return matchQ && matchCat && matchEst;
+    });
+
+    renderTabla(filtrados);
+  }
+
+  /* ─── MODAL ─── */
+  function abrirModalAlta() {
+    editandoId = null;
+    document.getElementById('modal-titulo').textContent = 'Nuevo Producto';
+    limpiarForm();
+    abrirModal();
+  }
+
+  function editarProducto(id) {
+    const p = productos.find(x => x.id === id);
+    if (!p) return;
+    editandoId = id;
+    document.getElementById('modal-titulo').textContent = 'Editar Producto';
+    document.getElementById('p-nombre').value      = p.nombre;
+    document.getElementById('p-categoria').value   = p.categoria;
+    document.getElementById('p-precio').value      = p.precio;
+    document.getElementById('p-stock').value       = p.stock;
+    document.getElementById('p-estado').value      = p.estado;
+    document.getElementById('p-descripcion').value = p.descripcion || '';
+    abrirModal();
+  }
+
+  function abrirModal() {
+    document.getElementById('modal-producto').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function cerrarModal() {
+    document.getElementById('modal-producto').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function limpiarForm() {
+    ['p-nombre','p-precio','p-stock','p-descripcion'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('p-categoria').value = '';
+    document.getElementById('p-estado').value    = 'activo';
+  }
+
+  /* ─── GUARDAR ─── */
+  function guardarProducto() {
+    const nombre      = document.getElementById('p-nombre').value.trim();
+    const categoria   = document.getElementById('p-categoria').value;
+    const precio      = parseFloat(document.getElementById('p-precio').value);
+    const stock       = parseInt(document.getElementById('p-stock').value);
+    const estado      = document.getElementById('p-estado').value;
+    const descripcion = document.getElementById('p-descripcion').value.trim();
+
+    if (!nombre)                     { mostrarToast('El nombre es obligatorio.', 'error'); return; }
+    if (!categoria)                  { mostrarToast('Seleccioná una categoría.', 'error'); return; }
+    if (isNaN(precio) || precio < 0) { mostrarToast('Ingresá un precio válido.', 'error'); return; }
+    if (isNaN(stock)  || stock  < 0) { mostrarToast('Ingresá un stock válido.',  'error'); return; }
+
+    if (editandoId) {
+      const idx = productos.findIndex(p => p.id === editandoId);
+      productos[idx] = { ...productos[idx], nombre, categoria, precio, stock, estado, descripcion };
+      mostrarToast('✓ Producto actualizado correctamente.');
+    } else {
+      productos.push({ id: Date.now(), nombre, categoria, precio, stock, estado, descripcion });
+      mostrarToast('✓ Producto dado de alta correctamente.');
+    }
+
+    cerrarModal();
+    actualizarBadge();
+    filtrarProductos();
+  }
+
+  /* ─── ELIMINAR ─── */
+  function eliminarProducto(id) {
+    if (!confirm('¿Confirmás que querés eliminar este producto?')) return;
+    productos = productos.filter(p => p.id !== id);
+    actualizarBadge();
+    filtrarProductos();
+    mostrarToast('✓ Producto eliminado.');
+  }
+
+  /* ─── TOAST ─── */
+  function mostrarToast(mensaje, tipo = 'success') {
+    const toast = document.getElementById('toast');
+    toast.textContent = mensaje;
+    toast.className = `toast toast-${tipo} toast-visible`;
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(() => { toast.className = 'toast'; }, 3200);
+  }
+
+  /* ─── CERRAR MODAL AL CLICK EN OVERLAY ─── */
+  document.getElementById('modal-producto').addEventListener('click', function(e) {
+    if (e.target === this) cerrarModal();
+  });
+
+  /* ─── INIT ─── */
+  renderTabla(productos);
+  actualizarBadge();
+  document.getElementById('product-count').textContent = `${productos.length} productos`;
+</script>
 </body>
 </html>
