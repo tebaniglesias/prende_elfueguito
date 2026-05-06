@@ -10,30 +10,44 @@
 </head>
 <body>
 
-    <header class="header">
-        <div class="header-container">
-            <a href="index.html" class="logo">
-                <img src="img/logo_lineas_fondoblanco.png" alt="Logo">
-                <div class="logo-text">
-                    <span class="title">Prendé el Fueguito</span>
-                    <span class="subtitle">Boutique de carnes y fuegos.</span>
-                </div>
-            </a>
-            <nav class="nav"></nav>
-            <div class="header-actions">
-                <a href="index.html" class="btn-productos">Productos</a>
-                <a href="login.html" class="btn-login">
-                    <i class="fa-regular fa-user"></i>
-                    Ingresar
-                </a>
-                <a href="carrito.html" class="btn-carrito">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="carrito-text">Carrito</span>
-                    <span class="carrito-count">2</span>
-                </a>
-            </div>
+  <!-- TOPBAR -->
+  <div class="topbar">
+    3 Cuotas sin Interés &nbsp;·&nbsp; Envíos gratis a CABA en compras superiores a $10.000 &nbsp;·&nbsp; Envío a todo el país
+  </div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-top">
+      <a href="index.html" class="logo">
+        <img src="img/fuego.png" alt="Logo Prendé el Fueguito">
+        <div class="logo-text">
+          <span class="title">Prendé el Fueguito</span>
+          <span class="subtitle">Carnes &amp; Fuegos</span>
         </div>
-    </header>
+      </a>
+
+      <div class="buscador-header">
+        <input type="text" placeholder="¿Qué estás buscando?">
+        <button type="button">🔍</button>
+      </div>
+
+      <div class="header-actions">
+        <a href="#">
+          <i class="fa-regular fa-circle-question"></i>
+          <span>Ayuda</span>
+        </a>
+        <a href="login.html">
+          <i class="fa-regular fa-user"></i>
+          <span>Mi cuenta</span>
+        </a>
+        <a href="carrito.html" class="carrito-wrapper">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span>Mi carrito</span>
+          <span class="carrito-count">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
 
     <main class="carrito-main">
 
@@ -49,11 +63,86 @@
 
                 <div class="carrito-titulo">
                     <h1>Tu Carrito</h1>
-                    <span class="carrito-cantidad">2 productos</span>
+                    <span class="carrito-cantidad">6 productos</span>
                 </div>
 
                 <!-- Lista de items -->
                 <div class="carrito-items">
+
+                    <div class="carrito-item">
+                        <img src="img/carne.jpg" alt="Vacío">
+                        <div class="item-info">
+                            <p class="item-nombre">Vacío</p>
+                            <p class="item-unidad">kg</p>
+                            <p class="item-precio">$7.200</p>
+                        </div>
+                        <div class="item-controles">
+                            <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
+                            <div class="cantidad-control">
+                                <button class="btn-menos">−</button>
+                                <span>1</span>
+                                <button class="btn-mas">+</button>
+                            </div>
+                            <p class="item-subtotal">$7.200</p>
+                        </div>
+                    </div>
+
+                    <div class="carrito-item">
+                        <img src="img/chori.jpg" alt="Costillas de Cerdo">
+                        <div class="item-info">
+                            <p class="item-nombre">Costillas de Cerdo</p>
+                            <p class="item-unidad">kg</p>
+                            <p class="item-precio">$5.800</p>
+                        </div>
+                        <div class="item-controles">
+                            <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
+                            <div class="cantidad-control">
+                                <button class="btn-menos">−</button>
+                                <span>1</span>
+                                <button class="btn-mas">+</button>
+                            </div>
+                            <p class="item-subtotal">$5.800</p>
+                        </div>
+                    </div>
+
+
+                    <div class="carrito-item">
+                        <img src="img/carne.jpg" alt="Vacío">
+                        <div class="item-info">
+                            <p class="item-nombre">Vacío</p>
+                            <p class="item-unidad">kg</p>
+                            <p class="item-precio">$7.200</p>
+                        </div>
+                        <div class="item-controles">
+                            <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
+                            <div class="cantidad-control">
+                                <button class="btn-menos">−</button>
+                                <span>1</span>
+                                <button class="btn-mas">+</button>
+                            </div>
+                            <p class="item-subtotal">$7.200</p>
+                        </div>
+                    </div>
+
+                    <div class="carrito-item">
+                        <img src="img/chori.jpg" alt="Costillas de Cerdo">
+                        <div class="item-info">
+                            <p class="item-nombre">Costillas de Cerdo</p>
+                            <p class="item-unidad">kg</p>
+                            <p class="item-precio">$5.800</p>
+                        </div>
+                        <div class="item-controles">
+                            <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
+                            <div class="cantidad-control">
+                                <button class="btn-menos">−</button>
+                                <span>1</span>
+                                <button class="btn-mas">+</button>
+                            </div>
+                            <p class="item-subtotal">$5.800</p>
+                        </div>
+                    </div>
+
+    
 
                     <div class="carrito-item">
                         <img src="img/carne.jpg" alt="Vacío">
