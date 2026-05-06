@@ -3,148 +3,978 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prende el Fueguito</title>
+    <title>Mi Cuenta — Prendé el Fueguito</title>
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    
     <meta name="description" content="Tienda online de productos para asado argentino. Carnes, accesorios, carbón y más.">
-    </head>
-    <body>
+    <style>
+/* =============================================
+   PANEL DE USUARIO
+   ============================================= */
+ 
+.panel-usuario-main {
+  background: #F5EFE6;
+  min-height: 80vh;
+  padding: 2.5rem 1.5rem;
+}
+ 
+.panel-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 1.75rem;
+  align-items: start;
+}
+ 
+/* ── SIDEBAR ────────────────────────────────── */
+.panel-sidebar {
+  background: var(--white);
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  overflow: hidden;
+  position: sticky;
+  top: 90px;
+}
+ 
+.panel-avatar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 18px;
+  background: linear-gradient(135deg, #1A1008 0%, #3D2010 100%);
+  border-bottom: 2px solid var(--primary-color);
+}
+ 
+.avatar-circle {
+  width: 46px;
+  height: 46px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #fff;
+  flex-shrink: 0;
+  letter-spacing: 0.03em;
+}
+ 
+.avatar-nombre {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #FDFAF5;
+  margin: 0 0 2px;
+}
+ 
+.avatar-email {
+  font-size: 0.75rem;
+  color: #C8B89A;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+ 
+.panel-menu {
+  padding: 16px 12px;
+}
+ 
+.panel-menu h3 {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gray);
+  margin: 0 0 10px 8px;
+}
+ 
+.panel-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+ 
+.menu-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--dark-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.18s, color 0.18s;
+  position: relative;
+}
+ 
+.menu-link i {
+  width: 18px;
+  text-align: center;
+  color: var(--gray);
+  font-size: 0.9rem;
+  transition: color 0.18s;
+}
+ 
+.menu-link:hover {
+  background: #FDF5E8;
+  color: var(--primary-color);
+}
+ 
+.menu-link:hover i { color: var(--primary-color); }
+ 
+.menu-link.active {
+  background: #FDF5E8;
+  color: var(--primary-color);
+  font-weight: 700;
+}
+ 
+.menu-link.active i { color: var(--primary-color); }
+ 
+.menu-link.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20%;
+  height: 60%;
+  width: 3px;
+  background: var(--primary-color);
+  border-radius: 0 3px 3px 0;
+}
+ 
+.menu-badge {
+  margin-left: auto;
+  background: var(--accent-color);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 10px;
+}
+ 
+.panel-logout {
+  padding: 12px;
+  border-top: 1px solid var(--border-color);
+}
+ 
+.btn-logout {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 8px;
+  color: var(--gray);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.18s, color 0.18s;
+}
+ 
+.btn-logout:hover {
+  background: #FFF0F0;
+  color: #c0392b;
+}
+ 
+/* ── CONTENT ────────────────────────────────── */
+.panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+ 
+.panel-section {
+  display: none;
+  background: var(--white);
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  padding: 2rem;
+}
+ 
+.panel-section.active { display: block; }
+ 
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.75rem;
+  gap: 1rem;
+}
+ 
+.section-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: var(--dark-text);
+  margin: 0 0 4px;
+}
+ 
+.section-desc {
+  font-size: 0.85rem;
+  color: var(--gray);
+  margin: 0;
+}
+ 
+/* ── BOTONES DEL PANEL ──────────────────────── */
+.btn-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #FDF5E8;
+  color: var(--primary-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s;
+  flex-shrink: 0;
+}
+ 
+.btn-edit:hover {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
+}
+ 
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: #F5EDD6;
+  color: var(--dark-text);
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+ 
+.btn-secondary:hover { background: var(--border-color); }
+ 
+.btn-small {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.18s;
+}
+ 
+.btn-small.btn-primary {
+  background: var(--primary-color);
+  color: #fff;
+}
+ 
+.btn-small.btn-primary:hover { background: var(--primary-dark); }
+ 
+.btn-small.btn-ghost {
+  background: transparent;
+  color: var(--gray);
+  border: 1px solid var(--border-color);
+}
+ 
+.btn-small.btn-ghost:hover { background: #FFF0F0; color: #c0392b; border-color: #c0392b; }
+ 
+.btn-link {
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: color 0.18s;
+}
+ 
+.btn-link:hover { color: var(--primary-dark); text-decoration: underline; }
+ 
+/* ── FORM PERFIL ────────────────────────────── */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem 1.5rem;
+}
+ 
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+ 
+.form-group label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+ 
+.form-group input {
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--dark-text);
+  background: #F9F4EE;
+  cursor: not-allowed;
+  transition: background 0.2s, border-color 0.2s;
+}
+ 
+.form-group input.editable {
+  background: var(--white);
+  cursor: text;
+  border-color: var(--primary-color);
+}
+ 
+.form-group input:focus { outline: none; border-color: var(--primary-color); }
+ 
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+ 
+.password-hint {
+  font-size: 0.78rem;
+  color: var(--gray);
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+ 
+.password-hint i { color: var(--primary-color); }
+ 
+/* ── TABLA PEDIDOS ──────────────────────────── */
+.table-responsive { overflow-x: auto; }
+ 
+.table-pedidos {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+ 
+.table-pedidos th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gray);
+  border-bottom: 2px solid var(--border-color);
+  background: #FDFAF5;
+}
+ 
+.table-pedidos td {
+  padding: 14px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--dark-text);
+  vertical-align: middle;
+}
+ 
+.table-pedidos tbody tr:hover { background: #FDF5E8; }
+.table-pedidos tbody tr:last-child td { border-bottom: none; }
+ 
+/* Badges de estado */
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+ 
+.badge-entregado { background: #E8F5E3; color: #2D7A1F; }
+.badge-pendiente  { background: #FFF4E5; color: #B45309; }
+.badge-cancelado  { background: #FEE2E2; color: #B91C1C; }
+ 
+/* ── DIRECCIONES ────────────────────────────── */
+.direcciones-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+ 
+.direccion-card {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.25rem;
+  background: #FDFAF5;
+  transition: box-shadow 0.2s;
+}
+ 
+.direccion-card:hover { box-shadow: 0 4px 14px rgba(198,124,58,0.12); }
+ 
+.direccion-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.75rem;
+}
+ 
+.direccion-icono {
+  width: 36px;
+  height: 36px;
+  background: #FDF5E8;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+ 
+.direccion-header h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--dark-text);
+  margin: 0 0 2px;
+}
+ 
+.badge-principal {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: var(--primary-color);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+ 
+.direccion-text {
+  font-size: 0.9rem;
+  color: var(--dark-text);
+  margin: 0 0 2px;
+}
+ 
+.direccion-info {
+  font-size: 0.82rem;
+  color: var(--gray);
+  margin: 0 0 1rem;
+}
+ 
+.direccion-actions { display: flex; gap: 8px; }
+ 
+/* ── NOTIFICACIONES ─────────────────────────── */
+.form-notificaciones { display: flex; flex-direction: column; gap: 1.75rem; }
+ 
+.notification-group {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.25rem;
+  background: #FDFAF5;
+}
+ 
+.notification-group h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--dark-text);
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+ 
+.notification-group h3 i { color: var(--primary-color); }
+ 
+.form-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+ 
+.form-check:last-child { border-bottom: none; padding-bottom: 0; }
+ 
+.form-check input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary-color);
+  margin-top: 2px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+ 
+.form-check label { cursor: pointer; display: flex; flex-direction: column; gap: 2px; }
+ 
+.check-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--dark-text);
+}
+ 
+.check-description {
+  font-size: 0.8rem;
+  color: var(--gray);
+}
+ 
+/* ── SEGURIDAD ──────────────────────────────── */
+.form-seguridad {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 480px;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+ 
+.seguridad-info h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--dark-text);
+  margin: 0 0 1rem;
+}
+ 
+.sesion-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  background: #FDFAF5;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+}
+ 
+.sesion-icono {
+  width: 40px;
+  height: 40px;
+  background: #F5EDD6;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+ 
+.sesion-info { flex: 1; }
+.sesion-dispositivo { font-size: 0.9rem; font-weight: 700; color: var(--dark-text); margin: 0 0 2px; }
+.sesion-ubicacion   { font-size: 0.8rem; color: var(--gray); margin: 0 0 2px; }
+.sesion-fecha       { font-size: 0.78rem; color: var(--gray); margin: 0; }
+ 
+/* ── TOAST ──────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1A1008;
+  color: #FDFAF5;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.22);
+  transition: bottom 0.32s cubic-bezier(0.34,1.56,0.64,1);
+  z-index: 9999;
+  white-space: nowrap;
+  pointer-events: none;
+}
+ 
+.toast.toast-visible { bottom: 32px; }
+ 
+.toast.toast-error {
+  background: #7F1D1D;
+  border-left: 4px solid #EF4444;
+}
+ 
+/* ── RESPONSIVE PANEL ───────────────────────── */
+@media (max-width: 900px) {
+  .panel-container {
+    grid-template-columns: 1fr;
+  }
+ 
+  .panel-sidebar {
+    position: static;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    border-radius: 12px;
+  }
+ 
+  .panel-avatar {
+    grid-column: 1 / -1;
+    border-radius: 0;
+  }
+ 
+  .panel-menu { padding: 12px; }
+  .panel-logout { border-top: none; border-left: 1px solid var(--border-color); }
+ 
+  .form-grid { grid-template-columns: 1fr; }
+  .direcciones-grid { grid-template-columns: 1fr; }
+}
+ 
+@media (max-width: 600px) {
+  .panel-usuario-main { padding: 1rem; }
+ 
+  .panel-sidebar {
+    display: block;
+  }
+ 
+  .panel-section { padding: 1.25rem; }
+ 
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+ 
+  .table-pedidos th,
+  .table-pedidos td { padding: 10px 8px; font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
 
-    <header class="header">
-    <div class="header-container">
+<!-- TOPBAR -->
+<div class="topbar">
+    3 Cuotas sin Interés &nbsp;·&nbsp; Envíos gratis a CABA en compras superiores a $10.000 &nbsp;·&nbsp; Envío a todo el país
+</div>
 
-        <!-- IZQUIERDA -->
+<!-- HEADER -->
+<header class="header">
+    <div class="header-top">
         <a href="index.html" class="logo">
-        <img src="img/logo_lineas_fondoblanco.png" alt="Logo">
-        <div class="logo-text">
-            <span class="title">Prendé el Fueguito</span>
-            <span class="subtitle">Boutique de carnes y fuegos.</span>
-        </div>
+            <img src="img/fuego.png" alt="Logo Prendé el Fueguito">
+            <div class="logo-text">
+                <span class="title">Prendé el Fueguito</span>
+                <span class="subtitle">Carnes &amp; Fuegos</span>
+            </div>
         </a>
 
-        <!-- CENTRO -->
-        <nav class="nav">
-        
-        </nav>
-
-        <!-- DERECHA -->
+        <div class="buscador-header">
+            <input type="text" placeholder="¿Qué estás buscando?">
+            <button type="button">🔍</button>
+        </div>
 
         <div class="header-actions">
-            <a href="index.html" class="btn-productos">Productos</a>
-
-            <a href="login.html" class="btn-login">
-                <i class="fa-regular fa-user"></i>
-                Ingresar
+            <a href="#">
+                <i class="fa-regular fa-circle-question"></i>
+                <span>Ayuda</span>
             </a>
-
-            <a href="carrito.html" class="btn-carrito">
+            <a href="panel_usuario.html">
+                <i class="fa-regular fa-user"></i>
+                <span>Mi cuenta</span>
+            </a>
+            <a href="carrito.html" class="carrito-wrapper">
                 <i class="fa-solid fa-cart-shopping"></i>
-                <span class="carrito-text">Carrito</span>
+                <span>Mi carrito</span>
                 <span class="carrito-count">0</span>
             </a>
         </div>
-
     </div>
-    </header>
-    <main>
-        <section id="bienvenida">
-            <h1>Bienvenido, Usuario</h1>
-        </section>
+</header>
 
-        <section id="historial-pedidos">
-            <h2>Historial de Pedidos</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Número</th>
-                        <th>Total</th>
-                        <th>Estado</th>
-                        <th>Detalle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>15/03/2026</td>
-                        <td>#00123</td>
-                        <td>$25.000</td>
-                        <td>Entregado</td>
-                        <td><a href="#">Ver</a></td>
-                    </tr>
-                    <tr>
-                        <td>02/02/2026</td>
-                        <td>#00098</td>
-                        <td>$18.500</td>
-                        <td>Entregado</td>
-                        <td><a href="#">Ver</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+<!-- MAIN PANEL -->
+<main class="panel-usuario-main">
+    <div class="panel-container">
 
-        <section id="direcciones">
-            <h2>Direcciones Guardadas</h2>
-            <ul>
-                <li>
-                    <h3>Casa</h3>
-                    <p>Av. Siempre Viva 123, CABA</p>
-                    <button>Editar</button>
-                    <button>Eliminar</button>
-                </li>
-                <li>
-                    <h3>Trabajo</h3>
-                    <p>Av. Libertador 456, CABA</p>
-                    <button>Editar</button>
-                    <button>Eliminar</button>
-                </li>
-            </ul>
-            <button>+ Agregar nueva dirección</button>
-        </section>
-
-        <section id="notificaciones">
-            <h2>Configuración de Notificaciones</h2>
-            <form>
-                <div>
-                    <input type="checkbox" id="email-promociones" checked>
-                    <label for="email-promociones">Recibir promociones por email</label>
+        <!-- SIDEBAR -->
+        <aside class="panel-sidebar">
+            <!-- Avatar con iniciales -->
+            <div class="panel-avatar">
+                <div class="avatar-circle">JG</div>
+                <div class="avatar-info">
+                    <p class="avatar-nombre">Juan García</p>
+                    <p class="avatar-email">juan.garcia@email.com</p>
                 </div>
-                <div>
-                    <input type="checkbox" id="whatsapp-pedidos" checked>
-                    <label for="whatsapp-pedidos">Notificaciones de pedidos por WhatsApp</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="email-novedades" checked>
-                    <label for="email-novedades">Novedades y nuevos productos</label>
-                </div>
-                <button type="submit">Guardar preferencias</button>
-            </form>
-        </section>
-    <section class="footer-main">
-        <div class="footer-container">
+            </div>
 
-            <!-- LOGO + INFO -->
-            <div>
+            <nav class="panel-menu">
+                <h3>Mi Cuenta</h3>
+                <ul>
+                    <li>
+                        <a href="#perfil" class="menu-link active" data-section="perfil">
+                            <i class="fa-solid fa-user"></i> Perfil
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#pedidos" class="menu-link" data-section="pedidos">
+                            <i class="fa-solid fa-box"></i> Mis Pedidos
+                            <span class="menu-badge">2</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#direcciones" class="menu-link" data-section="direcciones">
+                            <i class="fa-solid fa-map-location-dot"></i> Direcciones
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#notificaciones" class="menu-link" data-section="notificaciones">
+                            <i class="fa-solid fa-bell"></i> Notificaciones
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#seguridad" class="menu-link" data-section="seguridad">
+                            <i class="fa-solid fa-lock"></i> Seguridad
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="panel-logout">
+                <a href="login.html" class="btn-logout">
+                    <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+                </a>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <div class="panel-content">
+
+            <!-- SECCIÓN: PERFIL -->
+            <section id="perfil" class="panel-section active">
+                <div class="section-header">
+                    <div>
+                        <h2>Mi Perfil</h2>
+                        <p class="section-desc">Administrá tu información personal</p>
+                    </div>
+                    <button class="btn-edit" id="edit-perfil">
+                        <i class="fa-solid fa-pen"></i> Editar
+                    </button>
+                </div>
+
+                <form class="form-perfil" id="form-perfil">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nombre">Nombre y Apellido</label>
+                            <input type="text" id="nombre" name="nombre" value="Juan García" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" value="juan.garcia@email.com" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono">Teléfono</label>
+                            <input type="tel" id="telefono" name="telefono" value="+54 11 1234-5678" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="fecha-nacimiento">Fecha de Nacimiento</label>
+                            <input type="date" id="fecha-nacimiento" name="fecha-nacimiento" value="1990-05-15" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="documento">Documento</label>
+                            <input type="text" id="documento" name="documento" value="35.123.456" readonly>
+                        </div>
+                    </div>
+                    <div class="form-actions" id="form-actions" style="display: none;">
+                        <button type="submit" class="btn-primary">Guardar cambios</button>
+                        <button type="button" class="btn-secondary" id="cancel-perfil">Cancelar</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- SECCIÓN: PEDIDOS -->
+            <section id="pedidos" class="panel-section">
+                <div class="section-header">
+                    <div>
+                        <h2>Mis Pedidos</h2>
+                        <p class="section-desc">Historial de compras</p>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table-pedidos">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Número</th>
+                                <th>Total</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>15/03/2026</td>
+                                <td><strong>#00123</strong></td>
+                                <td>$25.000</td>
+                                <td><span class="badge badge-entregado">Entregado</span></td>
+                                <td><a href="#" class="btn-link">Ver detalle</a></td>
+                            </tr>
+                            <tr>
+                                <td>02/02/2026</td>
+                                <td><strong>#00098</strong></td>
+                                <td>$18.500</td>
+                                <td><span class="badge badge-entregado">Entregado</span></td>
+                                <td><a href="#" class="btn-link">Ver detalle</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECCIÓN: DIRECCIONES -->
+            <section id="direcciones" class="panel-section">
+                <div class="section-header">
+                    <div>
+                        <h2>Mis Direcciones</h2>
+                        <p class="section-desc">Domicilios guardados para envío</p>
+                    </div>
+                    <button class="btn-edit" id="add-direccion">
+                        <i class="fa-solid fa-plus"></i> Agregar
+                    </button>
+                </div>
+
+                <div class="direcciones-grid">
+                    <div class="direccion-card">
+                        <div class="direccion-header">
+                            <div class="direccion-icono"><i class="fa-solid fa-house"></i></div>
+                            <div>
+                                <h3>Casa</h3>
+                                <span class="badge-principal">Principal</span>
+                            </div>
+                        </div>
+                        <p class="direccion-text">Av. Siempre Viva 123, CABA</p>
+                        <p class="direccion-info">Buenos Aires, Argentina</p>
+                        <div class="direccion-actions">
+                            <button class="btn-small btn-primary">Editar</button>
+                            <button class="btn-small btn-ghost">Eliminar</button>
+                        </div>
+                    </div>
+
+                    <div class="direccion-card">
+                        <div class="direccion-header">
+                            <div class="direccion-icono"><i class="fa-solid fa-briefcase"></i></div>
+                            <div>
+                                <h3>Trabajo</h3>
+                            </div>
+                        </div>
+                        <p class="direccion-text">Av. Libertador 456, CABA</p>
+                        <p class="direccion-info">Buenos Aires, Argentina</p>
+                        <div class="direccion-actions">
+                            <button class="btn-small btn-primary">Editar</button>
+                            <button class="btn-small btn-ghost">Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN: NOTIFICACIONES -->
+            <section id="notificaciones" class="panel-section">
+                <div class="section-header">
+                    <div>
+                        <h2>Notificaciones</h2>
+                        <p class="section-desc">Elegí cómo querés que te avisemos</p>
+                    </div>
+                </div>
+
+                <form class="form-notificaciones" id="form-notificaciones">
+                    <div class="notification-group">
+                        <h3><i class="fa-solid fa-envelope"></i> Email</h3>
+                        <div class="form-check">
+                            <input type="checkbox" id="email-promociones" name="email-promociones" checked>
+                            <label for="email-promociones">
+                                <span class="check-title">Recibir promociones por email</span>
+                                <span class="check-description">Ofertas especiales y descuentos exclusivos</span>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" id="email-novedades" name="email-novedades" checked>
+                            <label for="email-novedades">
+                                <span class="check-title">Novedades y nuevos productos</span>
+                                <span class="check-description">Entérate primero de nuestros lanzamientos</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="notification-group">
+                        <h3><i class="fa-brands fa-whatsapp"></i> WhatsApp</h3>
+                        <div class="form-check">
+                            <input type="checkbox" id="whatsapp-pedidos" name="whatsapp-pedidos" checked>
+                            <label for="whatsapp-pedidos">
+                                <span class="check-title">Notificaciones de pedidos por WhatsApp</span>
+                                <span class="check-description">Recibí actualizaciones del estado de tus pedidos</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Guardar preferencias</button>
+                </form>
+            </section>
+
+            <!-- SECCIÓN: SEGURIDAD -->
+            <section id="seguridad" class="panel-section">
+                <div class="section-header">
+                    <div>
+                        <h2>Seguridad</h2>
+                        <p class="section-desc">Contraseña y sesiones activas</p>
+                    </div>
+                </div>
+
+                <form class="form-seguridad" id="form-seguridad">
+                    <div class="form-group">
+                        <label for="password-actual">Contraseña Actual</label>
+                        <input type="password" id="password-actual" name="password-actual" placeholder="Ingresá tu contraseña actual" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password-nueva">Nueva Contraseña</label>
+                        <input type="password" id="password-nueva" name="password-nueva" placeholder="Ingresá tu nueva contraseña" required>
+                        <small class="password-hint"><i class="fa-solid fa-circle-info"></i> Mínimo 8 caracteres, incluir mayúsculas, minúsculas y números</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="password-confirmar">Confirmar Contraseña</label>
+                        <input type="password" id="password-confirmar" name="password-confirmar" placeholder="Confirmá tu nueva contraseña" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Cambiar contraseña</button>
+                </form>
+
+                <div class="seguridad-info">
+                    <h3>Sesiones Activas</h3>
+                    <div class="sesion-item">
+                        <div class="sesion-icono"><i class="fa-solid fa-laptop"></i></div>
+                        <div class="sesion-info">
+                            <p class="sesion-dispositivo">Chrome — Windows 10</p>
+                            <p class="sesion-ubicacion">Buenos Aires, Argentina</p>
+                            <p class="sesion-fecha">Última actividad: hoy a las 14:30</p>
+                        </div>
+                        <button type="button" class="btn-small btn-ghost">Cerrar sesión</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+<!-- TOAST de confirmación -->
+<div id="toast" class="toast" aria-live="polite"></div>
+
+<!-- FOOTER -->
+<section class="footer-main">
+    <div class="footer-container">
+        <div>
             <div class="footer-logo">
-                <img src="img/logo_lineas_fondoblanco.png" alt="Prendé el Fueguito">
+                <img src="img/fuego.png" alt="Prendé el Fueguito">
                 <span>Prendé el Fueguito</span>
             </div>
-
             <div class="footer-text">
                 Tu asado perfecto.<br><br>
-                Los mejores productos para tu asado. Calidad garantizada y envío gratis en compras superiores a $10,000.
+                Los mejores productos para tu asado. Calidad garantizada y envío gratis en compras superiores a $10.000.
             </div>
-
             <div class="social-icons">
                 <i class="fa-brands fa-facebook"></i>
                 <i class="fa-brands fa-instagram"></i>
                 <i class="fa-brands fa-twitter"></i>
             </div>
-            </div>
-
-            <!-- ENLACES -->
-            <div>
+        </div>
+        <div>
             <h4>Enlaces Rápidos</h4>
             <ul>
                 <li>Productos</li>
@@ -152,10 +982,8 @@
                 <li>Promociones</li>
                 <li>Sobre Nosotros</li>
             </ul>
-            </div>
-
-            <!-- CATEGORÍAS -->
-            <div>
+        </div>
+        <div>
             <h4>Categorías</h4>
             <ul>
                 <li>Carnes Premium</li>
@@ -164,30 +992,122 @@
                 <li>Condimentos</li>
                 <li>Bebidas</li>
             </ul>
-            </div>
-
-            <!-- CONTACTO -->
-            <div>
+        </div>
+        <div>
             <h4>Contacto</h4>
             <div class="contact-item"><span>📍</span> Av. Corrientes 1234, Buenos Aires</div>
             <div class="contact-item"><span>📞</span> +54 11 1234-5678</div>
             <div class="contact-item"><span>✉️</span> info@fueguito.com</div>
-            </div>
-
         </div>
-    </section>
-    <footer class="footer-bottom">
-        <div class="footer-bottom-container">
+    </div>
+</section>
 
-            <div class="left">
-            © 2026 Prendé el Fueguito. Todos los derechos reservados.
-            </div>
-            <div class="right">
-                <a href="#">Términos y Condiciones</a>
-                <a href="#">Privacidad</a>
-                <a href="panel_admin.html">Admin</a>
-            </div>
+<footer class="footer-bottom">
+    <div class="footer-bottom-container">
+        <div class="left">© 2026 Prendé el Fueguito. Todos los derechos reservados.</div>
+        <div class="right">
+            <a href="#">Términos y Condiciones</a>
+            <a href="#">Privacidad</a>
+            <a href="panel_admin.html">Admin</a>
         </div>
-    </footer>
+    </div>
+</footer>
+
+<script>
+    // ── NAVEGACIÓN ENTRE SECCIONES ──────────────────────
+    const menuLinks    = document.querySelectorAll('.menu-link');
+    const panelSections = document.querySelectorAll('.panel-section');
+
+    menuLinks.forEach(link => {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            menuLinks.forEach(l => l.classList.remove('active'));
+            panelSections.forEach(s => s.classList.remove('active'));
+            link.classList.add('active');
+            const section = document.getElementById(link.dataset.section);
+            if (section) section.classList.add('active');
+        });
+    });
+
+    // ── TOAST ───────────────────────────────────────────
+    function mostrarToast(mensaje, tipo = 'success') {
+        const toast = document.getElementById('toast');
+        toast.textContent = mensaje;
+        toast.className = `toast toast-${tipo} toast-visible`;
+        clearTimeout(toast._timeout);
+        toast._timeout = setTimeout(() => {
+            toast.className = 'toast';
+        }, 3200);
+    }
+
+    // ── EDITAR PERFIL ───────────────────────────────────
+    const editPerfilBtn  = document.getElementById('edit-perfil');
+    const formPerfil     = document.getElementById('form-perfil');
+    const formActions    = document.getElementById('form-actions');
+    const cancelPerfilBtn = document.getElementById('cancel-perfil');
+    const inputs         = formPerfil.querySelectorAll('input');
+
+    function activarEdicion() {
+        inputs.forEach(input => {
+            if (input.type !== 'hidden') {
+                input.removeAttribute('readonly');
+                input.classList.add('editable');
+            }
+        });
+        formActions.style.display = 'flex';
+        editPerfilBtn.style.display = 'none';
+    }
+
+    function desactivarEdicion() {
+        inputs.forEach(input => {
+            if (input.type !== 'hidden') {
+                input.setAttribute('readonly', 'readonly');
+                input.classList.remove('editable');
+            }
+        });
+        formActions.style.display = 'none';
+        editPerfilBtn.style.display = 'inline-flex';
+    }
+
+    editPerfilBtn.addEventListener('click', activarEdicion);
+    cancelPerfilBtn.addEventListener('click', desactivarEdicion);
+
+    formPerfil.addEventListener('submit', e => {
+        e.preventDefault();
+        desactivarEdicion();
+        mostrarToast('✓ Cambios guardados correctamente');
+    });
+
+    // ── NOTIFICACIONES ───────────────────────────────────
+    document.getElementById('form-notificaciones').addEventListener('submit', e => {
+        e.preventDefault();
+        mostrarToast('✓ Preferencias guardadas');
+    });
+
+    // ── SEGURIDAD ────────────────────────────────────────
+    const formSeguridad = document.getElementById('form-seguridad');
+    if (formSeguridad) {
+        formSeguridad.addEventListener('submit', e => {
+            e.preventDefault();
+            const nueva     = document.getElementById('password-nueva').value;
+            const confirmar = document.getElementById('password-confirmar').value;
+            if (nueva !== confirmar) {
+                mostrarToast('Las contraseñas no coinciden', 'error');
+                return;
+            }
+            if (nueva.length < 8) {
+                mostrarToast('La contraseña debe tener al menos 8 caracteres', 'error');
+                return;
+            }
+            formSeguridad.reset();
+            mostrarToast('✓ Contraseña actualizada');
+        });
+    }
+
+    // ── AGREGAR DIRECCIÓN ────────────────────────────────
+    document.getElementById('add-direccion').addEventListener('click', () => {
+        mostrarToast('Funcionalidad en desarrollo');
+    });
+</script>
 </body>
 </html>
