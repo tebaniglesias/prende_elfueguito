@@ -6,7 +6,12 @@
   <title>Prendé el Fueguito</title>
   <link rel="stylesheet" href="styles/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
   <meta name="description" content="Tienda online de productos para asado argentino. Carnes, accesorios, carbón y más.">
+  <style>
+        .section-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; }
+    .section-title span { color: var(--primary-color); }
+  </style>
 </head>
 <body>
 
@@ -56,33 +61,39 @@
         <div class="carousel-slide active">
           <img src="img/carrousel1.jpeg" alt="Banner 1">
           <div class="carousel-overlay">
-            <div class="carousel-text">
-              <span class="badge">Novedad</span>
-              <h1>El mejor asado,<br>en tu mesa.</h1>
-              <p>Carnes premium seleccionadas y accesorios de primera.</p>
-              <a href="#productos" class="btn-primary">Ver productos</a>
+            <div class="carousel-container">
+              <div class="carousel-text">
+                <span class="badge">Novedad</span>
+                <h1>El mejor asado,<br>en tu mesa.</h1>
+                <p>Carnes premium seleccionadas y accesorios de primera.</p>
+                <a href="#productos" class="btn-primary">Ver productos</a>
+              </div>
             </div>
           </div>
         </div>
         <div class="carousel-slide">
           <img src="img/carrousel2.jpeg" alt="Banner 2">
           <div class="carousel-overlay">
-            <div class="carousel-text">
-              <span class="badge">Oferta especial</span>
-              <h1>Quebracho Premium<br>al mejor precio.</h1>
-              <p>El carbón que marca la diferencia.</p>
-              <a href="#carbon" class="btn-primary">Ver carbón</a>
+            <div class="carousel-container">
+              <div class="carousel-text">
+                <span class="badge">Oferta especial</span>
+                <h1>Quebracho Premium<br>al mejor precio.</h1>
+                <p>El carbón que marca la diferencia.</p>
+                <a href="#carbon" class="btn-primary">Ver carbón</a>
+              </div>
             </div>
           </div>
         </div>
         <div class="carousel-slide">
           <img src="img/carrousel3.jpeg" alt="Banner 3">
           <div class="carousel-overlay">
-            <div class="carousel-text">
-              <span class="badge">Delivery express</span>
-              <h1>Picadas &amp; vinos<br>para compartir.</h1>
-              <p>Salames artesanales, quesos y los mejores vinos.</p>
-              <a href="#picadas" class="btn-primary">Armar picada</a>
+            <div class="carousel-container">
+              <div class="carousel-text">
+                <span class="badge">Delivery express</span>
+                <h1>Picadas &amp; vinos<br>para compartir.</h1>
+                <p>Salames artesanales, quesos y los mejores vinos.</p>
+                <a href="#picadas" class="btn-primary">Armar picada</a>
+              </div>
             </div>
           </div>
         </div>
@@ -119,10 +130,6 @@
     <!-- FILTROS -->
     <section id="filters">
       <div class="filters-desktop">
-        <div class="buscador">
-          <input type="text" placeholder="Buscar productos...">
-          <button type="button">🔍</button>
-        </div>
         <nav class="filters-nav">
           <ul>
             <li><a href="#todos" class="active">Todos</a></li>
@@ -136,16 +143,27 @@
         </nav>
       </div>
       <div class="filters-mobile">
-        <div class="buscador">
-          <input type="text" placeholder="Buscar...">
+        <div class="filtros-dropdown-wrapper">
+          <button class="btn-filtros-dropdown" type="button" id="btnFiltrosMobile">
+            <span id="filtroSeleccionado">Todos</span>
+            <i class="fa-solid fa-chevron-down chevron-icon"></i>
+          </button>
+          <ul class="filtros-dropdown-menu" id="filtrosDropdownMenu">
+            <li><a href="#todos" class="filtro-option active" data-label="Todos">Todos</a></li>
+            <li><a href="#carnes" class="filtro-option" data-label="Carnes">Carnes</a></li>
+            <li><a href="#carbon" class="filtro-option" data-label="Carbón">Carbón</a></li>
+            <li><a href="#picadas" class="filtro-option" data-label="Picadas">Picadas</a></li>
+            <li><a href="#accesorios" class="filtro-option" data-label="Accesorios">Accesorios</a></li>
+            <li><a href="#condimentos" class="filtro-option" data-label="Condimentos">Condimentos</a></li>
+            <li><a href="#bebidas" class="filtro-option" data-label="Bebidas">Bebidas</a></li>
+          </ul>
         </div>
-        <button class="btn-filtros" type="button">☰</button>
       </div>
     </section>
 
     <!-- PRODUCTOS -->
     <section id="productos">
-      <h2>Nuestros Productos</h2>
+      <h2 class="section-title">Nuestros <span>Productos</span></h2>
       <div class="productos-grid">
         <a href="articulo.html">
           <article class="producto-card">
@@ -343,6 +361,32 @@
     function iniciarAutoplay() {
       return setInterval(() => mostrarSlide(slideActual + 1), 5000);
     }
+
+    // Dropdown filtros mobile
+    const btnFiltros = document.getElementById('btnFiltrosMobile');
+    const menuFiltros = document.getElementById('filtrosDropdownMenu');
+    const labelFiltro = document.getElementById('filtroSeleccionado');
+
+    btnFiltros.addEventListener('click', function (e) {
+      e.stopPropagation();
+      menuFiltros.classList.toggle('open');
+      btnFiltros.classList.toggle('abierto');
+    });
+
+    document.querySelectorAll('.filtro-option').forEach(function (link) {
+      link.addEventListener('click', function () {
+        document.querySelectorAll('.filtro-option').forEach(function (l) { l.classList.remove('active'); });
+        link.classList.add('active');
+        labelFiltro.textContent = link.dataset.label;
+        menuFiltros.classList.remove('open');
+        btnFiltros.classList.remove('abierto');
+      });
+    });
+
+    document.addEventListener('click', function () {
+      menuFiltros.classList.remove('open');
+      btnFiltros.classList.remove('abierto');
+    });
   </script>
 </body>
 </html>
