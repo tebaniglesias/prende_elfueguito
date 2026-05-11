@@ -1265,3 +1265,12 @@ textarea { resize: vertical; }
       .info-badges .badge-item:nth-child(4) { display: none; }
     }
 
+    @media (max-width: 400px) {
+      .productos-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .badge-item p { display: none; };
+    }
