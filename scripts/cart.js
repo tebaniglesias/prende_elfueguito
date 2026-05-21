@@ -238,6 +238,7 @@ function renderizarResumenCheckout() {
   const elTotal    = document.getElementById('checkout-total');
   const filaDesc   = document.getElementById('checkout-fila-descuento');
   const elDesc     = document.getElementById('checkout-descuento');
+  const elCupon    = document.getElementById('checkout-cupon');
 
   if (elSubtotal) elSubtotal.textContent = formatPrecio(subtotal);
   if (elEnvio)    elEnvio.textContent    = envio === 0 ? 'Gratis' : formatPrecio(envio);
@@ -246,6 +247,9 @@ function renderizarResumenCheckout() {
   if (filaDesc && elDesc) {
     filaDesc.style.display = descuento > 0 ? 'flex' : 'none';
     elDesc.textContent     = `−${formatPrecio(descuento)}`;
+  }
+  if (elCupon) {
+    elCupon.textContent = `(${localStorage.getItem(DISCOUNT_KEY) ? JSON.parse(localStorage.getItem(DISCOUNT_KEY)).codigo : ''})`;
   }
 }
 
