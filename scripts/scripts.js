@@ -29,3 +29,10 @@
             toast.className = 'toast';
         }, 3200);
     }
+
+    // ── NOTIFICACIONES ───────────────────────────────────
+    document.getElementById('form-notificaciones').addEventListener('submit', e => {
+        e.preventDefault();
+        mostrarToast('✓ Preferencias guardadas');
+    });
+
