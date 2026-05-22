@@ -38,10 +38,10 @@
           <i class="fa-regular fa-circle-question"></i>
           <span>Ayuda</span>
         </a>
-        <a href="login.html">
-          <i class="fa-regular fa-user"></i>
-          <span>Mi cuenta</span>
-        </a>
+        <a href="#" id="btn-mi-cuenta">
+            <i class="fa-regular fa-user"></i>
+            <span>Mi cuenta</span>
+          </a>
         <a href="carrito.html" class="carrito-wrapper">
           <i class="fa-solid fa-cart-shopping"></i>
           <span>Mi carrito</span>
@@ -121,39 +121,31 @@
             </div>
         </div>
 
-        <!-- DERECHA: RESUMEN -->
+        <!-- DERECHA: RESUMEN — poblado dinámicamente por cart.js -->
         <aside class="checkout-resumen">
             <h2>Tu Pedido</h2>
 
+            <div id="checkout-items"></div>
+
+            <div class="resumen-divisor"></div>
+
             <div class="resumen-item">
-                <span>Costillas de Cerdo x 1</span>
-                <span>$5.800</span>
-            </div>
-            <div class="resumen-item">
-                <span>Asado x 2</span>
-                <span>$10.800</span>
-            </div>
-            <div class="resumen-item">
-                <span>Vacío x 1</span>
-                <span>$15.840</span>
-            </div>
-            <div class="resumen-item">
-                <span>Vino Tinto x 1</span>
-                <span>$7.200</span>
-            </div>
-            
-            <div class="resumen-divisor"></div> <div class="resumen-item">
                 <span>Subtotal</span>
-                <span>$39.640</span>
+                <span id="checkout-subtotal">$0</span>
+            </div>
+            <div class="resumen-item" id="checkout-fila-descuento" style="display:none">
+                <span>Descuento</span>
+                <span id="checkout-cupon" style="color:#28a745; font-weight:600;"></span>
+                <span id="checkout-descuento" style="color:#28a745; font-weight:600;"></span>
             </div>
             <div class="resumen-item">
                 <span>Envío</span>
-                <span style="color: #28a745; font-weight: 600;">Gratis</span>
+                <span id="checkout-envio" style="color:#28a745; font-weight:600;">Gratis</span>
             </div>
 
             <div class="resumen-total">
                 <span>Total</span>
-                <span class="total-precio">$39.640</span>
+                <span class="total-precio" id="checkout-total">$0</span>
             </div>
         </aside>
 
@@ -242,6 +234,7 @@
 
     <script>
     function mostrarModalConfirmacion() {
+        vaciarCarrito(); // limpia LocalStorage al confirmar el pedido
         document.getElementById('modal-confirmacion').style.display = 'flex';
         setTimeout(function() {
             window.location.href = 'index.html';
@@ -255,5 +248,11 @@
         document.documentElement.style.setProperty('--header-height', h + 'px');
     }
     </script>
+    <script src="scripts/cart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="scripts/supabase-config.js"></script>
+    <script src="scripts/auth.js"></script>
+    <script src="scripts/login-controller.js"></script>
+    <script src="scripts/scripts.js"></script>
 </body>
 </html>

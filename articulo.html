@@ -37,10 +37,10 @@
           <i class="fa-regular fa-circle-question"></i>
           <span>Ayuda</span>
         </a>
-        <a href="login.html">
-          <i class="fa-regular fa-user"></i>
-          <span>Mi cuenta</span>
-        </a>
+        <a href="#" id="btn-mi-cuenta">
+            <i class="fa-regular fa-user"></i>
+            <span>Mi cuenta</span>
+          </a>
         <a href="carrito.html" class="carrito-wrapper">
           <i class="fa-solid fa-cart-shopping"></i>
           <span>Mi carrito</span>
@@ -80,10 +80,15 @@
                     <input type="number" id="cantidad" name="cantidad" min="1" value="1">
                 </div>
 
-                <a href="carrito.html" class="btn-agregar-carrito">
+                <button class="btn-agregar-carrito"
+                    data-id="bife-de-chorizo"
+                    data-nombre="Bife de Chorizo"
+                    data-precio="12990"
+                    data-unidad="kg"
+                    data-imagen="img/carne.jpg">
                     <i class="fa-solid fa-cart-shopping"></i>
                     Agregar al Carrito
-                </a>
+                </button>
             </div>
         </section>
 
@@ -225,5 +230,11 @@
             </div>
         </div>
     </footer>
+    <script src="scripts/cart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="scripts/supabase-config.js"></script>
+    <script src="scripts/auth.js"></script>
+    <script src="scripts/login-controller.js"></script>
+    <script src="scripts/scripts.js"></script>
 </body>
 </html>

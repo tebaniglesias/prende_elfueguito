@@ -36,10 +36,10 @@
           <i class="fa-regular fa-circle-question"></i>
           <span>Ayuda</span>
         </a>
-        <a href="login.html">
-          <i class="fa-regular fa-user"></i>
-          <span>Mi cuenta</span>
-        </a>
+        <a href="#" id="btn-mi-cuenta">
+            <i class="fa-regular fa-user"></i>
+            <span>Mi cuenta</span>
+          </a>
         <a href="carrito.html" class="carrito-wrapper">
           <i class="fa-solid fa-cart-shopping"></i>
           <span>Mi carrito</span>
@@ -56,7 +56,7 @@
             <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Seguir comprando</a>
                 <div class="carrito-titulo">
                     <h1>Tu Carrito</h1>
-                    <span class="carrito-cantidad">6 productos</span>
+                    <span class="carrito-cantidad"></span>
                 </div>
         </div>
 
@@ -67,121 +67,8 @@
                     
 
 
-                <!-- Lista de items -->
-                <div class="carrito-items">
-
-                    <div class="carrito-item">
-                        <img src="img/carne.jpg" alt="Vacío">
-                        <div class="item-info">
-                            <p class="item-nombre">Vacío</p>
-                            <p class="item-unidad">kg</p>
-                            <p class="item-precio">$7.200</p>
-                        </div>
-                        <div class="item-controles">
-                            <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
-                            <div class="cantidad-control">
-                                <button class="btn-menos">−</button>
-                                <span>1</span>
-                                <button class="btn-mas">+</button>
-                            </div>
-                            <p class="item-subtotal">$7.200</p>
-                        </div>
-                    </div>
-
-                    <div class="carrito-item">
-                        <img src="img/chori.jpg" alt="Costillas de Cerdo">
-                        <div class="item-info">
-                            <p class="item-nombre">Costillas de Cerdo</p>
-                            <p class="item-unidad">kg</p>
-                            <p class="item-precio">$5.800</p>
-                        </div>
-                        <div class="item-controles">
-                            <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
-                            <div class="cantidad-control">
-                                <button class="btn-menos">−</button>
-                                <span>1</span>
-                                <button class="btn-mas">+</button>
-                            </div>
-                            <p class="item-subtotal">$5.800</p>
-                        </div>
-                    </div>
-
-
-                    <div class="carrito-item">
-                        <img src="img/carne.jpg" alt="Vacío">
-                        <div class="item-info">
-                            <p class="item-nombre">Vacío</p>
-                            <p class="item-unidad">kg</p>
-                            <p class="item-precio">$7.200</p>
-                        </div>
-                        <div class="item-controles">
-                            <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
-                            <div class="cantidad-control">
-                                <button class="btn-menos">−</button>
-                                <span>1</span>
-                                <button class="btn-mas">+</button>
-                            </div>
-                            <p class="item-subtotal">$7.200</p>
-                        </div>
-                    </div>
-
-                    <div class="carrito-item">
-                        <img src="img/chori.jpg" alt="Costillas de Cerdo">
-                        <div class="item-info">
-                            <p class="item-nombre">Costillas de Cerdo</p>
-                            <p class="item-unidad">kg</p>
-                            <p class="item-precio">$5.800</p>
-                        </div>
-                        <div class="item-controles">
-                            <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
-                            <div class="cantidad-control">
-                                <button class="btn-menos">−</button>
-                                <span>1</span>
-                                <button class="btn-mas">+</button>
-                            </div>
-                            <p class="item-subtotal">$5.800</p>
-                        </div>
-                    </div>
-
-    
-
-                    <div class="carrito-item">
-                        <img src="img/carne.jpg" alt="Vacío">
-                        <div class="item-info">
-                            <p class="item-nombre">Vacío</p>
-                            <p class="item-unidad">kg</p>
-                            <p class="item-precio">$7.200</p>
-                        </div>
-                        <div class="item-controles">
-                            <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
-                            <div class="cantidad-control">
-                                <button class="btn-menos">−</button>
-                                <span>1</span>
-                                <button class="btn-mas">+</button>
-                            </div>
-                            <p class="item-subtotal">$7.200</p>
-                        </div>
-                    </div>
-
-                    <div class="carrito-item">
-                        <img src="img/chori.jpg" alt="Costillas de Cerdo">
-                        <div class="item-info">
-                            <p class="item-nombre">Costillas de Cerdo</p>
-                            <p class="item-unidad">kg</p>
-                            <p class="item-precio">$5.800</p>
-                        </div>
-                        <div class="item-controles">
-                            <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
-                            <div class="cantidad-control">
-                                <button class="btn-menos">−</button>
-                                <span>1</span>
-                                <button class="btn-mas">+</button>
-                            </div>
-                            <p class="item-subtotal">$5.800</p>
-                        </div>
-                    </div>
-
-                </div>
+                <!-- Lista de items — generada dinámicamente por cart.js -->
+                <div class="carrito-items" id="carrito-items"></div>
             </div>
 
             <!-- COLUMNA DERECHA: resumen -->
@@ -194,29 +81,34 @@
                         <input type="text" placeholder="CÓDIGO">
                         <button class="btn-aplicar">Aplicar</button>
                     </div>
+                    <p id="cupon-msg"></p>
                 </div>
 
                 <div class="resumen-lineas">
                     <div class="resumen-linea">
                         <span>Subtotal</span>
-                        <span>$13.000</span>
+                        <span id="resumen-subtotal">$0</span>
+                    </div>
+                    <div class="resumen-linea" id="fila-descuento" style="display:none">
+                        <span>Descuento</span>
+                        <span id="resumen-descuento" style="color:#2D7A1F; font-weight:700;"></span>
                     </div>
                     <div class="resumen-linea">
                         <span>Envío</span>
-                        <span class="envio-gratis">Gratis</span>
+                        <span id="resumen-envio" class="envio-gratis">Gratis</span>
                     </div>
                 </div>
 
                 <div class="resumen-total">
                     <span>Total</span>
-                    <span class="total-monto">$13.000</span>
+                    <span class="total-monto" id="resumen-total">$0</span>
                 </div>
 
                 <a href="checkout.html">
                     <button class="btn-finalizar">Finalizar Compra</button>
                 </a>
 
-                <p class="resumen-nota">Envío gratis en compras superiores a $10,000</p>
+                <p class="resumen-nota">Envío gratis en compras superiores a $10.000</p>
             </aside>
 
         </div>
@@ -277,6 +169,11 @@
             </div>
         </div>
     </footer>
-
+    <script src="scripts/cart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="scripts/supabase-config.js"></script>
+    <script src="scripts/auth.js"></script>
+    <script src="scripts/login-controller.js"></script>
+    <script src="scripts/scripts.js"></script>
 </body>
 </html>
