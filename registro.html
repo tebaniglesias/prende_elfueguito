@@ -78,6 +78,10 @@
             <p><a href="index.html">Volver a la Tienda</a></p>
         </form>
      </section>
+
+     <!-- TOAST de confirmación -->
+        <div id="toast" class="toast" aria-live="polite"></div>
+        
         <section class="footer-main">
         <div class="footer-container">
 
@@ -164,7 +168,7 @@
         const password = document.getElementById('reg-password').value;
 
         if (password.length < 6) {
-            toast('La contraseña debe tener al menos 6 caracteres.', 'error');
+            mostrarToast('La contraseña debe tener al menos 6 caracteres.', 'error');
             return;
         }
 

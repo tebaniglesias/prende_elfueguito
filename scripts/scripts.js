@@ -18,6 +18,7 @@
 
 
 
+
     // ── TOAST ───────────────────────────────────────────
     function mostrarToast(mensaje, tipo = 'success') {
         const toast = document.getElementById('toast');

@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Validación rápida local para cumplir con los mínimos de seguridad de Supabase
             if (password.length < 6) {
-                toast('La contraseña debe tener al menos 6 caracteres.', 'error');
+                mostrarToast('La contraseña debe tener al menos 6 caracteres.', 'error');
                 return;
             }
 
