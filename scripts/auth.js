@@ -17,10 +17,10 @@ async function registrarCliente(email, password, nombreCompleto) {
 
     if (error) throw error;
 
-    toast('¡Registro exitoso! Ya podés iniciar sesión.', 'success');
+    mostrarToast('¡Registro exitoso! Ya podés iniciar sesión.', 'success');
     return data.user;
   } catch (error) {
-    toast(`Error al registrar: ${error.message}`, 'error');
+    mostrarToast(`Error al registrar: ${error.message}`, 'error');
     return null;
   }
 }
@@ -37,10 +37,10 @@ async function iniciarSesionCliente(email, password) {
 
     if (error) throw error;
 
-    toast('¡Bienvenido a Prendé el Fueguito!', 'success');
+    mostrarToast('¡Bienvenido a Prendé el Fueguito!', 'success');
     return data.user;
   } catch (error) {
-    toast(`Error de ingreso: ${error.message}`, 'error');
+    mostrarToast(`Error de ingreso: ${error.message}`, 'error');
     return null;
   }
 }
@@ -53,10 +53,10 @@ async function cerrarSesionCliente() {
     const { error } = await supabaseClient.auth.signOut();
     if (error) throw error;
 
-    toast('Sesión cerrada correctamente', 'success');
+    mostrarToast('Sesión cerrada correctamente', 'success');
     window.location.reload(); // Recargamos para limpiar la UI
   } catch (error) {
-    toast('Error al cerrar sesión', 'error');
+    mostrarToast('Error al cerrar sesión', 'error');
   }
 }
 
@@ -81,10 +81,23 @@ async function enviarEnlaceRecuperacion(email) {
 
     if (error) throw error;
 
-    toast('¡Enlace enviado! Revisá tu casilla de correo (y la carpeta de spam).', 'success');
+    mostrarToast('¡Enlace enviado! Revisá tu casilla de correo (y la carpeta de spam).', 'success');
     return true;
   } catch (error) {
-    toast(`Error: ${error.message}`, 'error');
+    mostrarToast(`Error: ${error.message}`, 'error');
     return false;
+  }
+}
+
+/**
+ * 6. PROTEGER RUTAS DE ADMIN
+ * Llamar al inicio de panel_admin.html
+ * Redirige a index.html si no hay sesión o si el rol no es admin
+ */
+async function verificarAdmin() {
+  const { data: { user } } = await supabaseClient.auth.getUser();
+
+  if (!user || user.user_metadata?.role !== 'admin') {
+    window.location.href = 'index.html';
   }
 }

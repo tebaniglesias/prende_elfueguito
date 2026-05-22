@@ -624,7 +624,7 @@
 
     <!-- CONTENIDO -->
     <div class="panel-content">
-      <section class="panel-section">
+      <section class="panel-section active">
 
         <div class="section-header">
           <div>
@@ -800,7 +800,14 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="scripts/supabase-config.js"></script>
+<script src="scripts/auth.js"></script>
+<script src="scripts/cart.js"></script>
+<script src="scripts/scripts.js"></script>
+
 <script>
+  verificarAdmin(); // 👈 esto va primero, antes de todo lo demás
   /* ─── DATA ─── */
   let productos = [
     { id: 1, nombre: 'Chimichurri Clásico 250g',    categoria: 'Salsas',   precio: 2800, stock: 48, estado: 'activo'    },
@@ -971,24 +978,17 @@
     mostrarToast('✓ Producto eliminado.');
   }
 
-  /* ─── TOAST ─── */
-  function mostrarToast(mensaje, tipo = 'success') {
-    const toast = document.getElementById('toast');
-    toast.textContent = mensaje;
-    toast.className = `toast toast-${tipo} toast-visible`;
-    clearTimeout(toast._timeout);
-    toast._timeout = setTimeout(() => { toast.className = 'toast'; }, 3200);
-  }
-
   /* ─── CERRAR MODAL AL CLICK EN OVERLAY ─── */
   document.getElementById('modal-producto').addEventListener('click', function(e) {
     if (e.target === this) cerrarModal();
   });
 
-  /* ─── INIT ─── */
+ /* ─── INIT ─── */
+document.addEventListener('DOMContentLoaded', () => {
   renderTabla(productos);
   actualizarBadge();
   document.getElementById('product-count').textContent = `${productos.length} productos`;
+});
 </script>
 </body>
 </html>
