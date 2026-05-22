@@ -116,3 +116,9 @@ window.addEventListener('load', () => {
         console.warn("⚠️ Advertencia: No se encontró el botón con id 'btn-cerrarsesion' en esta página.");
     }
 }); 
+    // ── NOTIFICACIONES ───────────────────────────────────
+    document.getElementById('form-notificaciones').addEventListener('submit', e => {
+        e.preventDefault();
+        mostrarToast('✓ Preferencias guardadas');
+    });
+
