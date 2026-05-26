@@ -25,13 +25,19 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 // Llamamos a la función global alojada en auth.js
                 const usuario = await iniciarSesionCliente(email, password);
-
+                const { data: { user } } = await supabaseClient.auth.getUser();
                 if (usuario) {
                     // Redirigimos al panel de usuario tras un breve delay para que se lea el toast
-                    setTimeout(() => {
-                        window.location.href = 'panel_usuario.html';
-                    }, 1500);
-                }
+                        if (!user || user.user_metadata?.role == 'admin') {
+                            setTimeout(() => {
+                            window.location.href = 'panel_admin.html';
+                        }, 1500);
+                    } else {
+                        setTimeout(() => {
+                            window.location.href = 'panel_usuario.html';
+                        }, 1500);
+                    }
+}
             } catch (error) {
                 console.error("Error en el inicio de sesión:", error);
                 if (typeof mostrarToast === 'function') {
