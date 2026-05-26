@@ -117,8 +117,8 @@ window.addEventListener('load', () => {
     }
 }); 
     // ── NOTIFICACIONES ───────────────────────────────────
-    document.getElementById('form-notificaciones').addEventListener('submit', e => {
-        e.preventDefault();
-        mostrarToast('✓ Preferencias guardadas');
-    });
+   // document.getElementById('form-notificaciones').addEventListener('submit', e => {
+   //     e.preventDefault();
+ //       mostrarToast('✓ Preferencias guardadas');
+  //  });
 
