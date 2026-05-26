@@ -117,7 +117,7 @@
                     <textarea placeholder="Indicaciones especiales para el envío..." rows="3"></textarea>
                 </div>
 
-                <button class="btn-finalizar" onclick="mostrarModalConfirmacion()">Confirmar Pedido</button>
+                <button class="btn-finalizar" id="btn-finalizar" >Confirmar Pedido</button>
             </div>
         </div>
 
@@ -233,13 +233,7 @@
     </div>
 
     <script>
-    function mostrarModalConfirmacion() {
-        vaciarCarrito(); // limpia LocalStorage al confirmar el pedido
-        document.getElementById('modal-confirmacion').style.display = 'flex';
-        setTimeout(function() {
-            window.location.href = 'index.html';
-        }, 5000);
-    }
+    
 
     function actualizarAlturaHeader() {
         const header = document.querySelector('.header');

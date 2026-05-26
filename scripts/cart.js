@@ -447,6 +447,26 @@ function iniciarListenerArticulo() {
   });
 }
 
+  // A VER SI SALE EL CHECKOUT
+  function mostrarModalConfirmacion() {
+         
+        document.getElementById('modal-confirmacion').style.display = 'flex';
+        setTimeout(function() {
+            window.location.href = 'index.html';
+        }, 5000);
+    }
+
+  function finalizarPedido() {
+  const btn = document.getElementById('btn-finalizar');
+  if (!btn) return;
+
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    mostrarModalConfirmacion();
+    vaciarCarrito();// limpia LocalStorage al confirmar el pedido
+    });
+  }
+    
 
 // ─── PASO 14: INICIALIZACIÓN AUTOMÁTICA ─────────────────────
 //
@@ -494,6 +514,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+
+
   // index.html: escuchar los botones "Agregar"
   if (document.querySelectorAll('.btn-agregar').length > 0) {
     iniciarListenersProductos();
@@ -507,6 +529,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // checkout.html: renderizar resumen desde LocalStorage
   if (document.getElementById('checkout-items')) {
     renderizarResumenCheckout();
+    finalizarPedido();
   }
 
 });
