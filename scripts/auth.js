@@ -102,7 +102,7 @@ async function verificarAdmin() {
     window.location.href = 'index.html';
   }
 // scripts/auth.js
-
+}
 /**
  * 1. REGISTRAR UN NUEVO CLIENTE
  */
