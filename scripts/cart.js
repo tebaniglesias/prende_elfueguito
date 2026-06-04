@@ -54,6 +54,8 @@ function guardarCarrito(carrito) {
 //  Después guardamos y actualizamos el badge del header.
 //
 function agregarAlCarrito(producto) {
+  producto.id = parseInt(producto.id);
+  
   const carrito   = obtenerCarrito();
   const existente = carrito.find(item => item.id === producto.id);
 
@@ -222,7 +224,6 @@ function vaciarCarrito() {
   localStorage.removeItem(STORAGE_KEY);
   localStorage.removeItem(DISCOUNT_KEY);
   descuentoActual = 0;
-  actualizarResumen(carrito);
   actualizarBadge();
 }
 

@@ -52,43 +52,32 @@
     <main>
         <section id="detalle-producto">
             <div class="imagen-principal">
-                <img src="img/carne.jpg" alt="Bife de Chorizo">
-                <span class="categoria">Carnes</span>
+                <img id="det-imagen" src="" alt="Cargando producto...">
+                <span class="categoria" id="det-categoria">─</span>
             </div>
             
             <div class="info-producto">
-                <h1>Bife de Chorizo</h1>
+                <h1 id="det-nombre">Cargando...</h1>
                 
                 <div class="precio-container">
-                    <span class="precio">$12.990</span>
-                    <span class="unidad-medida">x kg</span>
+                    <span class="precio" id="det-precio">$0</span>
+                    <span class="unidad-medida" id="det-unidad"></span>
                 </div>
                 
                 <h2>Descripción</h2>
-                <p class="descripcion">Corte premium de carne vacuna seleccionada de la mejor calidad. Ideal para tu asado perfecto. Carne jugosa y tierna, perfecta para compartir en familia.</p>
+                <p class="descripcion" id="det-descripcion">Cargando especificaciones del producto...</p>
                 
                 <div class="caracteristicas-producto">
-                    <ul>
-                        <li><i class="fa-solid fa-star"></i> Corte premium</li>
-                        <li><i class="fa-solid fa-leaf"></i> Fresco del día</li>
-                        <li><i class="fa-solid fa-bag-shopping"></i> Embalaje al vacío</li>
-                    </ul>
+                    <ul id="det-caracteristicas">
+                        </ul>
                 </div>
 
                 <div class="cantidad-container">
-                    <label for="cantidad">Cantidad (kg):</label>
+                    <label for="cantidad">Cantidad:</label>
                     <input type="number" id="cantidad" name="cantidad" min="1" value="1">
                 </div>
 
-                <button class="btn-agregar-carrito"
-                    data-id="bife-de-chorizo"
-                    data-nombre="Bife de Chorizo"
-                    data-precio="12990"
-                    data-unidad="kg"
-                    data-imagen="img/carne.jpg">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    Agregar al Carrito
-                </button>
+                <div id="wrapper-btn-agregar"></div>
             </div>
         </section>
 
@@ -226,7 +215,7 @@
             <div class="right">
                 <a href="#">Términos y Condiciones</a>
                 <a href="#">Privacidad</a>
-                <a href="panel_admin/index.html">Admin</a>
+                <a href="panel_admin.html">Admin</a>
             </div>
         </div>
     </footer>
@@ -236,5 +225,6 @@
     <script src="scripts/auth.js"></script>
     <script src="scripts/login-controller.js"></script>
     <script src="scripts/scripts.js"></script>
+    <script src="scripts/articulo-detalle.js"></script>
 </body>
 </html>
