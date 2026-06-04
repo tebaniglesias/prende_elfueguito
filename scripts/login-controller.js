@@ -22,31 +22,18 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.textContent = 'Ingresando...';
             btn.disabled = true;
 
-            try {
-                // Llamamos a la función global alojada en auth.js
-                const usuario = await iniciarSesionCliente(email, password);
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                if (usuario) {
-                    // Redirigimos al panel de usuario tras un breve delay para que se lea el toast
-                        if (!user || user.user_metadata?.role == 'admin') {
-                            setTimeout(() => {
-                            window.location.href = 'panel_admin.html';
-                        }, 1500);
-                    } else {
-                        setTimeout(() => {
-                            window.location.href = 'panel_usuario.html';
-                        }, 1500);
-                    }
-}
-            } catch (error) {
-                console.error("Error en el inicio de sesión:", error);
-                if (typeof mostrarToast === 'function') {
-                    mostrarToast('Ocurrió un error inesperado al intentar ingresar.', 'error');
-                }
-            } finally {
-                // Restauramos el botón siempre, funcione o falle la petición
-                btn.textContent = txtOriginal;
-                btn.disabled = false;
+            // Llamamos a la función global alojada en auth.js
+            const usuario = await iniciarSesionCliente(email, password);
+
+            // Restauramos el botón
+            btn.textContent = txtOriginal;
+            btn.disabled = false;
+
+            if (usuario) {
+                // Redirigimos al panel de usuario tras un breve delay para que se lea el toast
+                setTimeout(() => {
+                    window.location.href = 'panel_usuario.html';
+                }, 1500);
             }
         });
     }
@@ -64,9 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Validación rápida local para cumplir con los mínimos de seguridad de Supabase
             if (password.length < 6) {
-                if (typeof mostrarToast === 'function') {
-                    mostrarToast('La contraseña debe tener al menos 6 caracteres.', 'error');
-                }
+                mostrarToast('La contraseña debe tener al menos 6 caracteres.', 'error');
                 return;
             }
 
@@ -76,23 +61,16 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.textContent = 'Creando cuenta...';
             btn.disabled = true;
 
-            try {
-                // Registramos en Supabase Auth
-                const usuario = await registrarCliente(email, password, nombre);
+            // Registramos en Supabase Auth
+            const usuario = await registrarCliente(email, password, nombre);
 
-                if (usuario) {
-                    formRegistro.reset(); // Limpiamos los inputs
-                    // Opcional: Si querés mandarlo al login directo tras registrarse, descomentá abajo:
-                    // setTimeout(() => { window.location.href = 'login.html'; }, 2000);
-                }
-            } catch (error) {
-                console.error("Error en el registro:", error);
-                if (typeof mostrarToast === 'function') {
-                    mostrarToast('No se pudo crear la cuenta. Inténtalo de nuevo.', 'error');
-                }
-            } finally {
-                btn.textContent = txtOriginal;
-                btn.disabled = false;
+            btn.textContent = txtOriginal;
+            btn.disabled = false;
+
+            if (usuario) {
+                formRegistro.reset(); // Limpiamos los inputs
+                // Opcional: Si querés mandarlo al login directo tras registrarse, descomentá abajo:
+                // setTimeout(() => { window.location.href = 'login.html'; }, 2000);
             }
         });
     }
@@ -112,21 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.textContent = 'Enviando enlace...';
             btn.disabled = true;
 
-            try {
-                // Solicitamos el mail de reajuste a Supabase Auth
-                const exito = await enviarEnlaceRecuperacion(email);
+            // Solicitamos el mail de reajuste a Supabase Auth
+            const exito = await enviarEnlaceRecuperacion(email);
 
-                if (exito) {
-                    formRecuperar.reset(); // Limpiamos el input si se mandó bien
-                }
-            } catch (error) {
-                console.error("Error en recuperación:", error);
-                if (typeof mostrarToast === 'function') {
-                    mostrarToast('Error al enviar el enlace de recuperación.', 'error');
-                }
-            } finally {
-                btn.textContent = txtOriginal;
-                btn.disabled = false;
+            btn.textContent = txtOriginal;
+            btn.disabled = false;
+
+            if (exito) {
+                formRecuperar.reset(); // Limpiamos el input si se mandó bien
             }
         });
     }

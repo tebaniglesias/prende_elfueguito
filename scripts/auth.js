@@ -101,5 +101,4 @@ async function verificarAdmin() {
   if (!user || user.user_metadata?.role !== 'admin') {
     window.location.href = 'index.html';
   }
-// scripts/auth.js
 }

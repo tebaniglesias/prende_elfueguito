@@ -216,6 +216,7 @@ function mostrarModalConfirmacion() {
     }, 5000);
 }
 
+
 document.addEventListener('DOMContentLoaded', async () => {
 
   renderArticulos(await obtenerProductos());

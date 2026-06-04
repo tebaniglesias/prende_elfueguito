@@ -222,6 +222,7 @@ function vaciarCarrito() {
   localStorage.removeItem(STORAGE_KEY);
   localStorage.removeItem(DISCOUNT_KEY);
   descuentoActual = 0;
+  actualizarResumen(carrito);
   actualizarBadge();
 }
 
