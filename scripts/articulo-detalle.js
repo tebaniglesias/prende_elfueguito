@@ -1,17 +1,16 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Capturamos el ID que viene en la URL de la barra de navegación (ej: ?id=3)
+    // 1. Capturamos el ID que viene en la URL
     const params = new URLSearchParams(window.location.search);
     const productoId = parseInt(params.get('id'));
 
-    // Si no hay ID en la URL, cortamos la ejecución o redirigimos al index
+    // 🔴 VALIDACIÓN PRIMERO: Si no hay ID válido, cortamos y volvemos al index
     if (!productoId || isNaN(productoId)) {
         console.error("ID de producto no válido en la URL.");
         window.location.href = 'index.html';
         return;
     }
 
-    // 2. Armamos la URL para pedirle a Supabase un único producto filtrado por ID
-    // Usamos select=*,categoria_producto(nombre) para traernos el string real de la categoría asociada
+    // 2. Armamos la URL para pedirle a Supabase el producto principal
     const url = `${SUPABASE_URL}/rest/v1/producto?id=eq.${productoId}&select=*,categoria_producto(nombre)`;
 
     try {
@@ -87,8 +86,68 @@ document.addEventListener('DOMContentLoaded', async () => {
             iniciarListenerArticulo();
         }
 
+        // 🔴 6. LLAMADO DE RELACIONADOS: Ahora que 'producto' existe de forma segura,
+        // ejecutamos la función pasándole sus atributos reales
+        await cargarProductosRelacionados(producto.categoria_id, producto.id);
+
     } catch (error) {
         console.error('Error en articulo-detalle.js:', error);
         document.getElementById('det-nombre').textContent = 'Producto no encontrado';
     }
 });
+
+
+async function cargarProductosRelacionados(categoriaId, productoIdActual) {
+    const gridRelacionados = document.getElementById('relacionados-grid');
+    if (!gridRelacionados) return;
+
+    // 1. Petición filtrada a Supabase (mismo categoria_id, distinto id actual, máximo 4)
+    const url = `${SUPABASE_URL}/rest/v1/producto?categoria_id=eq.${categoriaId}&id=neq.${productoIdActual}&limit=4&select=*,categoria_producto(nombre)`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) throw new Error('Error al traer productos relacionados');
+
+        const relacionados = await response.json();
+
+        // Si es el único producto de la categoría, ocultamos la sección para que no quede vacía
+        if (relacionados.length === 0) {
+            const seccionRelacionados = document.getElementById('productos-relacionados');
+            if (seccionRelacionados) seccionRelacionados.style.display = 'none';
+            return;
+        }
+
+        // 2. Mapeamos el array inyectando exactamente tu estructura CSS
+        gridRelacionados.innerHTML = relacionados.map(p => `
+            <a href="articulo.html?id=${p.id}" style="text-decoration: none; color: inherit;">
+                <article class="producto-card">
+                    <div class="producto-imagen">
+                        <img src="${p.imagen_ppal || `img/placeholder_${p.categoria_producto?.nombre}.png`}" alt="${p.nombre}">
+                        <span class="categoria">${p.categoria_producto?.nombre || 'General'}</span>
+                    </div>
+                    <div class="producto-info">
+                        <h3>${p.nombre}</h3>
+                        <div class="producto-footer">
+                            <div class="precio-wrapper">
+                                <span class="precio">${typeof formatPrecio === 'function' ? formatPrecio(p.precio) : '$' + p.precio}</span>
+                                <span class="unidad-medida">x ${p.unidad || 'un.'}</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </a>
+        `).join('');
+
+    } catch (error) {
+        console.error('Error en cargarProductosRelacionados:', error);
+    }
+}
+
