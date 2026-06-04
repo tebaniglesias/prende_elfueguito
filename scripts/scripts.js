@@ -201,6 +201,20 @@ function renderArticulos(lista) {
     }).join('');
 }
 
+function mostrarModalConfirmacion() {
+    localStorage.removeItem('fueguito_carrito');
+    localStorage.removeItem('fueguito_descuento');
+    
+    if (typeof actualizarBadge === 'function') {
+        actualizarBadge();
+    }
+
+    document.getElementById('modal-confirmacion').style.display = 'flex';
+    
+    setTimeout(function() {
+        window.location.href = 'index.html';
+    }, 5000);
+}
 
 
 document.addEventListener('DOMContentLoaded', async () => {
