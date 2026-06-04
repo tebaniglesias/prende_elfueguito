@@ -12,3 +12,4 @@ if (typeof supabase === 'undefined') {
 // 3. Inicializar el cliente con el nombre global correcto
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+console.log("⚡ Conexión con Supabase vinculada de forma exitosa.");

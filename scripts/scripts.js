@@ -116,9 +116,95 @@ window.addEventListener('load', () => {
         console.warn("⚠️ Advertencia: No se encontró el botón con id 'btn-cerrarsesion' en esta página.");
     }
 }); 
-    // ── NOTIFICACIONES ───────────────────────────────────
-   // document.getElementById('form-notificaciones').addEventListener('submit', e => {
-   //     e.preventDefault();
- //       mostrarToast('✓ Preferencias guardadas');
-  //  });
 
+
+
+//Cargar todos los articulos en el index.html, para luego mostrar solo los que correspondan a cada categoria.
+
+async function obtenerProductos() {
+  // Construimos la URL apuntando a la tabla 'producto'
+  // El parámetro select permite traer campos de las tablas relacionadas
+  const url = `${SUPABASE_URL}/rest/v1/producto?select=*,categoria_producto(nombre),estado_producto(nombre)`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error en la petición: ${response.statusText}`);
+    }
+
+    const productos = await response.json();
+    console.log('Productos obtenidos:', productos);
+  
+    return productos;
+  
+  } catch (error) {
+    console.error('Error al conectar con Supabase:', error);
+  }
+}
+
+function renderArticulos(lista) {
+  const productos_grid = document.getElementById('p-grid');
+
+  if (!productos_grid) {
+    console.log("No se encontró 'p-grid' en esta página. No se renderizan artículos.");
+    return; 
+  }
+
+  if (!lista || !lista.length) {
+    productos_grid.innerHTML = '';
+    return;
+  }
+
+  productos_grid.innerHTML = lista.map(p => {
+    // 💡 Extraemos de forma segura el nombre de la categoría y del estado.
+    // Usamos el operador '?.' para evitar errores si por alguna razón la relación viene null.
+    const nombreCategoria = p.categoria_producto?.nombre || 'Sin categoría';
+    const idCategoria = p.categoria_producto?.id;
+
+    return `
+        <article class="producto-card"
+            data-id="${p.id}" 
+            data-nombre="${p.nombre}"
+            data-precio="${p.precio}" 
+            data-unidad="unidad"
+            data-imagen="${p.imagen_ppal || `img/placeholder_${nombreCategoria}.png`}">
+            
+            <a href="articulo.html">
+            <div class="producto-imagen">
+                <img src="${p.imagen_ppal || `img/placeholder_${nombreCategoria}.png`}" alt="${p.nombre}">
+                <span class="categoria">${nombreCategoria}</span>
+            </div>
+            </a>
+            
+            <div class="producto-info">
+            <h3>${p.nombre}</h3>
+            <p class="descripcion">${p.descripcion || 'Sin descripción.'}</p>
+            <div class="producto-footer">
+                <div class="precio-wrapper">
+                <span class="precio">$${p.precio?.toLocaleString('es-AR')}</span>
+                <span class="unidad-medida">x unidad</span>
+                </div>
+                
+                <button class="btn-agregar">Agregar</button>
+            </div>
+            </div>
+        </article>
+        `;
+    }).join('');
+}
+
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+  renderArticulos(await obtenerProductos());
+ 
+});
