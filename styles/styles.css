@@ -444,6 +444,10 @@ input        { font-family: inherit; }
 /* =============================================
    PRODUCTOS
    ============================================= */
+
+.section-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; }
+.section-title span { color: var(--primary-color); }
+
 #productos {
   max-width: 1400px;
   margin: 0 auto;
