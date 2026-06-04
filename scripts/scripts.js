@@ -177,7 +177,7 @@ function renderArticulos(lista) {
             data-unidad="unidad"
             data-imagen="${p.imagen_ppal || `img/placeholder_${nombreCategoria}.png`}">
             
-            <a href="articulo.html">
+            <a href="articulo.html?id=${p.id}">
             <div class="producto-imagen">
                 <img src="${p.imagen_ppal || `img/placeholder_${nombreCategoria}.png`}" alt="${p.nombre}">
                 <span class="categoria">${nombreCategoria}</span>
@@ -215,7 +215,6 @@ function mostrarModalConfirmacion() {
         window.location.href = 'index.html';
     }, 5000);
 }
-
 
 document.addEventListener('DOMContentLoaded', async () => {
 
