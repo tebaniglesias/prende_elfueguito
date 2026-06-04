@@ -16,6 +16,13 @@
 const STORAGE_KEY  = 'fueguito_carrito';
 const DISCOUNT_KEY = 'fueguito_descuento'; // persiste el cupón entre páginas
 
+const CUPONES = {
+  'FUEGO10': 0.10,
+  'ASADO20': 0.20,
+};
+
+const ENVIO_GRATIS_DESDE = 10000;
+
 
 // ─── PASO 2: LEER Y GUARDAR EN LOCALSTORAGE ─────────────────
 //
@@ -117,12 +124,12 @@ function cambiarCantidad(id, delta) {
     eliminarDelCarrito(id);
     return;
   }
-
+  
   guardarCarrito(carrito);
   actualizarBadge();
+  actualizarDescuento(); // Recalcula el descuento si es que hay un cupón aplicado
   renderizarCarrito();
 }
-
 
 // ─── PASO 7: CALCULAR TOTALES Y FORMATEAR PRECIOS ───────────
 //
@@ -135,7 +142,6 @@ function cambiarCantidad(id, delta) {
 //  formatPrecio() convierte un número como 12990
 //  al string "$12.990" usando el locale argentino.
 //
-const ENVIO_GRATIS_DESDE = 10000;
 
 function calcularTotales(carrito, descuento = 0) {
   const subtotal = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
@@ -158,10 +164,6 @@ function formatPrecio(n) {
 //  calcula el monto de descuento y devuelve { ok, mensaje }
 //  para que la UI pueda mostrar el resultado al usuario.
 //
-const CUPONES = {
-  'FUEGO10': 0.10,
-  'ASADO20': 0.20,
-};
 
 let descuentoActual = 0;
 
@@ -190,6 +192,25 @@ function cargarDescuento() {
   const saved = JSON.parse(localStorage.getItem(DISCOUNT_KEY));
   if (saved) descuentoActual = saved.monto;
 }
+
+// ─── FUNCION ACTUALIZAR CALCULO DESCUENTO ─────────────────────
+//
+//  Si el usuario cambia la cantidad de un producto después de aplicar un cupón,
+//  el monto del descuento podría quedar desactualizado. Esta función recalcula
+//  el descuento basado en el subtotal actual y el código de cupón guardado.
+//  Se llama desde cambiarCantidad() para mantener el descuento correcto en todo momento.
+//
+
+function actualizarDescuento() {
+  if (descuentoActual > 0) {
+    const carrito = obtenerCarrito();
+    const { subtotal } = calcularTotales(carrito);
+    descuentoActual = Math.round(subtotal * (CUPONES[JSON.parse(localStorage.getItem(DISCOUNT_KEY))?.codigo] || 0));
+    localStorage.setItem(DISCOUNT_KEY, JSON.stringify({ monto: descuentoActual, codigo: JSON.parse(localStorage.getItem(DISCOUNT_KEY))?.codigo || '' }));
+    renderizarCarrito();
+  }
+}
+
 
 
 // ─── PASO 9B: VACIAR EL CARRITO ─────────────────────────────
@@ -222,7 +243,7 @@ function renderizarResumenCheckout() {
     return;
   }
 
-  // Lista de productos: "Nombre x cantidad ........... $subtotal"
+  // 1. Lista de productos: "Nombre x cantidad ........... $subtotal"
   itemsEl.innerHTML = carrito.map(item => `
     <div class="resumen-item">
       <span>${item.nombre} <strong>x ${item.cantidad}</strong></span>
@@ -230,8 +251,14 @@ function renderizarResumenCheckout() {
     </div>
   `).join('');
 
-  // Totales
-  const { subtotal, envio, descuento, total } = calcularTotales(carrito, descuentoActual);
+  // 🔴 COPIA ESTO: Traemos de forma segura el cupón desde LocalStorage AL INICIO
+  const cuponGuardado = JSON.parse(localStorage.getItem(DISCOUNT_KEY)) || null;
+  
+  // Si había un cupón guardado con un monto válido, actualizamos la variable local para el cálculo
+  const descuentoParaCalculo = cuponGuardado ? cuponGuardado.monto : 0;
+
+  // 2. Calculamos los totales pasándole el descuento real recuperado del Storage
+  const { subtotal, envio, descuento, total } = calcularTotales(carrito, descuentoParaCalculo);
 
   const elSubtotal = document.getElementById('checkout-subtotal');
   const elEnvio    = document.getElementById('checkout-envio');
@@ -244,12 +271,19 @@ function renderizarResumenCheckout() {
   if (elEnvio)    elEnvio.textContent    = envio === 0 ? 'Gratis' : formatPrecio(envio);
   if (elTotal)    elTotal.textContent    = formatPrecio(total);
 
+  // 3. Control de la fila de descuento (Ahora 'descuento' sí va a ser mayor a 0)
   if (filaDesc && elDesc) {
     filaDesc.style.display = descuento > 0 ? 'flex' : 'none';
     elDesc.textContent     = `−${formatPrecio(descuento)}`;
   }
+
+  // 4. Control del texto del cupón
   if (elCupon) {
-    elCupon.textContent = `(${localStorage.getItem(DISCOUNT_KEY) ? JSON.parse(localStorage.getItem(DISCOUNT_KEY)).codigo : ''})`;
+    if (cuponGuardado && cuponGuardado.codigo) {
+      elCupon.textContent = `(${cuponGuardado.codigo})`;
+    } else {
+      elCupon.textContent = '';
+    }
   }
 }
 
@@ -273,8 +307,13 @@ function renderizarCarrito() {
 
   const carrito = obtenerCarrito();
 
-  // — Estado vacío —
+  // — 🔴 NUEVO GUARDIÁN: Estado vacío (Corregido para eliminar el cupón) —
   if (carrito.length === 0) {
+    
+    // Al no haber productos, limpiamos por completo el cupón del disco y de la memoria
+    localStorage.removeItem(DISCOUNT_KEY); 
+    descuentoActual = 0;                  
+
     contenedor.innerHTML = `
       <div style="text-align:center; padding:3rem 1rem; color:#8C7560;">
         <i class="fa-solid fa-cart-shopping" style="font-size:2.5rem; color:#D4C4B0; display:block; margin-bottom:1rem;"></i>
@@ -283,7 +322,10 @@ function renderizarCarrito() {
           Ver productos
         </a>
       </div>`;
+    
     if (tituloContador) tituloContador.textContent = '0 productos';
+    
+    // Esto va a actualizar el bloque de precios de la derecha dejándolo todo en $0 y ocultando la fila de descuentos
     actualizarResumen(carrito);
     return;
   }
@@ -337,11 +379,16 @@ function handleCarritoClick(e) {
   const btn = e.target.closest('[data-id]');
   if (!btn) return;
 
-  const id = btn.dataset.id;
+  // 💡 LA SOLUCIÓN: Convertimos el ID de string a número entero
+  const id = parseInt(btn.dataset.id); 
+
+  if (isNaN(id)) return; // Seguridad por si no es un número válido
 
   if (btn.classList.contains('btn-eliminar')) eliminarDelCarrito(id);
-  if (btn.classList.contains('btn-menos'))   cambiarCantidad(id, -1);
+  if (btn.classList.contains('btn-menos'))    cambiarCantidad(id, -1);
   if (btn.classList.contains('btn-mas'))     cambiarCantidad(id, +1);
+
+  actualizarDescuento(); // Recalcula el descuento si es que hay un cupón aplicado
 }
 
 
@@ -367,46 +414,47 @@ function actualizarResumen(carrito) {
     filaDesc.style.display    = descuento > 0 ? 'flex' : 'none';
     elDescuento.textContent   = `−${formatPrecio(descuento)}`;
   }
+  console.log("Resumen actualizado:", { subtotal, envio, descuento, total });
 }
 
 
-// ─── PASO 12: BOTONES "AGREGAR" EN INDEX.HTML ───────────────
+// ─── PASO 12: DELEGACIÓN DE EVENTOS PARA BOTONES "AGREGAR" ───
 //
-//  Cada article.producto-card tiene atributos data-* con los
-//  datos del producto. Al hacer click en .btn-agregar:
-//    1. e.preventDefault() evita que el <a> padre navegue.
-//    2. e.stopPropagation() evita que el click llegue al link.
-//    3. Leemos los data-* del article más cercano.
-//    4. Armamos el objeto producto y lo agregamos al carrito.
-//    5. Feedback visual: el botón muestra "✓ Agregado" por 1.2s.
+// Al traer los productos de Supabase de forma asíncrona, los botones no existen 
+// al cargar la página. Escuchamos los clicks a nivel global y filtramos por .btn-agregar.
 //
 function iniciarListenersProductos() {
-  document.querySelectorAll('.btn-agregar').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.preventDefault();
-      e.stopPropagation();
+  document.addEventListener('click', e => {
+    // Buscamos si el click (o su ícono interno) pertenece a un botón .btn-agregar
+    const btn = e.target.closest('.btn-agregar');
+    if (!btn) return;
 
-      const card = btn.closest('[data-id]');
-      if (!card) return;
+    e.preventDefault();
+    e.stopPropagation();
 
-      const producto = {
-        id:       card.dataset.id,
-        nombre:   card.dataset.nombre,
-        precio:   parseFloat(card.dataset.precio),
-        unidad:   card.dataset.unidad,
-        imagen:   card.dataset.imagen,
-        cantidad: 1,
-      };
+    // Buscamos la card que contiene los data attributes del producto
+    const card = btn.closest('[data-id]');
+    if (!card) return;
 
-      agregarAlCarrito(producto);
+    const producto = {
+      id:       parseInt(card.dataset.id), // Aseguramos que el ID sea numérico
+      nombre:   card.dataset.nombre,
+      precio:   parseFloat(card.dataset.precio),
+      unidad:   card.dataset.unidad || 'uds.',
+      imagen:   card.dataset.imagen || '',
+      cantidad: 1,
+    };
 
-      btn.textContent = '✓ Agregado';
-      btn.disabled    = true;
-      setTimeout(() => {
-        btn.textContent = 'Agregar';
-        btn.disabled    = false;
-      }, 1200);
-    });
+    agregarAlCarrito(producto);
+
+    // Feedback visual
+    const textoOriginal = btn.innerHTML;
+    btn.innerHTML = '✓ Agregado';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.innerHTML = textoOriginal;
+      btn.disabled = false;
+    }, 1200);
   });
 }
 
@@ -447,26 +495,52 @@ function iniciarListenerArticulo() {
   });
 }
 
-  // A VER SI SALE EL CHECKOUT
-  function mostrarModalConfirmacion() {
-         
-        document.getElementById('modal-confirmacion').style.display = 'flex';
-        setTimeout(function() {
-            window.location.href = 'index.html';
-        }, 5000);
+
+// ─── ACTUALIZACION PRECIOS EN CARRITO ─────────────────────
+//
+//  Esta función se llama al cargar carrito.html para asegurarnos de que los precios  
+//  estén actualizados con la base de datos. Lee el carrito del LocalStorage,
+//  obtiene la lista de productos desde la BD, y si encuentra alguna
+//  diferencia de precios, actualiza el carrito y vuelve a renderizar.
+//
+//  Es importante hacer esto al cargar carrito.html porque el usuario
+//  podría haber dejado productos en el carrito hace días y los precios
+//  podrían haber cambiado. Así nos aseguramos de que siempre se muestre
+//  el precio correcto antes de que el usuario confirme su pedido.
+//
+
+
+function actualizarPreciosBD() {
+    const carrito = obtenerCarrito();
+    if (carrito.length === 0) {
+      console.log("El carrito está vacío. No se actualizan precios.");
+      return;
     }
+    obtenerProductos().then(productos => {
+      const productosMap = {};
+      productos.forEach(p => {
+        productosMap[p.id] = p.precio;
+      });
 
-  function finalizarPedido() {
-  const btn = document.getElementById('btn-finalizar');
-  if (!btn) return;
+      let preciosActualizados = false;
 
-  btn.addEventListener('click', e => {
-    e.preventDefault();
-    mostrarModalConfirmacion();
-    vaciarCarrito();// limpia LocalStorage al confirmar el pedido
+      carrito.forEach(item => {
+        const precioActual = productosMap[item.id];
+        if (precioActual && precioActual !== item.precio) {
+          console.log(`Actualizando precio de "${item.nombre}" de $${item.precio} a $${precioActual}`);
+          item.precio = precioActual;
+          preciosActualizados = true;
+        }
+      });
+
+      if (preciosActualizados) {
+        guardarCarrito(carrito);
+        renderizarCarrito();
+      }
+    }).catch(error => {
+      console.error("Error al obtener productos para actualizar precios:", error);
     });
   }
-    
 
 // ─── PASO 14: INICIALIZACIÓN AUTOMÁTICA ─────────────────────
 //
@@ -482,6 +556,7 @@ function iniciarListenerArticulo() {
 //  actualizarBadge() se llama SIEMPRE porque el ícono del carrito
 //  existe en todas las páginas y hay que mostrar el número correcto.
 //
+
 document.addEventListener('DOMContentLoaded', () => {
 
   // Siempre: restaurar descuento guardado y actualizar el badge del header
@@ -492,6 +567,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const contenedorCarrito = document.getElementById('carrito-items');
   if (contenedorCarrito) {
     renderizarCarrito();
+    actualizarPreciosBD();
     contenedorCarrito.addEventListener('click', handleCarritoClick);
 
     // Cupón
@@ -514,22 +590,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+ // index.html / catálogo: escuchar los botones "Agregar" vía delegación
+  // Ya no validamos el length, activamos el listener global directamente
+  iniciarListenersProductos();
 
-
-  // index.html: escuchar los botones "Agregar"
-  if (document.querySelectorAll('.btn-agregar').length > 0) {
-    iniciarListenersProductos();
-  }
-
-  // articulo.html: escuchar el botón del detalle
+  // articulo.html: escuchar el botón del detalle (este se puede quedar igual si el HTML es estático)
   if (document.querySelector('.btn-agregar-carrito')) {
     iniciarListenerArticulo();
   }
 
-  // checkout.html: renderizar resumen desde LocalStorage
   if (document.getElementById('checkout-items')) {
     renderizarResumenCheckout();
-    finalizarPedido();
   }
 
 });
