@@ -13,14 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
         formLogin.addEventListener('submit', async (e) => {
             e.preventDefault(); // Evita que la página se recargue
 
-            const email = document.getElementById('login-email').value.trim();
+            const email = document.getElementById('login-email').value.trim(); //.trim borra espacios al inicio y al final por si el usuario los pone sin querer
             const password = document.getElementById('login-password').value;
 
             // Feedback visual: Cambiamos el texto del botón y lo desactivamos
             const btn = formLogin.querySelector('button[type="submit"]');
             const txtOriginal = btn.textContent;
-            btn.textContent = 'Ingresando...';
-            btn.disabled = true;
+            btn.textContent = 'Ingresando...'; // .textContent es una propiedad que representa el texto dentro del botón, al asignarle un nuevo valor cambiamos lo que se muestra al usuario.   
+            btn.disabled = true; // .disabled es una propiedad de los botones que los desactiva visualmente y también impide que se pueda hacer click en ellos, lo cual es ideal para evitar múltiples envíos del formulario mientras se procesa el login.  
 
             // Llamamos a la función global alojada en auth.js
             const usuario = await iniciarSesionCliente(email, password);
@@ -69,8 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (usuario) {
                 formRegistro.reset(); // Limpiamos los inputs
-                // Opcional: Si querés mandarlo al login directo tras registrarse, descomentá abajo:
-                // setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+                // Enviamos al usuario al login con un mensaje de éxito
+                mostrarToast('Cuenta creada con éxito. Por favor, inicia sesión.', 'success');
+                setTimeout(() => { window.location.href = 'login.html'; }, 3000);
             }
         });
     }
