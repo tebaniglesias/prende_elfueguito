@@ -67,7 +67,7 @@
         <ul>
           
           <li>
-            <a href="alta_producto.html" class="menu-link active">
+            <a href="#" class="menu-link active">
               <i class="fa-solid fa-box"></i> Productos
               <span class="menu-badge" id="badge-total"></span>
             </a>
@@ -87,9 +87,10 @@
             </a>
         </div>
     </aside>
-
+    
     <!-- CONTENIDO -->
     <div class="panel-content">
+
       <section class="panel-section active">
 
         <div class="section-header">
@@ -110,17 +111,23 @@
           </div>
           <select class="toolbar-select" id="filtro-categoria" onchange="filtrarProductos()">
             <option value="">Todas las categorías</option>
-            <option value="Asados">Asados</option>
+        </select>
+          <!--<select class="toolbar-select" id="filtro-categoria" onchange="filtrarProductos()">
+            <option value="">Todas las categorías</option>
+            <option value="Carnes">Carnes</option>
             <option value="Especias">Especias</option>
             <option value="Salsas">Salsas</option>
             <option value="Ahumados">Ahumados</option>
-          </select>
+          </select>-->
           <select class="toolbar-select" id="filtro-estado" onchange="filtrarProductos()">
+            <option value="">Todas los estados</option>
+          </select>
+          <!--<select class="toolbar-select" id="filtro-estado" onchange="filtrarProductos()">
             <option value="">Todos los estados</option>
             <option value="activo">Activo</option>
             <option value="inactivo">Inactivo</option>
             <option value="sin-stock">Sin stock</option>
-          </select>
+          </select>-->
           <span class="product-count" id="product-count"></span>
         </div>
 
@@ -166,13 +173,7 @@
         </div>
         <div class="form-group">
           <label>Categoría *</label>
-          <select id="p-categoria">
-            <option value="">Seleccioná una categoría</option>
-            <option value="Asados">Asados</option>
-            <option value="Especias">Especias</option>
-            <option value="Salsas">Salsas</option>
-            <option value="Ahumados">Ahumados</option>
-          </select>
+          <select id="p-categoria"></select>
         </div>
         <div class="form-group">
           <label>Precio (ARS) *</label>
@@ -184,16 +185,36 @@
         </div>
         <div class="form-group">
           <label>Estado</label>
-          <select id="p-estado">
-            <option value="activo">Activo</option>
-            <option value="inactivo">Inactivo</option>
-            <option value="sin-stock">Sin stock</option>
-          </select>
+          <select id="p-estado"></select>
         </div>
         <div class="form-group full">
           <label>Descripción</label>
           <textarea id="p-descripcion" placeholder="Breve descripción del producto..."></textarea>
           <span class="form-hint">Opcional. Se mostrará en la página del producto.</span>
+        </div>
+
+        <div class="form-group full">
+          <label>URL de la Imagen Principal</label>
+          <input type="text" id="p-imagen" placeholder="https://images.pexels.com/... o ruta local">
+          <span class="form-hint">Pegá el enlace directo a la imagen del producto.</span>
+        </div>
+
+        <div class="form-group full">
+          <label>Características Destacadas</label>
+          <div class="checkbox-group" style="display: flex; gap: 1.5rem; margin-top: 0.5rem; flex-wrap: wrap;">
+            <label style="font-weight: normal; cursor: pointer; color: #555;">
+              <input type="checkbox" name="p-caracteristicas" value="Corte premium"> <i class="fa-solid fa-star" style="color: #C67C3A;"></i> Corte premium
+            </label>
+            <label style="font-weight: normal; cursor: pointer; color: #555;">
+              <input type="checkbox" name="p-caracteristicas" value="Fresco del día"> <i class="fa-solid fa-leaf" style="color: #2D7A1F;"></i> Fresco del día
+            </label>
+            <label style="font-weight: normal; cursor: pointer; color: #555;">
+              <input type="checkbox" name="p-caracteristicas" value="Embalaje al vacío"> <i class="fa-solid fa-bag-shopping" style="color: #8C7560;"></i> Embalaje al vacío
+            </label>
+            <label style="font-weight: normal; cursor: pointer; color: #555;">
+              <input type="checkbox" name="p-caracteristicas" value="Producción Artesanal"> <i class="fa-solid fa-award" style="color: #A35C22;"></i> Artesanal
+            </label>
+          </div>
         </div>
       </div>
     </div>
@@ -271,190 +292,7 @@
 <script src="scripts/auth.js"></script>
 <script src="scripts/cart.js"></script>
 <script src="scripts/scripts.js"></script>
+<script src="scripts/panel-admin.js"></script>
 
-<script>
-  verificarAdmin(); // 👈 esto va primero, antes de todo lo demás
-  /* ─── DATA ─── */
-  let productos = [
-    { id: 1, nombre: 'Chimichurri Clásico 250g',    categoria: 'Salsas',   precio: 2800, stock: 48, estado: 'activo'    },
-    { id: 2, nombre: 'Rub de Asado Patagónico',      categoria: 'Especias', precio: 1950, stock: 30, estado: 'activo'    },
-    { id: 3, nombre: 'Sal Parrillera Gruesa 1kg',    categoria: 'Asados',   precio: 1200, stock: 0,  estado: 'sin-stock' },
-    { id: 4, nombre: 'Pimentón Ahumado 100g',        categoria: 'Ahumados', precio: 1650, stock: 15, estado: 'activo'    },
-    { id: 5, nombre: 'Salsa Criolla Picante 350g',   categoria: 'Salsas',   precio: 3100, stock: 22, estado: 'activo'    },
-    { id: 6, nombre: 'Mix 7 Especias BBQ',           categoria: 'Especias', precio: 2200, stock: 9,  estado: 'activo'    },
-    { id: 7, nombre: 'Leña de Quebracho 5kg',        categoria: 'Asados',   precio: 4500, stock: 5,  estado: 'activo'    },
-    { id: 8, nombre: 'Ajo Deshidratado Ahumado 80g', categoria: 'Ahumados', precio: 1400, stock: 0,  estado: 'inactivo'  },
-  ];
-
-  let editandoId = null;
-
-  /* ─── HELPERS ─── */
-  function formatPrecio(v) {
-    return '$' + Number(v).toLocaleString('es-AR');
-  }
-
-  function stockClass(s) {
-    if (s === 0) return 'stock-zero';
-    if (s <= 10) return 'stock-low';
-    return 'stock-ok';
-  }
-
-  function badgeEstado(e) {
-    const map = {
-      'activo':    '<span class="badge badge-activo">Activo</span>',
-      'inactivo':  '<span class="badge badge-inactivo">Inactivo</span>',
-      'sin-stock': '<span class="badge badge-sin-stock">Sin stock</span>',
-    };
-    return map[e] || e;
-  }
-
-  /* ─── RENDER ─── */
-  function renderTabla(lista) {
-    const tbody = document.getElementById('tabla-productos');
-    const empty = document.getElementById('empty-state');
-    const count = document.getElementById('product-count');
-
-    if (!lista.length) {
-      tbody.innerHTML = '';
-      empty.style.display = 'block';
-      count.textContent = '';
-      return;
-    }
-
-    empty.style.display = 'none';
-    count.textContent = `${lista.length} producto${lista.length !== 1 ? 's' : ''}`;
-
-    tbody.innerHTML = lista.map(p => `
-      <tr>
-        <td>
-          <div class="product-name-cell">
-            <div class="td-icon"><i class="fa-solid fa-fire-flame-curved"></i></div>
-            <strong>${p.nombre}</strong>
-          </div>
-        </td>
-        <td><span class="badge badge-categoria">${p.categoria}</span></td>
-        <td style="font-weight:700">${formatPrecio(p.precio)}</td>
-        <td><span class="${stockClass(p.stock)}">${p.stock}</span> <span style="font-size:0.8rem;color:var(--gray)">uds.</span></td>
-        <td>${badgeEstado(p.estado)}</td>
-        <td>
-          <div style="display:flex;gap:6px">
-            <button class="btn-small btn-primary" onclick="editarProducto(${p.id})">
-              <i class="fa-solid fa-pen"></i> Editar
-            </button>
-            <button class="btn-small btn-ghost" onclick="eliminarProducto(${p.id})">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-    `).join('');
-  }
-
-  function actualizarBadge() {
-    document.getElementById('badge-total').textContent = productos.length;
-  }
-
-  function filtrarProductos() {
-    const q   = document.getElementById('buscador').value.toLowerCase();
-    const cat = document.getElementById('filtro-categoria').value;
-    const est = document.getElementById('filtro-estado').value;
-
-    const filtrados = productos.filter(p => {
-      const matchQ   = p.nombre.toLowerCase().includes(q) || p.categoria.toLowerCase().includes(q);
-      const matchCat = !cat || p.categoria === cat;
-      const matchEst = !est || p.estado === est;
-      return matchQ && matchCat && matchEst;
-    });
-
-    renderTabla(filtrados);
-  }
-
-  /* ─── MODAL ─── */
-  function abrirModalAlta() {
-    editandoId = null;
-    document.getElementById('modal-titulo').textContent = 'Nuevo Producto';
-    limpiarForm();
-    abrirModal();
-  }
-
-  function editarProducto(id) {
-    const p = productos.find(x => x.id === id);
-    if (!p) return;
-    editandoId = id;
-    document.getElementById('modal-titulo').textContent = 'Editar Producto';
-    document.getElementById('p-nombre').value      = p.nombre;
-    document.getElementById('p-categoria').value   = p.categoria;
-    document.getElementById('p-precio').value      = p.precio;
-    document.getElementById('p-stock').value       = p.stock;
-    document.getElementById('p-estado').value      = p.estado;
-    document.getElementById('p-descripcion').value = p.descripcion || '';
-    abrirModal();
-  }
-
-  function abrirModal() {
-    document.getElementById('modal-producto').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function cerrarModal() {
-    document.getElementById('modal-producto').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  function limpiarForm() {
-    ['p-nombre','p-precio','p-stock','p-descripcion'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('p-categoria').value = '';
-    document.getElementById('p-estado').value    = 'activo';
-  }
-
-  /* ─── GUARDAR ─── */
-  function guardarProducto() {
-    const nombre      = document.getElementById('p-nombre').value.trim();
-    const categoria   = document.getElementById('p-categoria').value;
-    const precio      = parseFloat(document.getElementById('p-precio').value);
-    const stock       = parseInt(document.getElementById('p-stock').value);
-    const estado      = document.getElementById('p-estado').value;
-    const descripcion = document.getElementById('p-descripcion').value.trim();
-
-    if (!nombre)                     { mostrarToast('El nombre es obligatorio.', 'error'); return; }
-    if (!categoria)                  { mostrarToast('Seleccioná una categoría.', 'error'); return; }
-    if (isNaN(precio) || precio < 0) { mostrarToast('Ingresá un precio válido.', 'error'); return; }
-    if (isNaN(stock)  || stock  < 0) { mostrarToast('Ingresá un stock válido.',  'error'); return; }
-
-    if (editandoId) {
-      const idx = productos.findIndex(p => p.id === editandoId);
-      productos[idx] = { ...productos[idx], nombre, categoria, precio, stock, estado, descripcion };
-      mostrarToast('✓ Producto actualizado correctamente.');
-    } else {
-      productos.push({ id: Date.now(), nombre, categoria, precio, stock, estado, descripcion });
-      mostrarToast('✓ Producto dado de alta correctamente.');
-    }
-
-    cerrarModal();
-    actualizarBadge();
-    filtrarProductos();
-  }
-
-  /* ─── ELIMINAR ─── */
-  function eliminarProducto(id) {
-    if (!confirm('¿Confirmás que querés eliminar este producto?')) return;
-    productos = productos.filter(p => p.id !== id);
-    actualizarBadge();
-    filtrarProductos();
-    mostrarToast('✓ Producto eliminado.');
-  }
-
-  /* ─── CERRAR MODAL AL CLICK EN OVERLAY ─── */
-  document.getElementById('modal-producto').addEventListener('click', function(e) {
-    if (e.target === this) cerrarModal();
-  });
-
- /* ─── INIT ─── */
-document.addEventListener('DOMContentLoaded', () => {
-  renderTabla(productos);
-  actualizarBadge();
-  document.getElementById('product-count').textContent = `${productos.length} productos`;
-});
-</script>
 </body>
 </html>

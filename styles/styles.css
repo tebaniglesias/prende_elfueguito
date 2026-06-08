@@ -1715,6 +1715,12 @@ textarea { resize: vertical; }
   cursor: text;
   border-color: var(--primary-color);
 }
+
+.form-group textarea.editable {
+    background: var(--white);
+    cursor: text;
+    border-color: var(--primary-color);
+}
  
 .form-group input:focus { outline: none; border-color: var(--primary-color); }
  

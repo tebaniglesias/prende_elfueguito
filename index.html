@@ -42,8 +42,8 @@
           <span>Ayuda</span>
         </a>
         <a href="#" id="btn-mi-cuenta">
-            <i class="fa-regular fa-user"></i>
-            <span>Mi cuenta</span>
+            <i id="icon-mi-cuenta" class="fa-regular fa-user"></i>
+            <span id="span-mi-cuenta">Mi cuenta</span>
           </a>
         <a href="carrito.html" class="carrito-wrapper">
           <i class="fa-solid fa-cart-shopping"></i>
@@ -132,17 +132,12 @@
     <section id="filters">
       <div class="filters-desktop">
         <nav class="filters-nav">
-          <ul>
-            <li><a href="#todos" class="active">Todos</a></li>
-            <li><a href="#carnes">Carnes</a></li>
-            <li><a href="#carbon">Carbón</a></li>
-            <li><a href="#picadas">Picadas</a></li>
-            <li><a href="#accesorios">Accesorios</a></li>
-            <li><a href="#condimentos">Condimentos</a></li>
-            <li><a href="#bebidas">Bebidas</a></li>
+          <ul id="filtros-productos">
+            <li><a href="#todos" class="filter-btn active" data-id="todos">Todos</a></li>
           </ul>
         </nav>
       </div>
+      
       <div class="filters-mobile">
         <div class="filtros-dropdown-wrapper">
           <button class="btn-filtros-dropdown" type="button" id="btnFiltrosMobile">
@@ -150,13 +145,7 @@
             <i class="fa-solid fa-chevron-down chevron-icon"></i>
           </button>
           <ul class="filtros-dropdown-menu" id="filtrosDropdownMenu">
-            <li><a href="#todos" class="filtro-option active" data-label="Todos">Todos</a></li>
-            <li><a href="#carnes" class="filtro-option" data-label="Carnes">Carnes</a></li>
-            <li><a href="#carbon" class="filtro-option" data-label="Carbón">Carbón</a></li>
-            <li><a href="#picadas" class="filtro-option" data-label="Picadas">Picadas</a></li>
-            <li><a href="#accesorios" class="filtro-option" data-label="Accesorios">Accesorios</a></li>
-            <li><a href="#condimentos" class="filtro-option" data-label="Condimentos">Condimentos</a></li>
-            <li><a href="#bebidas" class="filtro-option" data-label="Bebidas">Bebidas</a></li>
+            <li><a href="#todos" class="filtro-option active" data-label="Todos" data-id="todos">Todos</a></li>
           </ul>
         </div>
       </div>
@@ -365,65 +354,11 @@
       </div>
     </div>
   </footer>
-
-  <script>
-    let slideActual = 0;
-    const slides = document.querySelectorAll('.carousel-slide');
-    const dots   = document.querySelectorAll('#carousel-dots span');
-    let autoplayInterval = iniciarAutoplay();
-
-    function mostrarSlide(n) {
-      slides[slideActual].classList.remove('active');
-      dots[slideActual].classList.remove('active');
-      slideActual = (n + slides.length) % slides.length;
-      slides[slideActual].classList.add('active');
-      dots[slideActual].classList.add('active');
-    }
-    function moverCarousel(dir) {
-      clearInterval(autoplayInterval);
-      mostrarSlide(slideActual + dir);
-      autoplayInterval = iniciarAutoplay();
-    }
-    function irASlide(n) {
-      clearInterval(autoplayInterval);
-      mostrarSlide(n);
-      autoplayInterval = iniciarAutoplay();
-    }
-    function iniciarAutoplay() {
-      return setInterval(() => mostrarSlide(slideActual + 1), 5000);
-    }
-
-    // Dropdown filtros mobile
-    const btnFiltros = document.getElementById('btnFiltrosMobile');
-    const menuFiltros = document.getElementById('filtrosDropdownMenu');
-    const labelFiltro = document.getElementById('filtroSeleccionado');
-
-    btnFiltros.addEventListener('click', function (e) {
-      e.stopPropagation();
-      menuFiltros.classList.toggle('open');
-      btnFiltros.classList.toggle('abierto');
-    });
-
-    document.querySelectorAll('.filtro-option').forEach(function (link) {
-      link.addEventListener('click', function () {
-        document.querySelectorAll('.filtro-option').forEach(function (l) { l.classList.remove('active'); });
-        link.classList.add('active');
-        labelFiltro.textContent = link.dataset.label;
-        menuFiltros.classList.remove('open');
-        btnFiltros.classList.remove('abierto');
-      });
-    });
-
-    document.addEventListener('click', function () {
-      menuFiltros.classList.remove('open');
-      btnFiltros.classList.remove('abierto');
-    });
-
-  </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="scripts/supabase-config.js"></script>
     <script src="scripts/auth.js"></script>
     <script src="scripts/login-controller.js"></script>
+    <script src="scripts/slider-index.js"></script>
     <script src="scripts/scripts.js"></script>
     <script src="scripts/cart.js"></script>
 </body>
