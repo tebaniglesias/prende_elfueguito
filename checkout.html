@@ -83,27 +83,38 @@
 
                 <div class="form-group">
                     <label>Nombre Completo *</label>
-                    <input type="text" class="editable"placeholder="Tu nombre">
+                    <input type="text" id="checkout-nombre" class="editable" placeholder="Tu nombre">
                 </div>
 
                 <div class="form-group">
                     <label>Email *</label>
-                    <input type="email" class="editable" placeholder="tu@email.com">
+                    <input type="email" id="checkout-email" class="editable" placeholder="tu@email.com">
                 </div>
 
                 <div class="form-group">
                     <label>Teléfono *</label>
-                    <input type="text" class="editable"placeholder="Ej: 11 1234 5678">
+                    <input type="text" id="checkout-telefono" class="editable" placeholder="Ej: 11 1234 5678">
                 </div>
 
-                <div class="form-group">
-                    <label>Dirección *</label>
-                    <input type="text" class="editable"placeholder="Calle y número">
+                <!-- Select de direcciones guardadas (visible si el usuario está logueado y tiene domicilios) -->
+                <div id="checkout-bloque-select" style="display:none">
+                    <div class="form-group">
+                        <label>Dirección de entrega *</label>
+                        <select id="checkout-select-dir" class="editable"></select>
+                    </div>
+                    <div id="checkout-dir-resumen" class="checkout-dir-resumen"></div>
                 </div>
 
-                <div class="form-group">
-                    <label>Ciudad *</label>
-                    <input type="text"class="editable" placeholder="Tu ciudad">
+                <!-- Campos manuales (siempre visibles si no hay sesión o no hay domicilios, o si eligió "otra") -->
+                <div id="checkout-bloque-manual">
+                    <div class="form-group">
+                        <label>Dirección *</label>
+                        <input type="text" id="checkout-direccion" class="editable" placeholder="Calle y número">
+                    </div>
+                    <div class="form-group">
+                        <label>Ciudad *</label>
+                        <input type="text" id="checkout-ciudad" class="editable" placeholder="Tu ciudad">
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -237,5 +248,91 @@
     <script src="scripts/auth.js"></script>
     <script src="scripts/login-controller.js"></script>
     <script src="scripts/scripts.js"></script>
+    <script>
+        window.addEventListener('load', async () => {
+            const bloqueLogin  = document.querySelector('.checkout-login');
+            const bloqueSelect = document.getElementById('checkout-bloque-select');
+            const bloqueManual = document.getElementById('checkout-bloque-manual');
+            const selectDir    = document.getElementById('checkout-select-dir');
+            const dirResumen   = document.getElementById('checkout-dir-resumen');
+
+            if (typeof supabaseClient === 'undefined') return;
+
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+
+                if (!user) return; // No logueado: todo queda como está por defecto
+
+                // Ocultar bloque de login/registro
+                if (bloqueLogin) bloqueLogin.style.display = 'none';
+
+                // Pre-completar nombre y email
+                const nombre = user.user_metadata?.full_name || user.user_metadata?.nombre || '';
+                const email  = user.email || '';
+                if (nombre) document.getElementById('checkout-nombre').value = nombre;
+                if (email)  document.getElementById('checkout-email').value  = email;
+
+                const { data: usuario } = await supabaseClient
+                    .from('perfil_usuario')
+                    .select('*')
+                    .eq('id', user.id)
+                    .single();
+                const telefono = usuario.telefono || '';
+                if (telefono)  document.getElementById('checkout-telefono').value  = telefono;
+
+                // Traer domicilios del usuario
+                const { data: domicilios } = await supabaseClient
+                    .from('domicilio_usuario')
+                    .select('*')
+                    .eq('usuario_id', user.id)
+                    .order('es_principal', { ascending: false })
+                    .order('created_at', { ascending: true });
+
+                if (!domicilios || domicilios.length === 0) return; // Sin domicilios: campos manuales ya visibles
+
+                // Mostrar select, ocultar campos manuales
+                bloqueSelect.style.display = 'block';
+                bloqueManual.style.display = 'none';
+
+                // Poblar opciones
+                selectDir.innerHTML = domicilios.map(d => {
+                    const prefijo = d.alias ? `${d.alias} — ` : '';
+                    const linea   = `${d.calle}${d.numero ? ' ' + d.numero : ''}, ${d.localidad}`;
+                    const estrella = d.es_principal ? ' ★' : '';
+                    return `<option value="${d.id}"${d.es_principal ? ' selected' : ''}>${prefijo}${linea}${estrella}</option>`;
+                }).join('');
+                selectDir.innerHTML += '<option value="nueva">+ Ingresar otra dirección</option>';
+
+                // Mostrar resumen de la dirección pre-seleccionada
+                const inicial = domicilios.find(d => d.es_principal) || domicilios[0];
+                renderResumen(inicial);
+
+                // Listener de cambio en el select
+                selectDir.addEventListener('change', () => {
+                    if (selectDir.value === 'nueva') {
+                        dirResumen.style.display = 'none';
+                        bloqueManual.style.display = 'block';
+                    } else {
+                        const elegido = domicilios.find(d => d.id === selectDir.value);
+                        if (elegido) renderResumen(elegido);
+                        bloqueManual.style.display = 'none';
+                    }
+                });
+
+            } catch (err) {
+                console.error('Error al inicializar checkout:', err);
+            }
+
+            function renderResumen(d) {
+                let html = `<p><strong>${d.calle}${d.numero ? ' ' + d.numero : ''}</strong>`;
+                if (d.piso_depto) html += `, ${d.piso_depto}`;
+                html += `</p><p>${d.localidad}, ${d.provincia}`;
+                if (d.codigo_postal) html += ` (CP ${d.codigo_postal})`;
+                html += `</p>`;
+                dirResumen.innerHTML = html;
+                dirResumen.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>

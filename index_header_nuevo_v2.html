@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prendé el Fueguito</title>
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta name="description" content="Tienda online de productos para asado argentino. Carnes, accesorios, carbón y más.">
+  <style>
+    /* --- Navegación Central --- */
+.main-nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.main-nav a {
+  text-decoration: none;
+  color: var(--secondary-color);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  transition: color 0.3s;
+}
+
+
+
+.main-nav a:hover {
+  color: var(--primary-color);
+}
+
+/* --- Buscador Animado --- */
+.search-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.search-input {
+  width: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: var(--light-bg);
+  border-bottom: 2px solid var(--primary-color);
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s;
+  font-family: inherit;
+}
+
+/* Clase que se activará con JS */
+.search-container.active .search-input {
+  width: 200px;
+  padding: 5px 10px;
+  margin-right: 10px;
+}
+
+.search-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  transition: transform 0.3s;
+}
+
+.search-btn:hover {
+  color: var(--primary-color);
+  transform: scale(1.1);
+}
+
+/* --- Responsive y Hamburguesa --- */
+.menu-toggle {
+  display: none; /* Oculto en desktop */
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* --- Navegación Mobile (Sin acordeón) --- */
+.mobile-nav {
+  display: none; /* Cambia de golpe al activarse */
+  flex-direction: column;
+  background-color: var(--light-bg); /* Respetamos tu color crema */
+  border-top: 1px solid var(--border-color);
+  padding: 1.5rem 0;
+  text-align: center;
+  gap: 1.2rem;
+}
+
+.mobile-nav.active {
+  display: flex; /* Aparece instantáneamente */
+}
+
+.mobile-nav a {
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+/* --- Lupa y Acciones (Colores unificados) --- */
+.search-btn, .menu-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem; /* igual que el resto de íconos del header */
+  color: var(--gray); /* Mismo color que los íconos del header (carrito/login) */
+  padding: 8px;
+}
+
+.search-btn:hover, .menu-toggle:hover {
+  color: var(--primary-color); /* El color cobre que usas en hover */
+}
+
+/* Display correcto: lupa siempre visible, hamburguesa solo en mobile */
+.search-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-toggle {
+  display: none; /* Oculto en desktop */
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Secciones de contenido (relleno) --- */
+.content-section {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+}
+
+.content-section.alt {
+  background: #FDF5E8;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  color: var(--secondary-color);
+  font-size: 1.9rem;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--gray);
+  max-width: 820px;
+  margin: 0 auto 2rem;
+  line-height: 1.7;
+}
+
+.info-split {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.info-card {
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.info-card h3 {
+  margin-bottom: 0.5rem;
+  color: var(--secondary-color);
+  font-size: 1.1rem;
+}
+
+.bullets {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.bullets li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  color: var(--gray);
+  line-height: 1.6;
+}
+
+.bullets i { color: var(--primary-color); margin-top: 0.15rem; }
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.mini-card {
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.mini-card .icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(198,124,58,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+  font-size: 1.15rem;
+}
+
+.mini-card h3 { color: var(--secondary-color); font-size: 1.05rem; }
+.mini-card p  { color: var(--gray); line-height: 1.6; }
+
+.faq {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.faq details {
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+}
+
+.faq summary {
+  cursor: pointer;
+  font-weight: 800;
+  color: var(--secondary-color);
+  list-style: none;
+}
+
+.faq summary::-webkit-details-marker { display: none; }
+.faq details p { margin-top: 0.75rem; color: var(--gray); line-height: 1.7; }
+
+.newsletter {
+  display: grid;
+  gap: 1rem;
+  align-items: center;
+  grid-template-columns: 1.2fr 0.8fr;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.newsletter-form input {
+  flex: 1;
+  min-width: 220px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  background: var(--white);
+}
+
+.newsletter-form button {
+  background: var(--primary-color);
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.85rem 1.25rem;
+  font-weight: 800;
+}
+
+.newsletter-form button:hover { background: var(--primary-dark); }
+
+@media (max-width: 900px) {
+  .info-split { grid-template-columns: 1fr; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .newsletter { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .search-input {
+    display: none; /* en mobile usamos barra debajo del header */
+  }
+}
+
+/* En desktop mantenemos tu animación original */
+@media (min-width: 769px) {
+  .search-input {
+    width: 0;
+    padding: 0;
+    border: none;
+    transition: width 0.4s, padding 0.4s;
+    background: transparent;
+    border-bottom: 2px solid var(--primary-color);
+  }
+  .search-container.active .search-input {
+    width: 180px;
+    padding: 5px 10px;
+  }
+}
+
+@media (max-width: 900px) {
+  .main-nav {
+    display: none; /* Ocultamos el menú central en mobile */
+  }
+
+  .menu-toggle {
+    display: flex; /* Mostramos hamburguesa */
+  }
+
+  .desktop-only {
+    display: none;
+  }
+  
+  .header-top {
+    justify-content: space-between;
+  }
+}
+
+/* Barra de buscador deslizable (solo mobile) */
+.search-bar-mobile {
+  display: none;
+  border-top: 1px solid var(--border-color);
+  background: var(--light-bg);
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.25s ease;
+}
+
+.search-bar-mobile.active {
+  max-height: 68px;
+}
+
+.search-bar-mobile-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 10px 16px 12px;
+}
+
+.search-bar-mobile input {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid var(--primary-color);
+  background: transparent;
+  color: var(--secondary-color);
+  font-family: inherit;
+  padding: 10px 0;
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .search-bar-mobile {
+    display: block;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    3 Cuotas sin Interés &nbsp;·&nbsp; Envíos gratis a CABA en compras superiores a $10.000 &nbsp;·&nbsp; Envío a todo el país
+  </div>
+
+  <!-- HEADER -->
+<header class="header">
+  <div class="header-top">
+    <a href="index.html" class="logo">
+      <img src="img/fuego.png" alt="Logo">
+      <div class="logo-text">
+        <span class="title">Prendé el Fueguito</span>
+        <span class="subtitle">Carnes & Fuegos</span>
+      </div>
+    </a>
+
+    <nav class="main-nav">
+      <a href="index.html">INICIO</a>
+      <a href="index.html#productos">TIENDA</a> 
+      <a href="login.html">NOSOTROS</a>
+      <a href="#contacto">CONTACTO</a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="search-container">
+        <input type="text" class="search-input" placeholder="¿Qué buscás?">
+        <button class="search-btn" id="btn-buscar">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+
+      <a href="login.html" class="action-item desktop-only">
+        <i class="fa-regular fa-user"></i>
+      </a>
+
+      <a href="carrito.html" class="action-item carrito-wrapper">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="carrito-count">0</span>
+      </a>
+
+      <button class="menu-toggle" id="menu-toggle">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </div>
+
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="index.html">INICIO</a>
+    <a href="index.html#productos">TIENDA</a>
+    <a href="login.html">NOSOTROS</a>
+    <a href="#contacto">CONTACTO</a>
+  </nav>
+
+  <!-- Buscador deslizable en mobile (debajo del header) -->
+  <div class="search-bar-mobile" id="search-bar-mobile" aria-hidden="true">
+    <div class="search-bar-mobile-inner">
+      <input type="text" id="search-bar-mobile-input" placeholder="¿Qué buscás?">
+    </div>
+  </div>
+</header>
+
+  <main>
+    <!-- CAROUSEL -->
+    <section id="banner-inicio">
+      <div class="carousel" id="carousel">
+        <div class="carousel-slide active">
+          <img src="img/carrousel1.jpeg" alt="Banner 1">
+          <div class="carousel-overlay">
+            <div class="carousel-text">
+              <span class="badge">Novedad</span>
+              <h1>El mejor asado,<br>en tu mesa.</h1>
+              <p>Carnes premium seleccionadas y accesorios de primera.</p>
+              <a href="#productos" class="btn-primary">Ver productos</a>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-slide">
+          <img src="img/carrousel2.jpeg" alt="Banner 2">
+          <div class="carousel-overlay">
+            <div class="carousel-text">
+              <span class="badge">Oferta especial</span>
+              <h1>Quebracho Premium<br>al mejor precio.</h1>
+              <p>El carbón que marca la diferencia.</p>
+              <a href="#carbon" class="btn-primary">Ver carbón</a>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-slide">
+          <img src="img/carrousel3.jpeg" alt="Banner 3">
+          <div class="carousel-overlay">
+            <div class="carousel-text">
+              <span class="badge">Delivery express</span>
+              <h1>Picadas &amp; vinos<br>para compartir.</h1>
+              <p>Salames artesanales, quesos y los mejores vinos.</p>
+              <a href="#picadas" class="btn-primary">Armar picada</a>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-btn prev" onclick="moverCarousel(-1)">&#8592;</button>
+        <button class="carousel-btn next" onclick="moverCarousel(1)">&#8594;</button>
+        <div class="carousel-dots" id="carousel-dots">
+          <span class="active" onclick="irASlide(0)"></span>
+          <span onclick="irASlide(1)"></span>
+          <span onclick="irASlide(2)"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- INFO BADGES -->
+    <div class="info-badges">
+      <div class="badge-item">
+        <div class="badge-icon"><i class="fa-solid fa-truck-fast"></i></div>
+        <div><h4>Envíos a todo el país</h4><p>Gratis en compras +$10.000</p></div>
+      </div>
+      <div class="badge-item">
+        <div class="badge-icon"><i class="fa-solid fa-credit-card"></i></div>
+        <div><h4>3 Cuotas sin Interés</h4><p>Con todas las tarjetas</p></div>
+      </div>
+      <div class="badge-item">
+        <div class="badge-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <div><h4>Compra Segura</h4><p>Pago 100% protegido</p></div>
+      </div>
+      <div class="badge-item">
+        <div class="badge-icon"><i class="fa-brands fa-whatsapp"></i></div>
+        <div><h4>Contact Center</h4><p>Lun a Sáb 9–19 hs</p></div>
+      </div>
+    </div>
+
+    <!-- FILTROS -->
+    <section id="filters">
+      <div class="filters-desktop">
+        <div class="buscador">
+          <input type="text" placeholder="Buscar productos...">
+          <button type="button">🔍</button>
+        </div>
+        <nav class="filters-nav">
+          <ul>
+            <li><a href="#todos" class="active">Todos</a></li>
+            <li><a href="#carnes">Carnes</a></li>
+            <li><a href="#carbon">Carbón</a></li>
+            <li><a href="#picadas">Picadas</a></li>
+            <li><a href="#accesorios">Accesorios</a></li>
+            <li><a href="#condimentos">Condimentos</a></li>
+            <li><a href="#bebidas">Bebidas</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="filters-mobile">
+        <div class="buscador">
+          <input type="text" placeholder="Buscar...">
+        </div>
+        <button class="btn-filtros" type="button">☰</button>
+      </div>
+    </section>
+
+    <!-- PRODUCTOS -->
+    <section id="productos">
+      <h2>Nuestros Productos</h2>
+      <div class="productos-grid">
+        <a href="articulo.html">
+          <article class="producto-card">
+            <div class="producto-imagen">
+              <img src="img/carne.jpg" alt="Bife de Chorizo">
+              <span class="categoria">Carnes</span>
+            </div>
+            <div class="producto-info">
+              <h3>Bife de Chorizo</h3>
+              <p class="descripcion">Corte premium de carne vacuna seleccionada. Ideal para tu asado perfecto.</p>
+              <div class="producto-footer">
+                <div class="precio-wrapper">
+                  <span class="precio">$12.990</span>
+                  <span class="unidad-medida">x kg</span>
+                </div>
+                <button class="btn-agregar">Agregar</button>
+              </div>
+            </div>
+          </article>
+        </a>
+
+        <article class="producto-card">
+          <div class="producto-imagen">
+            <img src="img/set_parrilla.jpg" alt="Set de Parrilla">
+            <span class="categoria">Accesorios</span>
+          </div>
+          <div class="producto-info">
+            <h3>Set de Parrilla profesional</h3>
+            <p class="descripcion">Completo set de accesorios parrilleros de alta calidad.</p>
+            <div class="producto-footer">
+              <div class="precio-wrapper">
+                <span class="precio">$8.500</span>
+                <span class="unidad-medida">x unidad</span>
+              </div>
+              <button class="btn-agregar">Agregar</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="producto-card">
+          <div class="producto-imagen">
+            <img src="img/carbon.jpg" alt="Carbón de Quebracho">
+            <span class="categoria">Carbón</span>
+          </div>
+          <div class="producto-info">
+            <h3>Quebracho Premium</h3>
+            <p class="descripcion">Carbón de quebracho premium para una Parrillada perfecta.</p>
+            <div class="producto-footer">
+              <div class="precio-wrapper">
+                <span class="precio">$3.200</span>
+                <span class="unidad-medida">x 5kg</span>
+              </div>
+              <button class="btn-agregar">Agregar</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="producto-card">
+          <div class="producto-imagen">
+            <img src="img/chimi.jpg" alt="Chimichurri">
+            <span class="categoria">Condimentos</span>
+          </div>
+          <div class="producto-info">
+            <h3>Chimichurri casero</h3>
+            <p class="descripcion">Salsa chimichurri casera y sal parrillera artesanal.</p>
+            <div class="producto-footer">
+              <div class="precio-wrapper">
+                <span class="precio">$1.500</span>
+                <span class="unidad-medida">x unidad</span>
+              </div>
+              <button class="btn-agregar">Agregar</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="producto-card">
+          <div class="producto-imagen">
+            <img src="img/vino.jpg" alt="Vino">
+            <span class="categoria">Bebidas</span>
+          </div>
+          <div class="producto-info">
+            <h3>Vino Tinto Premium</h3>
+            <p class="descripcion">Excelente vino tinto para acompañar tu asado.</p>
+            <div class="producto-footer">
+              <div class="precio-wrapper">
+                <span class="precio">$2.800</span>
+                <span class="unidad-medida">x unidad</span>
+              </div>
+              <button class="btn-agregar">Agregar</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="producto-card">
+          <div class="producto-imagen">
+            <img src="img/salame_tandilero.jpg" alt="Salame Tandilero">
+            <span class="categoria">Picadas</span>
+          </div>
+          <div class="producto-info">
+            <h3>Salame Tandilero</h3>
+            <p class="descripcion">Salame artesanal estilo tandilero, curado naturalmente.</p>
+            <div class="producto-footer">
+              <div class="precio-wrapper">
+                <span class="precio">$15.000</span>
+                <span class="unidad-medida">x 100gr</span>
+              </div>
+              <button class="btn-agregar">Agregar</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SOBRE LA MARCA -->
+    <section class="content-section">
+      <h2 class="section-title">Hecho para el ritual del asado</h2>
+      <p class="section-subtitle">
+        En Prendé el Fueguito elegimos cortes, carbón y accesorios que realmente mejoran la experiencia. Productos confiables, envío rápido y atención humana.
+      </p>
+
+      <div class="info-split">
+        <div class="info-card">
+          <h3>¿Qué nos diferencia?</h3>
+          <ul class="bullets">
+            <li><i class="fa-solid fa-check"></i><span>Selección curada: menos opciones, mejores elecciones.</span></li>
+            <li><i class="fa-solid fa-check"></i><span>Envíos a todo el país y retiro en CABA (según zona).</span></li>
+            <li><i class="fa-solid fa-check"></i><span>Pagos simples y promociones semanales.</span></li>
+            <li><i class="fa-solid fa-check"></i><span>Soporte para que compres sin vueltas.</span></li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <h3>Recomendación rápida</h3>
+          <p style="color: var(--gray); line-height: 1.7; margin-bottom: 1rem;">
+            Si vas a hacer asado para 4–6 personas, empezá por un mix de carnes + un quebracho premium y sumá un set de parrilla.
+          </p>
+          <a class="btn-primary" href="#productos">Armar mi compra</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CÓMO COMPRAR -->
+    <section class="content-section alt">
+      <h2 class="section-title">Comprar es fácil</h2>
+      <p class="section-subtitle">En 3 pasos tenés todo listo para prender el fuego.</p>
+
+      <div class="cards-grid">
+        <article class="mini-card">
+          <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <h3>Elegí tus productos</h3>
+          <p>Filtrá por categoría y agregá al carrito lo que necesitás para tu asado.</p>
+        </article>
+        <article class="mini-card">
+          <div class="icon"><i class="fa-solid fa-credit-card"></i></div>
+          <h3>Pagá como prefieras</h3>
+          <p>Tarjeta, transferencia y promos según temporada. Seguro y simple.</p>
+        </article>
+        <article class="mini-card">
+          <div class="icon"><i class="fa-solid fa-truck-fast"></i></div>
+          <h3>Recibí en tu casa</h3>
+          <p>Despachamos rápido y te avisamos el estado del envío para que te organices.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="content-section" id="faq">
+      <h2 class="section-title">Preguntas frecuentes</h2>
+      <p class="section-subtitle">Lo que más nos consultan antes de comprar.</p>
+
+      <div class="faq">
+        <details>
+          <summary>¿Cuánto tarda el envío?</summary>
+          <p>Depende de la zona. En CABA y GBA suele demorar 24–72 hs hábiles. Al interior, entre 3 y 7 días hábiles.</p>
+        </details>
+        <details>
+          <summary>¿Cómo sé cuánta carne comprar?</summary>
+          <p>Como regla rápida: 400–600 g por persona (depende si hay achuras, ensaladas y picada previa). Si querés, combiná 2–3 cortes.</p>
+        </details>
+        <details>
+          <summary>¿Puedo cambiar o devolver?</summary>
+          <p>Sí. Si tuviste un problema con el pedido, escribinos y lo resolvemos. En productos alimenticios aplican condiciones según el caso.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="content-section alt">
+      <div class="newsletter">
+        <div>
+          <h2 class="section-title" style="text-align:left; margin-bottom:0.6rem;">Enterate de promos y combos</h2>
+          <p class="section-subtitle" style="text-align:left; margin:0;">
+            Te mandamos ofertas y recomendaciones 1 vez por semana. Sin spam.
+          </p>
+        </div>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); alert('¡Gracias! Te vamos a avisar las promos.');">
+          <input type="email" required placeholder="Tu email">
+          <button type="submit">Suscribirme</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- FOOTER MAIN -->
+    <section class="footer-main">
+      <div class="footer-container">
+        <div>
+          <div class="footer-logo">
+            <img src="img/fuego.png" alt="Prendé el Fueguito">
+            <span>Prendé el Fueguito</span>
+          </div>
+          <div class="footer-text">
+            Tu asado perfecto.<br><br>
+            Los mejores productos para tu asado. Calidad garantizada y envío gratis en compras superiores a $10,000.
+          </div>
+          <div class="social-icons">
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-twitter"></i>
+          </div>
+        </div>
+        <div>
+          <h4>Enlaces Rápidos</h4>
+          <ul>
+            <li>Productos</li>
+            <li>Carrito</li>
+            <li>Promociones</li>
+            <li>Sobre Nosotros</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Categorías</h4>
+          <ul>
+            <li>Carnes Premium</li>
+            <li>Carbón y Leña</li>
+            <li>Utensilios</li>
+            <li>Condimentos</li>
+            <li>Bebidas</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <div class="contact-item"><span>📍</span> Av. Corrientes 1234, Buenos Aires</div>
+          <div class="contact-item"><span>📞</span> +54 11 1234-5678</div>
+          <div class="contact-item"><span>✉️</span> info@fueguito.com</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer-bottom">
+    <div class="footer-bottom-container">
+      <div class="left">© 2026 Prendé el Fueguito. Todos los derechos reservados.</div>
+      <div class="right">
+        <a href="#">Términos y Condiciones</a>
+        <a href="#">Privacidad</a>
+        <a href="panel_admin.html">Admin</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let slideActual = 0;
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots   = document.querySelectorAll('#carousel-dots span');
+    let autoplayInterval = iniciarAutoplay();
+
+    function mostrarSlide(n) {
+      slides[slideActual].classList.remove('active');
+      dots[slideActual].classList.remove('active');
+      slideActual = (n + slides.length) % slides.length;
+      slides[slideActual].classList.add('active');
+      dots[slideActual].classList.add('active');
+    }
+    function moverCarousel(dir) {
+      clearInterval(autoplayInterval);
+      mostrarSlide(slideActual + dir);
+      autoplayInterval = iniciarAutoplay();
+    }
+    function irASlide(n) {
+      clearInterval(autoplayInterval);
+      mostrarSlide(n);
+      autoplayInterval = iniciarAutoplay();
+    }
+    function iniciarAutoplay() {
+      return setInterval(() => mostrarSlide(slideActual + 1), 5000);
+    }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const btnBuscar = document.getElementById('btn-buscar');
+    const searchContainer = document.querySelector('.search-container');
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
+    const searchInput = searchContainer.querySelector('.search-input');
+    const searchBarMobile = document.getElementById('search-bar-mobile');
+    const searchBarMobileInput = document.getElementById('search-bar-mobile-input');
+
+    // Lógica del Buscador
+    function isMobile() {
+        return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+    }
+
+    function openMobileSearch() {
+        if (!searchBarMobile) return;
+        searchBarMobile.classList.add('active');
+        searchBarMobile.setAttribute('aria-hidden', 'false');
+        if (mobileNav.classList.contains('active')) {
+            mobileNav.classList.remove('active');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.replace('fa-xmark', 'fa-bars');
+        }
+        setTimeout(() => searchBarMobileInput && searchBarMobileInput.focus(), 0);
+    }
+
+    function closeMobileSearch() {
+        if (!searchBarMobile) return;
+        searchBarMobile.classList.remove('active');
+        searchBarMobile.setAttribute('aria-hidden', 'true');
+    }
+
+    btnBuscar.addEventListener('click', (e) => {
+        if (isMobile()) {
+            e.preventDefault();
+            if (searchBarMobile.classList.contains('active')) closeMobileSearch();
+            else openMobileSearch();
+            return;
+        }
+
+        if (!searchContainer.classList.contains('active')) {
+            e.preventDefault();
+            searchContainer.classList.add('active');
+            searchInput.focus();
+        } else {
+            if (searchInput.value.trim() === "") {
+                searchContainer.classList.remove('active');
+            }
+        }
+    });
+
+    // Lógica del Menú Hamburguesa (Cambio de golpe)
+    menuToggle.addEventListener('click', () => {
+        mobileNav.classList.toggle('active');
+        
+        // Cambiar icono: barras <-> equis
+        const icon = menuToggle.querySelector('i');
+        if (mobileNav.classList.contains('active')) {
+            icon.classList.replace('fa-bars', 'fa-xmark');
+        } else {
+            icon.classList.replace('fa-xmark', 'fa-bars');
+        }
+    });
+
+    // Cerrar buscador si el usuario hace clic fuera del área
+    document.addEventListener('mousedown', (e) => {
+        if (isMobile() && searchBarMobile && searchBarMobile.classList.contains('active')) {
+            const clickedInside =
+                searchBarMobile.contains(e.target) ||
+                btnBuscar.contains(e.target) ||
+                searchContainer.contains(e.target);
+            if (!clickedInside) closeMobileSearch();
+            return;
+        }
+
+        if (searchContainer.classList.contains('active') && !searchContainer.contains(e.target)) {
+            searchContainer.classList.remove('active');
+        }
+    });
+});
+  </script>
+</body>
+</html>

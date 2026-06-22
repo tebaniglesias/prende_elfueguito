@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda — Prendé el Fueguito</title>
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="styles/tienda.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta name="description" content="Tienda online de productos para asado argentino. Carnes, accesorios, carbón y más.">
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    3 Cuotas sin Interés &nbsp;·&nbsp; Envíos gratis a CABA en compras superiores a $10.000 &nbsp;·&nbsp; Envío a todo el país
+  </div>
+
+  <!-- HEADER (mismo patrón que index.html) -->
+  <header class="header">
+    <div class="header-top">
+      <a href="index.html" class="logo">
+        <img src="img/fuego.png" alt="Logo">
+        <div class="logo-text">
+          <span class="title">Prendé el Fueguito</span>
+          <span class="subtitle">Carnes &amp; Fuegos</span>
+        </div>
+      </a>
+
+      <nav class="main-nav">
+        <a href="index.html">INICIO</a>
+        <a href="tienda.html">TIENDA</a>
+        <a href="index.html#productos">NOSOTROS</a>
+        <a href="#contacto">CONTACTO</a>
+      </nav>
+
+      <div class="header-actions">
+        <div class="search-container">
+          <input type="text" class="search-input" placeholder="¿Qué buscás?">
+          <button class="search-btn" id="btn-buscar" type="button">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
+
+        <a href="login.html" class="action-item desktop-only" aria-label="Mi cuenta">
+          <i class="fa-regular fa-user"></i>
+        </a>
+
+        <a href="carrito.html" class="action-item carrito-wrapper" aria-label="Carrito">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="carrito-count">0</span>
+        </a>
+
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menú">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <nav class="mobile-nav" id="mobile-nav">
+      <a href="index.html">INICIO</a>
+      <a href="tienda.html">TIENDA</a>
+      <a href="index.html#productos">NOSOTROS</a>
+      <a href="#contacto">CONTACTO</a>  
+    </nav>
+
+    <!-- Buscador deslizable en mobile (debajo del header) -->
+    <div class="search-bar-mobile" id="search-bar-mobile" aria-hidden="true">
+      <div class="search-bar-mobile-inner">
+        <input type="text" id="search-bar-mobile-input" placeholder="¿Qué buscás?">
+      </div>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB (basado en el html adjunto) -->
+  <div class="breadcrumb">
+    <a href="index.html">Inicio</a>
+    <span>›</span>
+    <strong>Tienda</strong>
+  </div>
+
+  <!-- OVERLAY para filtros mobile -->
+  <div class="overlay-filtros" id="overlay-filtros"></div>
+
+  <!-- LAYOUT (basado en el html adjunto) -->
+  <div class="tienda-layout">
+
+    <!-- ══════ ASIDE FILTROS ══════ -->
+    <aside class="aside-filtros" id="aside-filtros" aria-label="Filtros">
+      <div class="aside-filtros-inner">
+        <div class="filtros-titulo">
+          <i class="fa-solid fa-sliders"></i> Filtrar por
+        </div>
+
+        <!-- Categoría -->
+        <div class="filtro-bloque">
+          <div class="filtro-bloque-header" data-bloque="cat">
+            <h3>Categoría</h3>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="filtro-body" data-body="cat">
+            <!-- Poblado dinámicamente desde Supabase por tienda.js -->
+          </div>
+        </div>
+
+        <!-- Precio -->
+        <div class="filtro-bloque">
+          <div class="filtro-bloque-header" data-bloque="precio">
+            <h3>Precio</h3>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="filtro-body" data-body="precio">
+            <div class="precio-inputs">
+              <input type="number" placeholder="Mín $" id="precio-min">
+              <span>—</span>
+              <input type="number" placeholder="Máx $" id="precio-max">
+            </div>
+            <button class="btn-aplicar" id="btn-aplicar-precio" type="button">Aplicar</button>
+          </div>
+        </div>
+
+        <!-- Descuentos -->
+        <div class="filtro-bloque">
+          <div class="filtro-bloque-header" data-bloque="flags">
+            <h3>Descuentos</h3>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="filtro-body" data-body="flags">
+            <label class="filtro-check"><span><input type="checkbox" data-filter="oferta" value="1"> Solo ofertas</span></label>
+            <label class="filtro-check"><span><input type="checkbox" data-filter="nuevo" value="1"> Nuevos ingresos</span></label>
+          </div>
+        </div>
+
+        <span class="limpiar-filtros" id="btn-limpiar">✕ Limpiar todos los filtros</span>
+      </div>
+    </aside>
+
+    <!-- ══════ MAIN ══════ -->
+    <main class="tienda-main">
+      <div class="resultados-bar">
+        <div class="resultados-centro">
+          <p id="cantidad-resultados">0 productos</p>
+          <select class="ordenar-select" id="ordenar-select">
+            <option value="precio-asc">Menor precio</option>
+            <option value="precio-desc">Mayor precio</option>
+            <option value="nombre">Nombre A–Z</option>
+          </select>
+        </div>
+        <button class="btn-filtros-mobile" id="btn-filtros-mobile" type="button" aria-label="Abrir filtros" title="Filtros">
+          <i class="fa-solid fa-sliders"></i>
+        </button>
+      </div>
+
+      <div class="tienda-productos-grid" id="productos-grid" aria-live="polite"></div>
+    </main>
+  </div>
+
+  <!-- FOOTER (mismo patrón que index.html) -->
+  <section class="footer-main" id="contacto">
+    <div class="footer-container">
+      <div>
+        <div class="footer-logo">
+          <img src="img/fuego.png" alt="Prendé el Fueguito">
+          <span>Prendé el Fueguito</span>
+        </div>
+        <div class="footer-text">
+          Tu asado perfecto.<br><br>
+          Los mejores productos para tu asado. Calidad garantizada y envío gratis en compras superiores a $10,000.
+        </div>
+        <div class="social-icons">
+          <i class="fa-brands fa-facebook"></i>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-brands fa-twitter"></i>
+        </div>
+      </div>
+      <div>
+        <h4>Enlaces Rápidos</h4>
+        <ul>
+          <li><a href="tienda.html">Tienda</a></li>
+          <li><a href="carrito.html">Carrito</a></li>
+          <li><a href="index.html#faq">Preguntas frecuentes</a></li>
+          <li><a href="index.html">Inicio</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Categorías</h4>
+        <ul>
+          <li>Carnes Premium</li>
+          <li>Carbón y Leña</li>
+          <li>Utensilios</li>
+          <li>Condimentos</li>
+          <li>Bebidas</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <div class="contact-item"><span>📍</span> Av. Corrientes 1234, Buenos Aires</div>
+        <div class="contact-item"><span>📞</span> +54 11 1234-5678</div>
+        <div class="contact-item"><span>✉️</span> info@fueguito.com</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-bottom">
+    <div class="footer-bottom-container">
+      <div class="left">© 2026 Prendé el Fueguito. Todos los derechos reservados.</div>
+      <div class="right">
+        <a href="#">Términos y Condiciones</a>
+        <a href="#">Privacidad</a>
+        <a href="panel_admin.html">Admin</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="scripts/supabase-config.js"></script>
+  <script src="scripts/cart.js"></script>
+  <script src="scripts/tienda.js"></script>
+</body>
+</html>
+
