@@ -200,37 +200,8 @@
                     </button>
                 </div>
 
-                <div class="direcciones-grid">
-                    <div class="direccion-card">
-                        <div class="direccion-header">
-                            <div class="direccion-icono"><i class="fa-solid fa-house"></i></div>
-                            <div>
-                                <h3>Casa</h3>
-                                <span class="badge-principal">Principal</span>
-                            </div>
-                        </div>
-                        <p class="direccion-text">Av. Siempre Viva 123, CABA</p>
-                        <p class="direccion-info">Buenos Aires, Argentina</p>
-                        <div class="direccion-actions">
-                            <button class="btn-small btn-primary">Editar</button>
-                            <button class="btn-small btn-ghost">Eliminar</button>
-                        </div>
-                    </div>
-
-                    <div class="direccion-card">
-                        <div class="direccion-header">
-                            <div class="direccion-icono"><i class="fa-solid fa-briefcase"></i></div>
-                            <div>
-                                <h3>Trabajo</h3>
-                            </div>
-                        </div>
-                        <p class="direccion-text">Av. Libertador 456, CABA</p>
-                        <p class="direccion-info">Buenos Aires, Argentina</p>
-                        <div class="direccion-actions">
-                            <button class="btn-small btn-primary">Editar</button>
-                            <button class="btn-small btn-ghost">Eliminar</button>
-                        </div>
-                    </div>
+                <div class="direcciones-grid" id="direcciones-grid">
+                    <!-- Las tarjetas se renderizan dinámicamente desde JS -->
                 </div>
             </section>
 
@@ -321,6 +292,72 @@
     </div>
 </main>
 
+<!-- MODAL: ALTA / EDICIÓN DE DOMICILIO -->
+<div id="modal-domicilio" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-domicilio-titulo">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 id="modal-domicilio-titulo">Agregar domicilio</h2>
+            <button class="modal-close" id="modal-domicilio-close" aria-label="Cerrar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="form-domicilio" novalidate>
+                <input type="hidden" id="domicilio-id">
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label for="domicilio-alias">Alias <small>(ej: Casa, Trabajo, Otro)</small></label>
+                        <input type="text" id="domicilio-alias" name="alias" placeholder="Casa" maxlength="50" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="domicilio-calle">Calle</label>
+                        <input type="text" id="domicilio-calle" name="calle" placeholder="Av. Corrientes" maxlength="200" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="domicilio-numero">Número</label>
+                        <input type="text" id="domicilio-numero" name="numero" placeholder="1234" maxlength="20" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="domicilio-piso">Piso / Depto <small>(opcional)</small></label>
+                        <input type="text" id="domicilio-piso" name="piso_depto" placeholder="3º B" maxlength="30">
+                    </div>
+                    <div class="form-group">
+                        <label for="domicilio-cp">Código Postal</label>
+                        <input type="text" id="domicilio-cp" name="codigo_postal" placeholder="C1043" maxlength="20">
+                    </div>
+                    <div class="form-group">
+                        <label for="domicilio-localidad">Localidad / Ciudad</label>
+                        <input type="text" id="domicilio-localidad" name="localidad" placeholder="Ciudad Autónoma de Buenos Aires" maxlength="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="domicilio-provincia">Provincia</label>
+                        <input type="text" id="domicilio-provincia" name="provincia" placeholder="Buenos Aires" maxlength="100" required>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label for="domicilio-pais">País</label>
+                        <input type="text" id="domicilio-pais" name="pais" placeholder="Argentina" maxlength="100">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <div class="form-check">
+                            <input type="checkbox" id="domicilio-principal" name="es_principal">
+                            <label for="domicilio-principal">
+                                <span class="check-title">Marcar como dirección principal</span>
+                                <span class="check-description">Se usará por defecto al finalizar una compra</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn-secondary" id="modal-domicilio-cancel">Cancelar</button>
+            <button type="submit" class="btn-primary" id="modal-domicilio-submit" form="form-domicilio">
+                <i class="fa-solid fa-floppy-disk"></i> Guardar
+            </button>
+        </div>
+    </div>
+</div>
+
 <!-- TOAST de confirmación -->
 <div id="toast" class="toast" aria-live="polite"></div>
 
@@ -387,102 +424,6 @@
 <script src="scripts/auth.js"></script>
 <script src="scripts/cart.js"></script>
 <script src="scripts/scripts.js"></script>
-
-<script>
-    // ── NAVEGACIÓN ENTRE SECCIONES ──────────────────────
-    const menuLinks    = document.querySelectorAll('.menu-link');
-    const panelSections = document.querySelectorAll('.panel-section');
-
-    menuLinks.forEach(link => {
-        link.addEventListener('click', e => {
-            e.preventDefault();
-            menuLinks.forEach(l => l.classList.remove('active'));
-            panelSections.forEach(s => s.classList.remove('active'));
-            link.classList.add('active');
-            const section = document.getElementById(link.dataset.section);
-            if (section) section.classList.add('active');
-        });
-    });
-
-    // ── TOAST ───────────────────────────────────────────
-    function mostrarToast(mensaje, tipo = 'success') {
-        const toast = document.getElementById('toast');
-        toast.textContent = mensaje;
-        toast.className = `toast toast-${tipo} toast-visible`;
-        clearTimeout(toast._timeout);
-        toast._timeout = setTimeout(() => {
-            toast.className = 'toast';
-        }, 3200);
-    }
-
-    // ── EDITAR PERFIL ───────────────────────────────────
-    const editPerfilBtn  = document.getElementById('edit-perfil');
-    const formPerfil     = document.getElementById('form-perfil');
-    const formActions    = document.getElementById('form-actions');
-    const cancelPerfilBtn = document.getElementById('cancel-perfil');
-    const inputs         = formPerfil.querySelectorAll('input');
-
-    function activarEdicion() {
-        inputs.forEach(input => {
-            if (input.type !== 'hidden') {
-                input.removeAttribute('readonly');
-                input.classList.add('editable');
-            }
-        });
-        formActions.style.display = 'flex';
-        editPerfilBtn.style.display = 'none';
-    }
-
-    function desactivarEdicion() {
-        inputs.forEach(input => {
-            if (input.type !== 'hidden') {
-                input.setAttribute('readonly', 'readonly');
-                input.classList.remove('editable');
-            }
-        });
-        formActions.style.display = 'none';
-        editPerfilBtn.style.display = 'inline-flex';
-    }
-
-    editPerfilBtn.addEventListener('click', activarEdicion);
-    cancelPerfilBtn.addEventListener('click', desactivarEdicion);
-
-    formPerfil.addEventListener('submit', e => {
-        e.preventDefault();
-        desactivarEdicion();
-        mostrarToast('✓ Cambios guardados correctamente');
-    });
-
-    // ── NOTIFICACIONES ───────────────────────────────────
-    document.getElementById('form-notificaciones').addEventListener('submit', e => {
-        e.preventDefault();
-        mostrarToast('✓ Preferencias guardadas');
-    });
-
-    // ── SEGURIDAD ────────────────────────────────────────
-    const formSeguridad = document.getElementById('form-seguridad');
-    if (formSeguridad) {
-        formSeguridad.addEventListener('submit', e => {
-            e.preventDefault();
-            const nueva     = document.getElementById('password-nueva').value;
-            const confirmar = document.getElementById('password-confirmar').value;
-            if (nueva !== confirmar) {
-                mostrarToast('Las contraseñas no coinciden', 'error');
-                return;
-            }
-            if (nueva.length < 8) {
-                mostrarToast('La contraseña debe tener al menos 8 caracteres', 'error');
-                return;
-            }
-            formSeguridad.reset();
-            mostrarToast('✓ Contraseña actualizada');
-        });
-    }
-
-    // ── AGREGAR DIRECCIÓN ────────────────────────────────
-    document.getElementById('add-direccion').addEventListener('click', () => {
-        mostrarToast('Funcionalidad en desarrollo');
-    });
-</script>
+<script src="scripts/panel-usuario.js"></script>
 </body>
 </html>
