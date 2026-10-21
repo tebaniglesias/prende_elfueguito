@@ -443,26 +443,81 @@ function sincronizarFiltroDesktop(id) {
 // --- FUNCIÓN PRINCIPAL DE FILTRADO ---
 
 function ejecutarFiltroCatalogo(categoriaId) {
-    // Si categoriaId es "todos", el array filtrado es exactamente igual al array original
-    // Si no, filtramos numéricamente comparando p.categoria_id contra el ID del botón
-    const productosFiltrados = categoriaId === "todos" 
-        ? productos 
+    let productosFiltrados = categoriaId === "todos"
+        ? productos
         : productos.filter(p => parseInt(p.categoria_id) === parseInt(categoriaId));
 
-    // 🕵️‍♂️ LOG DE CONTROL: Para que veas en la consola cuántos cortes sobrevivieron
-    // console.log(`Filtrando catálogo. Categoría elegida: ${categoriaId} | Sobrevivieron: ${productosFiltrados.length} productos.`);
+    const inputBuscador = document.querySelector('.buscador-header input');
+    const termino = inputBuscador ? inputBuscador.value.trim() : '';
+    if (termino) {
+        const busqueda = normalizarTexto(termino);
+        productosFiltrados = productosFiltrados.filter(p => {
+            const nombre = normalizarTexto(p.nombre || '');
+            const descripcion = normalizarTexto(p.descripcion || '');
+            const categoria = normalizarTexto(p.categoria_producto?.nombre || '');
+            return nombre.includes(busqueda) || descripcion.includes(busqueda) || categoria.includes(busqueda);
+        });
+    }
 
-    // Llamamos a tu función encargada de dibujar las tarjetas en el index.html
-    // Asegurate de pasarle el array filtrado. 
     if (typeof renderArticulos === 'function') {
         renderArticulos(productosFiltrados);
-    } else {
-        console.warn("⚠️ No se encontró la función encargada de renderizar las tarjetas del catálogo.");
     }
 }
 
 // --- FIN LÓGICA DE FILTRADO ---
 
+// --- BUSCADOR DE PRODUCTOS ---
+
+function normalizarTexto(texto) {
+    return texto.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+}
+
+function obtenerCategoriaActiva() {
+    const btnDesktop = document.querySelector('.filter-btn.active');
+    return btnDesktop ? btnDesktop.dataset.id : 'todos';
+}
+
+function filtrarPorBusqueda(termino) {
+    const categoriaId = obtenerCategoriaActiva();
+    let lista = categoriaId === 'todos'
+        ? productos
+        : productos.filter(p => parseInt(p.categoria_id) === parseInt(categoriaId));
+
+    if (termino.trim()) {
+        const busqueda = normalizarTexto(termino);
+        lista = lista.filter(p => {
+            const nombre = normalizarTexto(p.nombre || '');
+            const descripcion = normalizarTexto(p.descripcion || '');
+            const categoria = normalizarTexto(p.categoria_producto?.nombre || '');
+            return nombre.includes(busqueda) || descripcion.includes(busqueda) || categoria.includes(busqueda);
+        });
+    }
+
+    renderArticulos(lista);
+}
+
+function iniciarBuscador() {
+    const inputs = document.querySelectorAll('.buscador-header input');
+    const botones = document.querySelectorAll('.buscador-header button');
+
+    inputs.forEach(input => {
+        input.addEventListener('input', () => {
+            // Sincronizar todos los inputs de búsqueda
+            const valor = input.value;
+            inputs.forEach(i => { if (i !== input) i.value = valor; });
+            filtrarPorBusqueda(valor);
+        });
+    });
+
+    botones.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const input = btn.closest('.buscador-header').querySelector('input');
+            if (input) filtrarPorBusqueda(input.value);
+        });
+    });
+}
+
+// --- FIN BUSCADOR DE PRODUCTOS ---
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
@@ -478,6 +533,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (typeof renderArticulos === 'function') { //el typeof es para evitar errores si por alguna razón tu función se llama diferente o no se cargó bien.
             renderArticulos(productos);
         }
+
+        iniciarBuscador();
 
         await obtenerNombreUsuario();
 
